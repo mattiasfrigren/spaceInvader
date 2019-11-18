@@ -21,7 +21,7 @@ public class SpaceInvaderController extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         // add menu....
-
+//
     }
 
 
