@@ -2,6 +2,11 @@ package view;
 
 public class ViewManager {
 
-    //enableView()
+    public void enableView(boolean inGame){
+        if (inGame) {
+            SpaceInvaderInGameView inGameView = new SpaceInvaderInGameView();
+        }
+    }
+
 
 }

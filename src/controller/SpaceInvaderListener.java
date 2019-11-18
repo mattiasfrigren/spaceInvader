@@ -1,6 +1,7 @@
 package controller;
 
-public class SpaceInvaderListener {
+public class SpaceInvaderListener  {
+
 
   //-SpaceInvaderListener:listener
 

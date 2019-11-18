@@ -1,6 +1,6 @@
 package view;
 
-public class ISpaceInvaderView {
+public interface ISpaceInvaderView {
     //-Stage
     //-Scene
     //-Ancorpane

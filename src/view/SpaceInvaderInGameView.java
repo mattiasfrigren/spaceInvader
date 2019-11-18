@@ -1,6 +1,6 @@
 package view;
 
-public class SpaceInvaderInGameView {
+public class SpaceInvaderInGameView  {
 
     //- gameView : SpaceInvaderGameView
     //- inGamePane : AnchorPane - inGameScene : Scene  - inGameStage : Stage

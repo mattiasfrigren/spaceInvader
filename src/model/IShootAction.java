@@ -1,6 +1,6 @@
 package model;
 
-public interface IShotAction {
+public interface IShootAction {
 
     //-isFacingPlayer: boolean
     //-projectileSpeed: double
