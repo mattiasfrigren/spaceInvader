@@ -1,5 +1,5 @@
-package Controller;
-import Model.PlayerShip;
+package controller;
+import model.PlayerShip;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
