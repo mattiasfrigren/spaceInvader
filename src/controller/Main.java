@@ -9,8 +9,6 @@ import javafx.scene.Scene;
 
 public class Main extends Application {
 
-    PlayerShip ship = new PlayerShip();
-
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
