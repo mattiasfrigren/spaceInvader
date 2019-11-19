@@ -1,13 +1,17 @@
 package model;
 
-public class Ship {
+public class Ship extends OnScreenItems{
 
-//- shootAction:IShootAction
-//- shootInterval:double
+ protected Weapons weapon;
 
-    //Ships(String, int, int, int, int, IShootAction, double)
-    //super(String, int, int, int, int)
-    //
-    //+performShootingAction()
-    //+getShootingInterval():double
+
+    public Ship(String imageURL, int itemCoordX, int itemCoordY, double itemHeight, double itemWidth, double movementSpeed, double shootInterval, Weapons weapon) {
+        super(imageURL,itemCoordX, itemCoordY, itemHeight, itemWidth, movementSpeed);
+        this.weapon = weapon;
+    }
+
+    public void performShootingAction() {
+        weapon.shoot();
+
+    }
 }
