@@ -3,10 +3,10 @@ package model;
 public abstract class Weapons {
 
     protected boolean isFacingPlayer;
-    protected double projectileSpeed;
     protected boolean readyToShoot;
     protected int shootInterval;
+    protected Ship theShip;
 
-    public abstract void shoot();
+    public abstract IBullet shoot();
 
 }

@@ -2,16 +2,20 @@ package model;
 
 public class LaserGun extends Weapons {
 
-    public LaserGun(boolean isFacingPlayer, double projectileSpeed, int shootInterval) {
+    public LaserGun(boolean isFacingPlayer, int shootInterval, Ship theShip) {
         readyToShoot = true;
         this.isFacingPlayer = isFacingPlayer;
-        this.projectileSpeed = projectileSpeed;
         this.shootInterval = shootInterval;
+        this.theShip = theShip;
     }
+
     @Override
-    public void shoot() {
+    public IBullet shoot() {
         if (readyToShoot) {
-            IBullet bullet = new LaserBullet()
+            double offsetY = theShip.getImage().getHeight()/2;
+            double creatPosY = isFacingPlayer ? offsetY : -offsetY;
+            return new LaserBullet((int)theShip.getX(),(int)(theShip.getY() + creatPosY), isFacingPlayer);
         }
+        return null;
     }
 }
