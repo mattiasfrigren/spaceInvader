@@ -50,6 +50,10 @@ public class InGameModel {
         bullets.add(bullet);
     }
 
+    public IBullet getLastBullet() {
+        return bullets.get(bullets.size()-1);
+    }
+
     public ArrayList<EnemyShip> getEnemy() {
         return enemies;
     }

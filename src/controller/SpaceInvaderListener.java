@@ -5,7 +5,6 @@ import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import model.InGameModel;
-import view.IViewState;
 
 public class SpaceInvaderListener implements EventHandler<KeyEvent> {
 

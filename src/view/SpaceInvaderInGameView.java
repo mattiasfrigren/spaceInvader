@@ -1,13 +1,11 @@
 package view;
 
 import controller.SpaceInvaderListener;
+import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
-import model.Constants;
-import model.InGameModel;
-import model.PlayerShip;
+import model.*;
 
 import java.util.ArrayList;
 
@@ -19,9 +17,11 @@ public class SpaceInvaderInGameView implements IViewState {
     private static AnchorPane gamePane;
     private static Scene gameScene;
 
-    private ArrayList<ImageView> enemies = new ArrayList<>();
-    private ArrayList<ImageView> bullets = new ArrayList<>();;
-    private ImageView player;
+    private ArrayList<ImageView> enemiesImageList = new ArrayList<>();
+    private ArrayList<ImageView> bulletsImageList = new ArrayList<>();;
+    private ImageView playerImage;
+
+    private AnimationTimer inGameTimer;
 
     public static Scene getGameScene() {
         return gameScene;
@@ -41,9 +41,42 @@ public class SpaceInvaderInGameView implements IViewState {
 
         initializeLevelToPane();
         initializeGameListener();
-
+        createGameLoop();
 
     }
+
+    private void createGameLoop() {
+        inGameTimer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+            // checks and update movement
+                checkIfPlayerIsShooting();
+            }
+        };
+
+        inGameTimer.start();
+    }
+
+    private void checkIfPlayerIsShooting() {
+        InGameModel model = InGameModel.getGameModel();
+        if (model.isShooting()) {
+            model.getPlayer().performShootingAction();
+            createBullet(model.getLastBullet());
+        }
+    }
+
+    private void createBullet(IBullet bullet) {
+        OnScreenItems itemBullet = (OnScreenItems) bullet;
+        ImageView imageBullet = new ImageView(itemBullet.getImageUrl());
+        imageBullet.setX(itemBullet.getItemCoordX());
+        imageBullet.setY(itemBullet.getItemCoordY());
+        imageBullet.resize(itemBullet.getItemWidth(), itemBullet.getItemHeight());
+
+        bulletsImageList.add(imageBullet);
+        addToGamePane(imageBullet);
+    }
+
+
 
     private void initializeLevelToPane() {
         initializePlayer();
@@ -51,12 +84,12 @@ public class SpaceInvaderInGameView implements IViewState {
 
     private void initializePlayer() {
         PlayerShip playerModel = InGameModel.getGameModel().getPlayer();
-        player = new ImageView(playerModel.getImageUrl());
-        player.setX(playerModel.getItemCoordX());
-        player.setY(playerModel.getItemCoordY());
-        player.resize(playerModel.getItemWidth(), playerModel.getItemHeight());
+        playerImage = new ImageView(playerModel.getImageUrl());
+        playerImage.setX(playerModel.getItemCoordX());
+        playerImage.setY(playerModel.getItemCoordY());
+        playerImage.resize(playerModel.getItemWidth(), playerModel.getItemHeight());
 
-        addToGamePane(player);
+        addToGamePane(playerImage);
     }
 
     private void initializeGameListener() {
