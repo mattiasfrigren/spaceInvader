@@ -1,97 +1,41 @@
 package view;
 
-import controller.SpaceInvaderListener;
+import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import model.*;
 
-import java.util.ArrayList;
 
-public class ViewManager {
+public class ViewManager{
+
     private static ViewManager view;
-    private AnchorPane mainPane;
-    private Scene mainScene;
 
-    private boolean isShooting = false;
+    private Scene mainScene;
+    private Stage mainStage;
+    private IViewState gameState;
 
     public Stage getMainStage() {
         return mainStage;
     }
 
-    private Stage mainStage;
-
-    public boolean isShooting() {
-        return isShooting;
-    }
-
-    public void setShooting(boolean shooting) {
-        isShooting = shooting;
-    }
-
-    public ArrayList<OnScreenItems> getEnemies() {
-        return enemies;
-    }
-
-    public void setEnemies(ArrayList<OnScreenItems> enemies) {
-        this.enemies = enemies;
-    }
-
-    public ArrayList<OnScreenItems> getBullets() {
-        return bullets;
-    }
-
-    public void setBullets(ArrayList<OnScreenItems> bullets) {
-        this.bullets = bullets;
-    }
-
-    public PlayerShip getPlayer() {
-        return player;
-    }
-
-    public void setPlayer(PlayerShip player) {
-        this.player = player;
-    }
-
-    private ArrayList<OnScreenItems> enemies;
-    private ArrayList<OnScreenItems> bullets;
-    private PlayerShip player;
-
-
-    private ViewManager() {
-        mainPane = new AnchorPane();
-        mainScene = new Scene(mainPane, Constants.SCREENWIDTH, Constants.SCREENHEIGHT);
-        mainStage = new Stage();
-        mainStage.setScene(mainScene);
-
-
-        initializeLevelToPane();
-        initializeGameListener();
-
-    }
-
-    public static ViewManager getViewManager() {
+    public static ViewManager getViewManager(Stage stage) {
         if (view == null) {
-            view = new ViewManager();
+            view = new ViewManager(stage);
         }
         return view;
     }
 
-    public AnchorPane getMainPane() {
-            return mainPane;
+    private ViewManager(Stage stage) {
+        gameState = SpaceInvaderInGameView.getGameView();
+        mainScene = ((SpaceInvaderInGameView) gameState).getGameScene();
+        mainStage = stage;
+        mainStage.setScene(mainScene);
+        stage.show();
     }
 
-    private void initializeLevelToPane() {
-        mainPane.getChildren().add(player);
+    public void setMainScene(Scene mainScene) {
+        this.mainScene = mainScene;
+        mainStage.setScene(mainScene);
     }
-
-    private void initializeGameListener() {
-        mainScene.setOnKeyPressed(SpaceInvaderListener.getListener(this));
-        mainScene.setOnKeyReleased(SpaceInvaderListener.getListener(this));
-    }
-
-
 
 
 

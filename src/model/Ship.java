@@ -13,10 +13,9 @@ public class Ship extends OnScreenItems{
         this.weapon = weapon;
     }
 
-    public IBullet performShootingAction() {
+    public void performShootingAction() {
         if (weapon != null) {
-            return weapon.shoot();
+            weapon.shoot();
         }
-        return null;
     }
 }

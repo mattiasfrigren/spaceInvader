@@ -7,6 +7,6 @@ public abstract class Weapons {
     protected int shootInterval;
     protected Ship theShip;
 
-    public abstract IBullet shoot();
+    public abstract void shoot();
 
 }
