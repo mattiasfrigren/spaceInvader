@@ -7,8 +7,8 @@ import view.ViewManager;
 public class Main extends Application {
 
     public static void main(String[] args) {
+        SpaceInvaderController.getController();
         launch(args);
-
     }
 
     @Override

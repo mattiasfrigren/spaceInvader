@@ -1,41 +1,89 @@
 package model;
 
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+public class OnScreenItems {
 
-public class OnScreenItems extends ImageView {
+    private String imageUrl;
+    private double itemCoordX;
+    private double itemCoordY;
+    private double itemWidth;
+    private double itemHeight;
 
     private double movementSpeed;
     private boolean isFacingPlayer;
-    double moveX;
-    double moveY;
+
+
+    // Used by movement functions
+    private double moveX;
+    private double moveY;
+
 
     public OnScreenItems(String imageURL, int itemCoordX, int itemCoordY, double itemHeight, double itemWidth, double movementSpeed,boolean isFacingPlayer) {
 
-        super(imageURL);
-        setX(itemCoordX);
-        setY(itemCoordY);
-        resize(itemWidth, itemHeight);
+        this.imageUrl = imageURL;
+        this.itemCoordX = itemCoordX;
+        this.itemCoordY = itemCoordY;
+        this.itemHeight = itemHeight;
+        this.itemWidth = itemWidth;
         this.movementSpeed = movementSpeed;
         this.isFacingPlayer = isFacingPlayer;
     }
 
     public void moveRight() {
         moveX = isFacingPlayer ? -movementSpeed : movementSpeed;
-        setX(getX() + moveX);
+        itemCoordX += moveX;
     }
 
     public void moveLeft() {
         moveX = isFacingPlayer ? movementSpeed : -movementSpeed;
-        setX(getX() + moveX);
+        itemCoordX += moveX;
     }
     public void moveUp() {
         moveY = isFacingPlayer ? movementSpeed : -movementSpeed;
-        setY(getY() - moveY);
+        itemCoordY += moveY;
     }
     public void moveDown() {
         moveY = isFacingPlayer ? -movementSpeed : movementSpeed;
-        setY(getY()+ moveY);
+        itemCoordY += moveY;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public double getItemCoordX() {
+        return itemCoordX;
+    }
+
+    public void setItemCoordX(double itemCoordX) {
+        this.itemCoordX = itemCoordX;
+    }
+
+    public double getItemCoordY() {
+        return itemCoordY;
+    }
+
+    public void setItemCoordY(double itemCoordY) {
+        this.itemCoordY = itemCoordY;
+    }
+
+    public double getItemWidth() {
+        return itemWidth;
+    }
+
+    public void setItemWidth(double itemWidth) {
+        this.itemWidth = itemWidth;
+    }
+
+    public double getItemHeight() {
+        return itemHeight;
+    }
+
+    public void setItemHeight(double itemHeight) {
+        this.itemHeight = itemHeight;
     }
 
 }
