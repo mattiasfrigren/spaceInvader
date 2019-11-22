@@ -7,9 +7,9 @@ public class InGameModel {
 
     private static InGameModel gameModel;
 
-    private PlayerShip player;
-    private ArrayList<IBullet> bullets = new ArrayList<>();
-    private ArrayList<EnemyShip> enemies = new ArrayList<>();
+    private PlayerShip playerModel;
+    private ArrayList<IBullet> bulletsModelList = new ArrayList<>();
+    private ArrayList<EnemyShip> enemiesModelList = new ArrayList<>();
 
     private boolean isShooting = false;
 
@@ -29,36 +29,43 @@ public class InGameModel {
     }
 
     private InGameModel() {
-        player = new PlayerShip();
+        playerModel = new PlayerShip();
     }
 
 
-    public PlayerShip getPlayer() {
-        return player;
+    public PlayerShip getPlayerModel() {
+        return playerModel;
     }
 
-    public void setPlayer(PlayerShip player) {
-        this.player = player;
+    public void setPlayerModel(PlayerShip playerModel) {
+        this.playerModel = playerModel;
     }
 
-    public ArrayList<IBullet> getBullets() {
-        return bullets;
+    public ArrayList<IBullet> getBulletsModelList() {
+        return bulletsModelList;
     }
 
     // add modelinfo
     public void addBullets(IBullet bullet) {
-        bullets.add(bullet);
+        bulletsModelList.add(bullet);
     }
 
     public IBullet getLastBullet() {
-        return bullets.get(bullets.size()-1);
+        return bulletsModelList.get(bulletsModelList.size()-1);
     }
 
     public ArrayList<EnemyShip> getEnemy() {
-        return enemies;
+        return enemiesModelList;
     }
 
     public void addEnemy(EnemyShip enemy) {
-        enemies.add(enemy);
+        enemiesModelList.add(enemy);
+    }
+
+    public void updateBullets() {
+        for (IBullet bullet : bulletsModelList) {
+            OnScreenItems itemBullet = (OnScreenItems)bullet;
+            itemBullet.moveUp();
+        }
     }
 }

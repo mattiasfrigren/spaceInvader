@@ -14,7 +14,7 @@ public class LaserGun extends Weapons {
         if (readyToShoot) {
             double offsetY = theShip.getItemHeight()/2;
             double createPosY = isFacingPlayer ? offsetY : -offsetY;
-            InGameModel.getGameModel().addBullets(new LaserBullet((int)theShip.getItemCoordX(),(int)(theShip.getItemCoordY() + createPosY), isFacingPlayer));
+            InGameModel.getGameModel().addBullets(new LaserBullet(theShip.getItemCoordX(),(theShip.getItemCoordY() + createPosY), isFacingPlayer));
         }
     }
 }

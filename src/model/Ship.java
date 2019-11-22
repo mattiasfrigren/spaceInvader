@@ -5,7 +5,7 @@ public class Ship extends OnScreenItems{
  protected Weapons weapon;
 
 
-    public Ship(String imageURL, int itemCoordX, int itemCoordY, double itemHeight, double itemWidth, double movementSpeed, boolean isFacingPlayer) {
+    public Ship(String imageURL, double itemCoordX, double itemCoordY, double itemHeight, double itemWidth, double movementSpeed, boolean isFacingPlayer) {
         super(imageURL,itemCoordX, itemCoordY, itemHeight, itemWidth, movementSpeed, isFacingPlayer);
     }
 

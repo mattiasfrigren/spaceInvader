@@ -17,16 +17,16 @@ public class OnScreenItems {
     private double moveY;
 
 
-    public OnScreenItems(String imageURL, int itemCoordX, int itemCoordY, double itemHeight, double itemWidth, double movementSpeed,boolean isFacingPlayer) {
-
+    public OnScreenItems(String imageURL, double itemCoordX, double itemCoordY, double itemHeight, double itemWidth, double movementSpeed,boolean isFacingPlayer) {
         this.imageUrl = imageURL;
-        this.itemCoordX = itemCoordX;
-        this.itemCoordY = itemCoordY;
+        this.itemCoordX = itemCoordX-itemWidth/2;
+        this.itemCoordY = itemCoordY-itemHeight/2;
         this.itemHeight = itemHeight;
         this.itemWidth = itemWidth;
         this.movementSpeed = movementSpeed;
         this.isFacingPlayer = isFacingPlayer;
     }
+
 
     public void moveRight() {
         moveX = isFacingPlayer ? -movementSpeed : movementSpeed;

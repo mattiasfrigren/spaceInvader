@@ -19,8 +19,8 @@ public class Constants {
 
 
     public final static String laserBulletURL = "model/resources/bulletShot.png";
-    public final static double laserBulletHeight = SCREENHEIGHT * 0.06;
-    public final static double laserBulletWidth = SCREENWIDTH * 0.04;;
+    public final static double laserBulletHeight = SCREENHEIGHT * 0.12;
+    public final static double laserBulletWidth = SCREENWIDTH * 0.08;
     public final static double laserBulletMovementSpeed = SCREENHEIGHT * 0.016;
     public final static double laserBulletShootInterval = 15;
 
