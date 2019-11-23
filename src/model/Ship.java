@@ -13,9 +13,14 @@ public class Ship extends OnScreenItems{
         this.weapon = weapon;
     }
 
-    public void performShootingAction() {
+    public Weapons getWeapon() {
+        return weapon;
+    }
+
+    public boolean performShootingAction() {
         if (weapon != null) {
-            weapon.shoot();
+            return weapon.shoot();
         }
+        return false;
     }
 }

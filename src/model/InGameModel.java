@@ -11,6 +11,7 @@ public class InGameModel {
     private ArrayList<IBullet> bulletsModelList = new ArrayList<>();
     private ArrayList<EnemyShip> enemiesModelList = new ArrayList<>();
 
+
     private boolean isShooting = false;
 
     public boolean isShooting() {
@@ -62,10 +63,42 @@ public class InGameModel {
         enemiesModelList.add(enemy);
     }
 
+    public boolean checkIfPlayerIsShooting() {
+        if (isShooting()) {
+            return playerModel.performShootingAction();
+        }
+        return false;
+    }
+
     public void updateBullets() {
         for (IBullet bullet : bulletsModelList) {
             OnScreenItems itemBullet = (OnScreenItems)bullet;
             itemBullet.moveUp();
         }
+    }
+
+    private boolean checkIfOutOfScreen(double x, double y) {
+        return y > Constants.SCREENHEIGHT+50 || x > Constants.SCREENWIDTH+50 || y < -50 || x < -50;
+    }
+
+    public ArrayList<Integer> getBulletRemoveList() {
+        ArrayList<Integer> bulletsToRemove = new ArrayList<>();
+        for (int i = 0; i < bulletsModelList.size() ; i++) {
+            OnScreenItems itemBullet = (OnScreenItems)bulletsModelList.get(i);
+            if (checkIfOutOfScreen(itemBullet.getItemCoordX(), itemBullet.getItemCoordY())){
+                bulletsToRemove.add(i);
+            }
+        }
+        for (int index : bulletsToRemove) {
+            bulletsModelList.remove(index);
+        }
+        return bulletsToRemove;
+    }
+
+    public void updateWeaponsState() {
+        playerModel.getWeapon().addToReadyToShoot();
+       /* for (EnemyShip enemyShip: enemiesModelList) {
+            enemyShip.getWeapon().addToReadyToShoot();
+        }*/
     }
 }

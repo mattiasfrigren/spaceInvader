@@ -55,7 +55,7 @@ public class SpaceInvaderInGameView implements IViewState {
             // checks and update movement of images
                 updateAllModels(); // update all models before checks.
                 updateAllImageviews();
-                checkIfPlayerIsShooting();
+                updateIfPlayerIsShooting();
             }
         };
 
@@ -64,34 +64,37 @@ public class SpaceInvaderInGameView implements IViewState {
 
     private void updateAllModels() {
         model.updateBullets();
+        model.updateWeaponsState();
     }
 
     private void updateAllImageviews() {
         updateBulletsImage();
     }
 
+
     private void updateBulletsImage() {
         ArrayList<IBullet> bulletsModelList = model.getBulletsModelList();
 
+        if (!bulletsImageList.isEmpty()) {
+            for (int i = 0; i < bulletsImageList.size(); i++) {
+                ImageView theImageBullet = bulletsImageList.get(i);
+                OnScreenItems theModelBullet = (OnScreenItems) bulletsModelList.get(i);
 
-        for (int i = 0; i < bulletsImageList.size() ; i++) {
-            ImageView theImageBullet = bulletsImageList.get(i);
-
-            //removes images if it do not exist on model and continue with next.
-            if (bulletsModelList.get(i).equals(null)) {
-                removeFromGamePane(bulletsImageList.get(i));
-                continue;
+                theImageBullet.setX(theModelBullet.getItemCoordX());
+                theImageBullet.setY(theModelBullet.getItemCoordY());
             }
-            OnScreenItems theModelBullet = (OnScreenItems)bulletsModelList.get(i);
-
-            theImageBullet.setX(theModelBullet.getItemCoordX());
-            theImageBullet.setY(theModelBullet.getItemCoordY());
         }
+        ArrayList<Integer> bulletsToRemove = model.getBulletRemoveList();
+        for (int bulletsIndex : bulletsToRemove) {
+            removeFromGamePane(bulletsImageList.get(bulletsIndex));
+            bulletsImageList.remove(bulletsIndex);
+            System.out.println("Bullet removed");
+        }
+
     }
 
-    private void checkIfPlayerIsShooting() {
-        if (model.isShooting()) {
-            model.getPlayerModel().performShootingAction();
+    private void updateIfPlayerIsShooting() {
+        if (model.checkIfPlayerIsShooting()) {
             createBullet(model.getLastBullet());
         }
     }
