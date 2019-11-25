@@ -11,9 +11,10 @@ public class InGameModel {
     private ArrayList<IBullet> bulletsModelList = new ArrayList<>();
     private ArrayList<EnemyShip> enemiesModelList = new ArrayList<>();
 
-
     private boolean isShooting = false;
+    //TODO add all movement true or false;
 
+    /////////************** Getter and setters ***********************
     public boolean isShooting() {
         return isShooting;
     }
@@ -63,6 +64,9 @@ public class InGameModel {
         enemiesModelList.add(enemy);
     }
 
+    ///// ******************* END OF GETTERS AND SETTERS  ******************************
+
+    // when space is down check if you weapon manage to shoot.
     public boolean checkIfPlayerIsShooting() {
         if (isShooting()) {
             return playerModel.performShootingAction();
@@ -70,6 +74,7 @@ public class InGameModel {
         return false;
     }
 
+    // Moving all bullets forward
     public void updateBullets() {
         for (IBullet bullet : bulletsModelList) {
             OnScreenItems itemBullet = (OnScreenItems)bullet;
@@ -77,10 +82,12 @@ public class InGameModel {
         }
     }
 
+    // check if something is out of screen
     private boolean checkIfOutOfScreen(double x, double y) {
         return y > Constants.SCREENHEIGHT+50 || x > Constants.SCREENWIDTH+50 || y < -50 || x < -50;
     }
 
+    // Checking if bullet is out of screen and return the index of the bullets that needs to be removed in our imageview list.
     public ArrayList<Integer> getBulletRemoveList() {
         ArrayList<Integer> bulletsToRemove = new ArrayList<>();
         for (int i = 0; i < bulletsModelList.size() ; i++) {
@@ -95,6 +102,7 @@ public class InGameModel {
         return bulletsToRemove;
     }
 
+    //adds +1 to our weaponState to make it ready when at it's state.
     public void updateWeaponsState() {
         playerModel.getWeapon().addToReadyToShoot();
        /* for (EnemyShip enemyShip: enemiesModelList) {

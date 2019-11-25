@@ -42,9 +42,9 @@ public class SpaceInvaderInGameView implements IViewState {
         gameScene = new Scene(gamePane, Constants.SCREENWIDTH, Constants.SCREENHEIGHT);
 
 
-        initializeLevelToPane();
-        initializeGameListener();
-        createGameLoop();
+        initializeLevelToPane();  //adds all images to the pane.
+        initializeGameListener(); // add key listener to game
+        createGameLoop(); // starts animator.
 
     }
 
@@ -62,16 +62,19 @@ public class SpaceInvaderInGameView implements IViewState {
         inGameTimer.start();
     }
 
+    //add all model updates here
     private void updateAllModels() {
         model.updateBullets();
         model.updateWeaponsState();
     }
 
+    //add all imagesviews here
     private void updateAllImageviews() {
+
         updateBulletsImage();
     }
 
-
+// update the bullets images to mirror the model bullets.
     private void updateBulletsImage() {
         ArrayList<IBullet> bulletsModelList = model.getBulletsModelList();
 
@@ -94,11 +97,12 @@ public class SpaceInvaderInGameView implements IViewState {
     }
 
     private void updateIfPlayerIsShooting() {
-        if (model.checkIfPlayerIsShooting()) {
+        if (model.checkIfPlayerIsShooting()) { // when the model is shooting and is created, create the image of the bullet.
             createBullet(model.getLastBullet());
         }
     }
 
+    // sets the imageView based on the model Ibullet.
     private void createBullet(IBullet bullet) {
         OnScreenItems itemBullet = (OnScreenItems) bullet;
         System.out.println("bullet image created at x: " + itemBullet.getItemCoordX() + " y: " + itemBullet.getItemCoordY());
@@ -115,8 +119,10 @@ public class SpaceInvaderInGameView implements IViewState {
 
     private void initializeLevelToPane() {
         initializePlayer();
+        //TODO add all starting images.
     }
 
+    //Creates the image of the player and set it's position and add to pane.
     private void initializePlayer() {
         PlayerShip playerModel = model.getPlayerModel();
         playerImage = new ImageView(playerModel.getImageUrl());
@@ -126,6 +132,7 @@ public class SpaceInvaderInGameView implements IViewState {
         addToGamePane(playerImage);
     }
 
+    // starts the listeners.
     private void initializeGameListener() {
         gameScene.setOnKeyPressed(SpaceInvaderListener.getListener());
         gameScene.setOnKeyReleased(SpaceInvaderListener.getListener());
