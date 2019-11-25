@@ -24,7 +24,7 @@ public class SpaceInvaderController {
         this.view = ViewManager.getViewManager(stage);
         listener = SpaceInvaderListener.getListener();
 
-        
+
 
 
     }
