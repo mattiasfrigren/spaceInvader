@@ -101,7 +101,7 @@ public class SpaceInvaderInGameView implements IViewState {
 
     private void createBullet(IBullet bullet) {
         OnScreenItems itemBullet = (OnScreenItems) bullet;
-        System.out.println("x: " + itemBullet.getItemCoordX() + " y: " + itemBullet.getItemCoordY());
+        System.out.println("bullet image created at x: " + itemBullet.getItemCoordX() + " y: " + itemBullet.getItemCoordY());
         ImageView imageBullet = new ImageView(itemBullet.getImageUrl());
         imageBullet.setX(itemBullet.getItemCoordX());
         imageBullet.setY(itemBullet.getItemCoordY());
