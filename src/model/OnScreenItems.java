@@ -8,6 +8,7 @@ public class OnScreenItems {
     private double itemWidth;
     private double itemHeight;
 
+
     private double movementSpeed;
     private boolean isFacingPlayer;
 
@@ -45,6 +46,10 @@ public class OnScreenItems {
     public void moveDown() {
         moveY = isFacingPlayer ? -movementSpeed : movementSpeed;
         itemCoordY += moveY;
+    }
+
+    public boolean isFacingPlayer() {
+        return isFacingPlayer;
     }
 
     public String getImageUrl() {
