@@ -3,6 +3,7 @@ package view;
 import controller.SpaceInvaderListener;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import model.*;
@@ -21,6 +22,8 @@ public class SpaceInvaderInGameView implements IViewState {
     private ArrayList<ImageView> enemiesImageList = new ArrayList<>();
     private ArrayList<ImageView> bulletsImageList = new ArrayList<>();;
     private ImageView playerImage;
+    private ImageView firstBackGroundImage = new ImageView(Constants.BackGroundImage);
+    private ImageView secondBackGroundImage = new ImageView(Constants.BackGroundImage);
 
     private AnimationTimer inGameTimer;
 
@@ -66,12 +69,23 @@ public class SpaceInvaderInGameView implements IViewState {
     private void updateAllModels() {
         model.updateBullets();
         model.updateWeaponsState();
+        model.updatePlayerMovement();
     }
+
 
     //add all imagesviews here
     private void updateAllImageviews() {
+
         updateBulletsImage();
+        updateBackGround();
+        updatePlayerImage();
     }
+    private void updatePlayerImage(){
+        PlayerShip player = model.getPlayerModel();
+        playerImage.setX(player.getItemCoordX());
+        playerImage.setY(player.getItemCoordY());
+    }
+
 
 // update the bullets images to mirror the model bullets.
     private void updateBulletsImage() {
@@ -104,6 +118,17 @@ public class SpaceInvaderInGameView implements IViewState {
         }
     }
 
+    private void updateBackGround() {
+        firstBackGroundImage.setY(firstBackGroundImage.getY()+5);
+        secondBackGroundImage.setY(secondBackGroundImage.getY()+5);
+        if (firstBackGroundImage.getY()>=Constants.SCREENHEIGHT) {
+            firstBackGroundImage.setY(-Constants.SCREENHEIGHT);
+        }
+        if (secondBackGroundImage.getY() >= Constants.SCREENHEIGHT) {
+            secondBackGroundImage.setY(-Constants.SCREENHEIGHT);
+        }
+    }
+
     // sets the imageView based on the model Ibullet.
     private void createBullet(IBullet bullet) {
         OnScreenItems itemBullet = (OnScreenItems) bullet;
@@ -111,7 +136,10 @@ public class SpaceInvaderInGameView implements IViewState {
         ImageView imageBullet = new ImageView(itemBullet.getImageUrl());
         imageBullet.setX(itemBullet.getItemCoordX());
         imageBullet.setY(itemBullet.getItemCoordY());
-        //imageBullet.resize(itemBullet.getItemWidth(), itemBullet.getItemHeight());
+        imageBullet.setPreserveRatio(true);
+        imageBullet.setFitHeight(itemBullet.getItemHeight());
+        imageBullet.setFitWidth(itemBullet.getItemWidth());
+               //imageBullet.resize(itemBullet.getItemWidth(), itemBullet.getItemHeight());
 
         if (itemBullet.isFacingPlayer()) {
             imageBullet.setRotate(180);
@@ -121,10 +149,36 @@ public class SpaceInvaderInGameView implements IViewState {
         addToGamePane(imageBullet);
     }
 
+    private void createBackGround() {
+        firstBackGroundImage.setPreserveRatio(true);
+        firstBackGroundImage.setFitWidth(Constants.SCREENWIDTH);
+        firstBackGroundImage.setFitHeight(Constants.SCREENHEIGHT);
+        addToGamePane(firstBackGroundImage);
+        secondBackGroundImage.setPreserveRatio(true);
+        secondBackGroundImage.setFitWidth(Constants.SCREENWIDTH);
+        secondBackGroundImage.setFitHeight(Constants.SCREENHEIGHT);
+        secondBackGroundImage.setY(-Constants.SCREENHEIGHT);
+        addToGamePane(secondBackGroundImage);
+    }
+
 
     private void initializeLevelToPane() {
+        createBackGround();
         initializePlayer();
         //TODO add all starting images.
+    }
+
+    private void initializeEnemies() {
+
+        ArrayList<EnemyShip> enemyModelList = model.getEnemy();
+        for (int i = 0; i <enemyModelList.size(); i++) {
+            EnemyShip enemyModel = enemyModelList.get(i);
+            ImageView enemyImage = new ImageView(new Image(Constants.enemyShipURL));
+            enemyImage.setX(enemyModel.getItemCoordX());
+            enemyImage.setY(enemyModel.getItemCoordY());
+            addToGamePane(enemyImage);
+            enemiesImageList.add(enemyImage);
+        }
     }
 
     //Creates the image of the player and set it's position and add to pane.
@@ -133,6 +187,10 @@ public class SpaceInvaderInGameView implements IViewState {
         playerImage = new ImageView(playerModel.getImageUrl());
         playerImage.setX(playerModel.getItemCoordX());
         playerImage.setY(playerModel.getItemCoordY());
+        playerImage.setPreserveRatio(true);
+        playerImage.setFitHeight(playerModel.getItemHeight());
+        playerImage.setFitWidth(playerModel.getItemWidth());
+        System.out.println(playerImage.getX() + " Player start pos");
         //playerImage.resize(playerModel.getItemWidth(), playerModel.getItemHeight());
         addToGamePane(playerImage);
     }
@@ -143,19 +201,6 @@ public class SpaceInvaderInGameView implements IViewState {
         gameScene.setOnKeyReleased(SpaceInvaderListener.getListener());
     }
 
-    private void createBackGround() {
-        firstBackGroundImage.setPreserveRatio(true);
-        firstBackGroundImage.setFitWidth(Constants.SCREENWIDTH);
-        firstBackGroundImage.setFitHeight(Constants.SCREENHEIGHT);
-        addToGamePane(firstBackGroundImage);
-
-        secondBackGroundImage.setPreserveRatio(true);
-        secondBackGroundImage.setFitWidth(Constants.SCREENWIDTH);
-        secondBackGroundImage.setFitHeight(Constants.SCREENHEIGHT);
-        secondBackGroundImage.setY(-Constants.SCREENHEIGHT);
-        addToGamePane(secondBackGroundImage);
-
-    }
 
     private void moveInGameBackGround() {
         firstBackGroundImage.setY(firstBackGroundImage.getY()+5);
