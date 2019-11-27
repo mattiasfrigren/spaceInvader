@@ -26,14 +26,4 @@ public class Constants {
     public final static double laserBulletMovementSpeed = SCREENHEIGHT * 0.016;
     public final static double laserBulletShootInterval = 15;
 
-   public final static double posY = randomSpawnPosY();
-   public final static double posX = randomSpawnPosX();
-
-    protected static double randomSpawnPosX() {
-        return Math.random()*900;
-    }
-    protected static double randomSpawnPosY () {
-        return Math.random()*600;
-    }
-
 }

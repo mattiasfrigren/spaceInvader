@@ -48,6 +48,10 @@ public class OnScreenItems {
         itemCoordY += moveY;
     }
 
+    public boolean isFacingPlayer() {
+        return isFacingPlayer;
+    }
+
     public String getImageUrl() {
         return imageUrl;
     }
