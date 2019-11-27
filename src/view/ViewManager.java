@@ -3,6 +3,7 @@ package view;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import model.Constants;
 
 
 public class ViewManager{
@@ -25,10 +26,15 @@ public class ViewManager{
     }
 
     private ViewManager(Stage stage) {
+
         gameState = SpaceInvaderInGameView.getGameView();
         mainScene = ((SpaceInvaderInGameView) gameState).getGameScene();
         mainStage = stage;
+        mainStage.setTitle("SpaceInvader");
         mainStage.setScene(mainScene);
+        mainStage.setResizable(false);
+        mainStage.sizeToScene();
+
         stage.show();
     }
 
@@ -36,7 +42,5 @@ public class ViewManager{
         this.mainScene = mainScene;
         mainStage.setScene(mainScene);
     }
-
-
 
 }

@@ -17,10 +17,10 @@ public class Ship extends OnScreenItems{
         return weapon;
     }
 
-    public boolean performShootingAction() {
+    public IBullet performShootingAction() {
         if (weapon != null) {
             return weapon.shoot();
         }
-        return false;
+        return null;
     }
 }
