@@ -144,12 +144,12 @@ public class InGameModel {
                 }
             }
             else { // commented out while waiting for enemies.
-              /*  for (EnemyShip enemy: enemiesModelList) {
+                for (EnemyShip enemy: enemiesModelList) {
                     if (enemy.getItemWidth() / 2 + itemBullet.getItemWidth() / 2 > distanceBetween(itemBullet, enemy)) {
                         // TODO Enemy loose hp
                         bulletsToRemove.add(bulletsModelList.get(i));
                     }
-                } */
+                }
             }
 
         }

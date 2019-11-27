@@ -102,7 +102,7 @@ public class SpaceInvaderInGameView implements IViewState {
         }
         ArrayList<IBullet> bulletsToRemove = model.getBulletRemoveList(); // adds all bullets who are out of screen and those who collided.
         for (IBullet bullet: bulletsToRemove) {
-            int bulletIndex = model.getBulletsModelList().indexOf(bullet);  // gets index of the model bullet.
+            int bulletIndex = bulletsToRemove.indexOf(bullet);  // gets index of the model bullet.
             model.getBulletsModelList().remove(bulletIndex); // removes the model bullet from our list.
             removeFromGamePane(bulletsImageList.get(bulletIndex)); // removes bullet image from pane.
             bulletsImageList.remove(bulletIndex); // removes bullet image from our bullet image list.
@@ -165,6 +165,7 @@ public class SpaceInvaderInGameView implements IViewState {
     private void initializeLevelToPane() {
         createBackGround();
         initializePlayer();
+        initializeEnemies();
         //TODO add all starting images.
     }
 
