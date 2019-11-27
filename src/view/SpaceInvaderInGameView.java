@@ -3,6 +3,7 @@ package view;
 import controller.SpaceInvaderListener;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import model.*;
@@ -74,6 +75,7 @@ public class SpaceInvaderInGameView implements IViewState {
 
     //add all imagesviews here
     private void updateAllImageviews() {
+
         updateBulletsImage();
         updateBackGround();
         updatePlayerImage();
@@ -165,6 +167,19 @@ public class SpaceInvaderInGameView implements IViewState {
         createBackGround();
         initializePlayer();
         //TODO add all starting images.
+    }
+
+    private void initializeEnemies() {
+
+        ArrayList<EnemyShip> enemyModelList = model.getEnemy();
+        for (int i = 0; i <enemyModelList.size(); i++) {
+            EnemyShip enemyModel = enemyModelList.get(i);
+            ImageView enemyImage = new ImageView(new Image(Constants.enemyShipURL));
+            enemyImage.setX(enemyModel.getItemCoordX());
+            enemyImage.setY(enemyModel.getItemCoordY());
+            addToGamePane(enemyImage);
+            enemiesImageList.add(enemyImage);
+        }
     }
 
     //Creates the image of the player and set it's position and add to pane.

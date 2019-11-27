@@ -8,8 +8,10 @@ public class InGameModel {
     private static InGameModel gameModel;
 
     private PlayerShip playerModel;
+    private EnemyShip singleEnemyShip;
     private ArrayList<IBullet> bulletsModelList = new ArrayList<>();
     private ArrayList<EnemyShip> enemiesModelList = new ArrayList<>();
+
 
     private boolean isShooting = false;
     private boolean isMovingLeft = false;
@@ -20,6 +22,7 @@ public class InGameModel {
 
     /////////************** Getter and setters ***********************
     public boolean isShooting() {
+
         return isShooting;
     }
     public void setShooting(boolean shooting) {
@@ -48,6 +51,7 @@ public class InGameModel {
 
     private InGameModel() {
         playerModel = new PlayerShip();
+        createEnemiesLevelOne();
     }
 
 
@@ -72,12 +76,21 @@ public class InGameModel {
         return bulletsModelList.get(bulletsModelList.size()-1);
     }
 
+
     public ArrayList<EnemyShip> getEnemy() {
         return enemiesModelList;
     }
-
+//Adds enemies to enemieModelList
     public void addEnemy(EnemyShip enemy) {
         enemiesModelList.add(enemy);
+    }
+    //Creates 10 enemies and add them to enemeyModelList
+    public void createEnemiesLevelOne(){
+        for (int i = 0; i <10 ; i++) {
+            EnemyShip enemy = new EnemyShip(); //Makes new enemy
+            enemy.setItemCoordX(Constants.enemyShipStartPosX + (i * Constants.enemySpawnSpread) ); //Moves each enemy on different spawnpoints on X-line.
+            addEnemy(enemy);
+        }
     }
 
     ///// ******************* END OF GETTERS AND SETTERS  ******************************
