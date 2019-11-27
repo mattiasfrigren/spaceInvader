@@ -3,6 +3,7 @@ package view;
 import controller.SpaceInvaderListener;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import model.*;
@@ -17,6 +18,8 @@ public class SpaceInvaderInGameView implements IViewState {
 
     private static AnchorPane gamePane;
     private static Scene gameScene;
+    private static ImageView firstBackGroundImage = new ImageView(new Image(Constants.BackGroundImage));
+    private static ImageView secondBackGroundImage = new ImageView(new Image(Constants.BackGroundImage));;
 
     private ArrayList<ImageView> enemiesImageList = new ArrayList<>();
     private ArrayList<ImageView> bulletsImageList = new ArrayList<>();;
@@ -40,10 +43,10 @@ public class SpaceInvaderInGameView implements IViewState {
         model = InGameModel.getGameModel();
         gamePane = new AnchorPane();
         gameScene = new Scene(gamePane, Constants.SCREENWIDTH, Constants.SCREENHEIGHT);
-
-
+        createBackGround();
         initializeLevelToPane();
         initializeGameListener();
+
         createGameLoop();
 
     }
@@ -53,9 +56,9 @@ public class SpaceInvaderInGameView implements IViewState {
             @Override
             public void handle(long now) {
             // checks and update movement of images
+                updateIfPlayerIsShooting();
                 updateAllModels(); // update all models before checks.
                 updateAllImageviews();
-                updateIfPlayerIsShooting();
             }
         };
 
@@ -68,9 +71,9 @@ public class SpaceInvaderInGameView implements IViewState {
     }
 
     private void updateAllImageviews() {
+        moveInGameBackGround();
         updateBulletsImage();
     }
-
 
     private void updateBulletsImage() {
         ArrayList<IBullet> bulletsModelList = model.getBulletsModelList();
@@ -122,6 +125,9 @@ public class SpaceInvaderInGameView implements IViewState {
         playerImage = new ImageView(playerModel.getImageUrl());
         playerImage.setX(playerModel.getItemCoordX());
         playerImage.setY(playerModel.getItemCoordY());
+        playerImage.setPreserveRatio(true);
+        playerImage.setFitHeight(playerModel.getItemHeight());
+        playerImage.setFitWidth(playerModel.getItemWidth());
         //playerImage.resize(playerModel.getItemWidth(), playerModel.getItemHeight());
         addToGamePane(playerImage);
     }
@@ -131,6 +137,32 @@ public class SpaceInvaderInGameView implements IViewState {
         gameScene.setOnKeyReleased(SpaceInvaderListener.getListener());
     }
 
+    private void createBackGround() {
+        firstBackGroundImage.setPreserveRatio(true);
+        firstBackGroundImage.setFitWidth(Constants.SCREENWIDTH);
+        firstBackGroundImage.setFitHeight(Constants.SCREENHEIGHT);
+        addToGamePane(firstBackGroundImage);
+
+        secondBackGroundImage.setPreserveRatio(true);
+        secondBackGroundImage.setFitWidth(Constants.SCREENWIDTH);
+        secondBackGroundImage.setFitHeight(Constants.SCREENHEIGHT);
+        secondBackGroundImage.setY(-Constants.SCREENHEIGHT);
+        addToGamePane(secondBackGroundImage);
+
+    }
+
+    private void moveInGameBackGround() {
+        firstBackGroundImage.setY(firstBackGroundImage.getY()+5);
+        secondBackGroundImage.setY(secondBackGroundImage.getY()+5);
+
+        if (firstBackGroundImage.getY()==Constants.SCREENHEIGHT) {
+            firstBackGroundImage.setY(-Constants.SCREENHEIGHT);
+        }
+        if (secondBackGroundImage.getY()==Constants.SCREENHEIGHT) {
+            secondBackGroundImage.setY(-Constants.SCREENHEIGHT);
+        }
+
+    }
     private void addToGamePane(ImageView imageItem) {
         gamePane.getChildren().add(imageItem);
     }

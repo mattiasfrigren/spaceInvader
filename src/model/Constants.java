@@ -6,8 +6,8 @@ public class Constants {
     public final static double SCREENWIDTH = 900;
 
     public final static String playerShipURL = "model/resources/player.png";
-    public final static double playerShipHeight = SCREENHEIGHT * 0.12;
-    public final static double playerShipWidth = SCREENWIDTH * 0.08;
+    public final static double playerShipHeight = SCREENHEIGHT * 0.08;
+    public final static double playerShipWidth = SCREENWIDTH * 0.05;
     public final static double playerShipMovementSpeed = SCREENHEIGHT * 0.008;
     public final static double playerShipStartPosX = SCREENWIDTH/2;
     public final static double playerShipStartPosY= SCREENHEIGHT * 0.95;
@@ -17,6 +17,8 @@ public class Constants {
     public final static double enemyShipWidth = SCREENWIDTH * 0.08;
     public final static double enemyShipMovementSpeed = SCREENHEIGHT * 0.008;
 
+    public final static String meteorImage = "model/resources/pokeball.png";
+    public final static String BackGroundImage = "model/resources/BackGround.png";
 
     public final static String laserBulletURL = "model/resources/bulletShot.png";
     public final static double laserBulletHeight = SCREENHEIGHT * 0.12;
@@ -24,6 +26,14 @@ public class Constants {
     public final static double laserBulletMovementSpeed = SCREENHEIGHT * 0.016;
     public final static double laserBulletShootInterval = 15;
 
+   public final static double posY = randomSpawnPosY();
+   public final static double posX = randomSpawnPosX();
 
+    protected static double randomSpawnPosX() {
+        return Math.random()*900;
+    }
+    protected static double randomSpawnPosY () {
+        return Math.random()*600;
+    }
 
 }

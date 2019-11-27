@@ -11,7 +11,7 @@ public class InGameModel {
     private ArrayList<IBullet> bulletsModelList = new ArrayList<>();
     private ArrayList<EnemyShip> enemiesModelList = new ArrayList<>();
 
-
+    //lister is changing this value 'space'
     private boolean isShooting = false;
 
     public boolean isShooting() {

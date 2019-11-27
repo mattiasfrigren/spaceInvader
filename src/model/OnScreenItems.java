@@ -8,6 +8,7 @@ public class OnScreenItems {
     private double itemWidth;
     private double itemHeight;
 
+
     private double movementSpeed;
     private boolean isFacingPlayer;
 
