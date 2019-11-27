@@ -12,10 +12,11 @@ public class LaserGun extends Weapons {
     @Override
     public IBullet shoot() {
         if (readyToShoot >= shootInterval) {
+            double setBulletX = theShip.getItemCoordX() + theShip.getItemWidth()/2;
             double offsetY = theShip.getItemHeight()/2;
             double createPosY = isFacingPlayer ? offsetY : -offsetY;
             readyToShoot = 0;
-            return new LaserBullet(theShip.getItemCoordX(),(theShip.getItemCoordY() + createPosY), isFacingPlayer);
+            return new LaserBullet(setBulletX,(theShip.getItemCoordY() + createPosY), isFacingPlayer);
         }
         return null;
     }
