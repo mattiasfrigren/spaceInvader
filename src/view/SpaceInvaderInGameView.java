@@ -53,9 +53,10 @@ public class SpaceInvaderInGameView implements IViewState {
             @Override
             public void handle(long now) {
             // checks and update movement of images
+                updateIfPlayerIsShooting();
                 updateAllModels(); // update all models before checks.
                 updateAllImageviews();
-                updateIfPlayerIsShooting();
+
             }
         };
 
@@ -66,13 +67,21 @@ public class SpaceInvaderInGameView implements IViewState {
     private void updateAllModels() {
         model.updateBullets();
         model.updateWeaponsState();
+        model.updatePlayerMovement();
     }
+
 
     //add all imagesviews here
     private void updateAllImageviews() {
-
         updateBulletsImage();
+        updatePlayerImage();
     }
+    private void updatePlayerImage(){
+        PlayerShip player = model.getPlayerModel();
+        playerImage.setX(player.getItemCoordX());
+        playerImage.setY(player.getItemCoordY());
+    }
+
 
 // update the bullets images to mirror the model bullets.
     private void updateBulletsImage() {

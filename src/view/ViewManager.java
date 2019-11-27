@@ -37,6 +37,4 @@ public class ViewManager{
         mainStage.setScene(mainScene);
     }
 
-
-
 }

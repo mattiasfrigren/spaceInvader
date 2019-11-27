@@ -12,15 +12,23 @@ public class InGameModel {
     private ArrayList<EnemyShip> enemiesModelList = new ArrayList<>();
 
     private boolean isShooting = false;
+    private boolean isMovingLeft = false;
+    private boolean isMovingRight = false;
     //TODO add all movement true or false;
 
     /////////************** Getter and setters ***********************
     public boolean isShooting() {
         return isShooting;
     }
-
     public void setShooting(boolean shooting) {
         isShooting = shooting;
+    }
+
+    public void setmovingLeft(boolean moveLeft){
+        isMovingLeft = moveLeft;
+    }
+    public void setmovingRight(boolean moveRight){
+        isMovingRight = moveRight;
     }
 
     public static InGameModel getGameModel() {
@@ -72,6 +80,21 @@ public class InGameModel {
             return playerModel.performShootingAction();
         }
         return false;
+    }
+    private void checkIfPlayerIsMovingLeft(){
+       if (isMovingLeft && playerModel.getItemCoordX() > 0){
+           playerModel.moveLeft();
+        }
+    }
+    private void checkIfPlayerIsMovingRight() {
+        if (isMovingRight && playerModel.getItemCoordX() < Constants.SCREENWIDTH) {
+            playerModel.moveRight();
+        }
+    }
+
+    public void updatePlayerMovement(){
+        checkIfPlayerIsMovingLeft();
+        checkIfPlayerIsMovingRight();
     }
 
     // Moving all bullets forward
