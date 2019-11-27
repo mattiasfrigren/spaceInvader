@@ -3,6 +3,7 @@ package view;
 import controller.SpaceInvaderListener;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import model.*;
@@ -19,7 +20,8 @@ public class SpaceInvaderInGameView implements IViewState {
     private static Scene gameScene;
 
     private ArrayList<ImageView> enemiesImageList = new ArrayList<>();
-    private ArrayList<ImageView> bulletsImageList = new ArrayList<>();;
+    private ArrayList<ImageView> bulletsImageList = new ArrayList<>();
+    ;
     private ImageView playerImage;
 
     private AnimationTimer inGameTimer;
@@ -52,7 +54,7 @@ public class SpaceInvaderInGameView implements IViewState {
         inGameTimer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-            // checks and update movement of images
+                // checks and update movement of images
                 updateAllModels(); // update all models before checks.
                 updateAllImageviews();
                 updateIfPlayerIsShooting();
@@ -74,7 +76,7 @@ public class SpaceInvaderInGameView implements IViewState {
         updateBulletsImage();
     }
 
-// update the bullets images to mirror the model bullets.
+    // update the bullets images to mirror the model bullets.
     private void updateBulletsImage() {
         ArrayList<IBullet> bulletsModelList = model.getBulletsModelList();
 
@@ -96,6 +98,12 @@ public class SpaceInvaderInGameView implements IViewState {
 
     }
 
+    private void initializeLevelToPane() {
+        initializePlayer();
+        initializeEnemies();
+        //TODO add all starting images.
+    }
+
     private void updateIfPlayerIsShooting() {
         if (model.checkIfPlayerIsShooting()) { // when the model is shooting and is created, create the image of the bullet.
             createBullet(model.getLastBullet());
@@ -105,22 +113,27 @@ public class SpaceInvaderInGameView implements IViewState {
     // sets the imageView based on the model Ibullet.
     private void createBullet(IBullet bullet) {
         OnScreenItems itemBullet = (OnScreenItems) bullet;
-        System.out.println("bullet image created at x: " + itemBullet.getItemCoordX() + " y: " + itemBullet.getItemCoordY());
         ImageView imageBullet = new ImageView(itemBullet.getImageUrl());
         imageBullet.setX(itemBullet.getItemCoordX());
         imageBullet.setY(itemBullet.getItemCoordY());
         //imageBullet.resize(itemBullet.getItemWidth(), itemBullet.getItemHeight());
-
-
         bulletsImageList.add(imageBullet);
         addToGamePane(imageBullet);
     }
 
+    private void initializeEnemies() {
 
-    private void initializeLevelToPane() {
-        initializePlayer();
-        //TODO add all starting images.
+        ArrayList<EnemyShip> enemyModelList = model.getEnemy();
+        for (int i = 0; i <enemyModelList.size(); i++) {
+            EnemyShip enemyModel = enemyModelList.get(i);
+            ImageView enemyImage = new ImageView(new Image(Constants.enemyShipURL));
+            enemyImage.setX(enemyModel.getItemCoordX());
+            enemyImage.setY(enemyModel.getItemCoordY());
+            addToGamePane(enemyImage);
+            enemiesImageList.add(enemyImage);
+        }
     }
+
 
     //Creates the image of the player and set it's position and add to pane.
     private void initializePlayer() {
@@ -145,8 +158,6 @@ public class SpaceInvaderInGameView implements IViewState {
     private void removeFromGamePane(ImageView imageItem) {
         gamePane.getChildren().remove(imageItem);
     }
-
-
 
 
 }

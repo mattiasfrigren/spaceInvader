@@ -4,6 +4,7 @@ public class PlayerShip extends Ship {
 
     public PlayerShip() {
         super(Constants.playerShipURL, Constants.playerShipStartPosX, Constants.playerShipStartPosY, Constants.playerShipHeight, Constants.playerShipWidth, Constants.playerShipMovementSpeed, false);
+
         setWeapons(new LaserGun(false, (int)Constants.laserBulletShootInterval, this));
     }
 
