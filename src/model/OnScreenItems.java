@@ -18,7 +18,7 @@ public class OnScreenItems {
     private double moveY;
 
 
-    public OnScreenItems(String imageURL, double itemCoordX, double itemCoordY, double itemHeight, double itemWidth, double movementSpeed,boolean isFacingPlayer) {
+    public OnScreenItems(String imageURL, double itemCoordX, double itemCoordY, double itemHeight, double itemWidth, double movementSpeed, boolean isFacingPlayer) {
         this.imageUrl = imageURL;
         this.itemCoordX = itemCoordX-itemWidth/2;
         this.itemCoordY = itemCoordY-itemHeight/2;
@@ -27,11 +27,16 @@ public class OnScreenItems {
         this.movementSpeed = movementSpeed;
         this.isFacingPlayer = isFacingPlayer;
         //TODO add rotation based on isFacingPlayer
+
     }
 
 
     public void moveRight() {
-        moveX = isFacingPlayer ? -movementSpeed : movementSpeed;
+        if (isFacingPlayer) {
+            moveX = -movementSpeed;
+        } else {
+            moveX = movementSpeed;
+        }
         itemCoordX += moveX;
     }
 
@@ -91,5 +96,7 @@ public class OnScreenItems {
     public void setItemHeight(double itemHeight) {
         this.itemHeight = itemHeight;
     }
+
+
 
 }

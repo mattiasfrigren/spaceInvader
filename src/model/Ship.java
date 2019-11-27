@@ -2,7 +2,7 @@ package model;
 
 public class Ship extends OnScreenItems{
 
- protected Weapons weapon;
+    protected Weapons weapon;
 
 
     public Ship(String imageURL, double itemCoordX, double itemCoordY, double itemHeight, double itemWidth, double movementSpeed, boolean isFacingPlayer) {

@@ -1,10 +1,10 @@
 package controller;
 
 
-import javafx.event.EventHandler;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import model.InGameModel;
+        import javafx.event.EventHandler;
+        import javafx.scene.input.KeyCode;
+        import javafx.scene.input.KeyEvent;
+        import model.InGameModel;
 
 public class SpaceInvaderListener implements EventHandler<KeyEvent> {
 
@@ -26,10 +26,16 @@ public class SpaceInvaderListener implements EventHandler<KeyEvent> {
                 InGameModel.getGameModel().setShooting(true);
             }
             if (event.getCode() == KeyCode.A){
-               InGameModel.getGameModel().setmovingLeft(true);
+               InGameModel.getGameModel().setMovingLeft(true);
             }
             if (event.getCode() == KeyCode.D){
-                InGameModel.getGameModel().setmovingRight(true);
+                InGameModel.getGameModel().setMovingRight(true);
+            }
+            if (event.getCode() == KeyCode.W){
+                InGameModel.getGameModel().setMovingUp(true);
+            }
+            if (event.getCode() == KeyCode.S){
+                InGameModel.getGameModel().setMovingDown(true);
             }
             // TODO add all pressed down events.
         }
@@ -38,10 +44,16 @@ public class SpaceInvaderListener implements EventHandler<KeyEvent> {
                 InGameModel.getGameModel().setShooting(false);
             }
             if (event.getCode() == KeyCode.A){
-                InGameModel.getGameModel().setmovingLeft(false);
+                InGameModel.getGameModel().setMovingLeft(false);
             }
             if (event.getCode() == KeyCode.D){
-                InGameModel.getGameModel().setmovingRight(false);
+                InGameModel.getGameModel().setMovingRight(false);
+            }
+            if (event.getCode() == KeyCode.W){
+                InGameModel.getGameModel().setMovingUp(false);
+            }
+            if (event.getCode() == KeyCode.S){
+                InGameModel.getGameModel().setMovingDown(false);
             }
             //TODO add all released events.
         }

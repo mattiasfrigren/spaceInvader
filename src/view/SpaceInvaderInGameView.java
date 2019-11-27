@@ -98,6 +98,7 @@ public class SpaceInvaderInGameView implements IViewState {
 
                 theImageBullet.setX(theModelBullet.getItemCoordX());
                 theImageBullet.setY(theModelBullet.getItemCoordY());
+
             }
         }
         ArrayList<IBullet> bulletsToRemove = model.getBulletRemoveList(); // adds all bullets who are out of screen and those who collided.
