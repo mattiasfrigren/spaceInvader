@@ -166,6 +166,7 @@ public class SpaceInvaderInGameView implements IViewState {
     private void initializeLevelToPane() {
         createBackGround();
         initializePlayer();
+        initializeEnemies();
         //TODO add all starting images.
     }
 
