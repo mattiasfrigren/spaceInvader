@@ -177,6 +177,32 @@ public class SpaceInvaderInGameView implements IViewState {
         gameScene.setOnKeyReleased(SpaceInvaderListener.getListener());
     }
 
+    private void createBackGround() {
+        firstBackGroundImage.setPreserveRatio(true);
+        firstBackGroundImage.setFitWidth(Constants.SCREENWIDTH);
+        firstBackGroundImage.setFitHeight(Constants.SCREENHEIGHT);
+        addToGamePane(firstBackGroundImage);
+
+        secondBackGroundImage.setPreserveRatio(true);
+        secondBackGroundImage.setFitWidth(Constants.SCREENWIDTH);
+        secondBackGroundImage.setFitHeight(Constants.SCREENHEIGHT);
+        secondBackGroundImage.setY(-Constants.SCREENHEIGHT);
+        addToGamePane(secondBackGroundImage);
+
+    }
+
+    private void moveInGameBackGround() {
+        firstBackGroundImage.setY(firstBackGroundImage.getY()+5);
+        secondBackGroundImage.setY(secondBackGroundImage.getY()+5);
+
+        if (firstBackGroundImage.getY()==Constants.SCREENHEIGHT) {
+            firstBackGroundImage.setY(-Constants.SCREENHEIGHT);
+        }
+        if (secondBackGroundImage.getY()==Constants.SCREENHEIGHT) {
+            secondBackGroundImage.setY(-Constants.SCREENHEIGHT);
+        }
+
+    }
     private void addToGamePane(ImageView imageItem) {
         gamePane.getChildren().add(imageItem);
     }
