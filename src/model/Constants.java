@@ -26,4 +26,5 @@ public class Constants {
     public final static double laserBulletMovementSpeed = SCREENHEIGHT * 0.016;
     public final static double laserBulletShootInterval = 15;
 
+
 }

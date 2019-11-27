@@ -171,6 +171,7 @@ public class SpaceInvaderInGameView implements IViewState {
     }
     private void addToGamePane(ImageView imageItem) {
         gamePane.getChildren().add(imageItem);
+        
     }
 
     private void removeFromGamePane(ImageView imageItem) {
