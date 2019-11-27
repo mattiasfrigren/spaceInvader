@@ -26,6 +26,7 @@ public class OnScreenItems {
         this.itemWidth = itemWidth;
         this.movementSpeed = movementSpeed;
         this.isFacingPlayer = isFacingPlayer;
+        //TODO add rotation based on isFacingPlayer
     }
 
 
