@@ -14,6 +14,8 @@ public class InGameModel {
     private boolean isShooting = false;
     private boolean isMovingLeft = false;
     private boolean isMovingRight = false;
+    private boolean isMovingUp = false;
+    private boolean isMovingDown = false;
     //TODO add all movement true or false;
 
     /////////************** Getter and setters ***********************
@@ -24,11 +26,17 @@ public class InGameModel {
         isShooting = shooting;
     }
 
-    public void setmovingLeft(boolean moveLeft){
+    public void setMovingLeft(boolean moveLeft){
         isMovingLeft = moveLeft;
     }
-    public void setmovingRight(boolean moveRight){
+    public void setMovingRight(boolean moveRight){
         isMovingRight = moveRight;
+    }
+    public void setMovingUp(boolean moveUp){
+        isMovingUp = moveUp;
+    }
+    public void setMovingDown(boolean moveDown){
+        isMovingDown = moveDown;
     }
 
     public static InGameModel getGameModel() {
@@ -92,14 +100,28 @@ public class InGameModel {
         }
     }
     private void checkIfPlayerIsMovingRight() {
-        if (isMovingRight && playerModel.getItemCoordX() < Constants.SCREENWIDTH) {
+        if (isMovingRight && playerModel.getItemCoordX() < Constants.SCREENWIDTH - Constants.playerShipWidth) {
             playerModel.moveRight();
+        }
+    }
+
+    private void checkIfPlayerIsMovingUp() {
+        if(isMovingUp && playerModel.getItemCoordY() > Constants.SCREENHEIGHT/2){
+            playerModel.moveUp();
+        }
+    }
+
+    private void checkIfPlayIsMovingDown() {
+        if (isMovingDown && playerModel.getItemCoordY() < Constants.SCREENHEIGHT - Constants.playerShipHeight){
+            playerModel.moveDown();
         }
     }
 
     public void updatePlayerMovement(){
         checkIfPlayerIsMovingLeft();
         checkIfPlayerIsMovingRight();
+        checkIfPlayerIsMovingUp();
+        checkIfPlayIsMovingDown();
     }
 
     // Moving all bullets forward

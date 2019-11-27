@@ -96,6 +96,7 @@ public class SpaceInvaderInGameView implements IViewState {
 
                 theImageBullet.setX(theModelBullet.getItemCoordX());
                 theImageBullet.setY(theModelBullet.getItemCoordY());
+
             }
         }
         ArrayList<IBullet> bulletsToRemove = model.getBulletRemoveList(); // adds all bullets who are out of screen and those who collided.
@@ -186,19 +187,6 @@ public class SpaceInvaderInGameView implements IViewState {
         gameScene.setOnKeyReleased(SpaceInvaderListener.getListener());
     }
 
-    private void createBackGround() {
-        firstBackGroundImage.setPreserveRatio(true);
-        firstBackGroundImage.setFitWidth(Constants.SCREENWIDTH);
-        firstBackGroundImage.setFitHeight(Constants.SCREENHEIGHT);
-        addToGamePane(firstBackGroundImage);
-
-        secondBackGroundImage.setPreserveRatio(true);
-        secondBackGroundImage.setFitWidth(Constants.SCREENWIDTH);
-        secondBackGroundImage.setFitHeight(Constants.SCREENHEIGHT);
-        secondBackGroundImage.setY(-Constants.SCREENHEIGHT);
-        addToGamePane(secondBackGroundImage);
-
-    }
 
     private void moveInGameBackGround() {
         firstBackGroundImage.setY(firstBackGroundImage.getY()+5);
