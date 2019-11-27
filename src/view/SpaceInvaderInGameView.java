@@ -139,7 +139,7 @@ public class SpaceInvaderInGameView implements IViewState {
 
         secondBackGroundImage.setFitHeight(Constants.SCREENHEIGHT);
         secondBackGroundImage.setFitWidth(Constants.SCREENWIDTH);
-        
+
         secondBackGroundImage.setY(-Constants.SCREENHEIGHT);
         addToGamePane(firstBackGroundImage);
         addToGamePane(secondBackGroundImage);
