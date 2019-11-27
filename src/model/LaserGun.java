@@ -10,14 +10,13 @@ public class LaserGun extends Weapons {
     }
 
     @Override
-    public boolean shoot() {
+    public IBullet shoot() {
         if (readyToShoot >= shootInterval) {
             double offsetY = theShip.getItemHeight()/2;
             double createPosY = isFacingPlayer ? offsetY : -offsetY;
-            InGameModel.getGameModel().addBullets(new LaserBullet(theShip.getItemCoordX(),(theShip.getItemCoordY() + createPosY), isFacingPlayer));
             readyToShoot = 0;
-            return true;
+            return new LaserBullet(theShip.getItemCoordX(),(theShip.getItemCoordY() + createPosY), isFacingPlayer);
         }
-        return false;
+        return null;
     }
 }

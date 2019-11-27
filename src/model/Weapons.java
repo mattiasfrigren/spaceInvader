@@ -7,7 +7,7 @@ public abstract class Weapons {
     protected int shootInterval;
     protected Ship theShip;
 
-    public abstract boolean shoot();
+    public abstract IBullet shoot();
 
     public void addToReadyToShoot() {
         if (readyToShoot < shootInterval) {

@@ -53,9 +53,9 @@ public class SpaceInvaderInGameView implements IViewState {
             @Override
             public void handle(long now) {
             // checks and update movement of images
+                updateIfPlayerIsShooting();
                 updateAllModels(); // update all models before checks.
                 updateAllImageviews();
-                updateIfPlayerIsShooting();
             }
         };
 
@@ -70,7 +70,6 @@ public class SpaceInvaderInGameView implements IViewState {
 
     //add all imagesviews here
     private void updateAllImageviews() {
-
         updateBulletsImage();
     }
 
@@ -87,18 +86,21 @@ public class SpaceInvaderInGameView implements IViewState {
                 theImageBullet.setY(theModelBullet.getItemCoordY());
             }
         }
-        ArrayList<Integer> bulletsToRemove = model.getBulletRemoveList();
-        for (int bulletsIndex : bulletsToRemove) {
-            removeFromGamePane(bulletsImageList.get(bulletsIndex));
-            bulletsImageList.remove(bulletsIndex);
+        ArrayList<IBullet> bulletsToRemove = model.getBulletRemoveList(); // adds all bullets who are out of screen and those who collided.
+        for (IBullet bullet: bulletsToRemove) {
+            int bulletIndex = model.getBulletsModelList().indexOf(bullet);  // gets index of the model bullet.
+            model.getBulletsModelList().remove(bulletIndex); // removes the model bullet from our list.
+            removeFromGamePane(bulletsImageList.get(bulletIndex)); // removes bullet image from pane.
+            bulletsImageList.remove(bulletIndex); // removes bullet image from our bullet image list.
             System.out.println("Bullet removed");
         }
 
     }
 
     private void updateIfPlayerIsShooting() {
-        if (model.checkIfPlayerIsShooting()) { // when the model is shooting and is created, create the image of the bullet.
-            createBullet(model.getLastBullet());
+        IBullet currentBullet = model.checkIfPlayerIsShooting();
+        if (currentBullet != null) {
+          createBullet(currentBullet);
         }
     }
 
@@ -111,6 +113,9 @@ public class SpaceInvaderInGameView implements IViewState {
         imageBullet.setY(itemBullet.getItemCoordY());
         //imageBullet.resize(itemBullet.getItemWidth(), itemBullet.getItemHeight());
 
+        if (itemBullet.isFacingPlayer()) {
+            imageBullet.setRotate(180);
+        }
 
         bulletsImageList.add(imageBullet);
         addToGamePane(imageBullet);
