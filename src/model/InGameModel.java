@@ -8,19 +8,38 @@ public class InGameModel {
     private static InGameModel gameModel;
 
     private PlayerShip playerModel;
+    private EnemyShip singleEnemyShip;
     private ArrayList<IBullet> bulletsModelList = new ArrayList<>();
     private ArrayList<EnemyShip> enemiesModelList = new ArrayList<>();
 
+
     private boolean isShooting = false;
+    private boolean isMovingLeft = false;
+    private boolean isMovingRight = false;
+    private boolean isMovingUp = false;
+    private boolean isMovingDown = false;
     //TODO add all movement true or false;
 
     /////////************** Getter and setters ***********************
     public boolean isShooting() {
+
         return isShooting;
     }
-
     public void setShooting(boolean shooting) {
         isShooting = shooting;
+    }
+
+    public void setMovingLeft(boolean moveLeft){
+        isMovingLeft = moveLeft;
+    }
+    public void setMovingRight(boolean moveRight){
+        isMovingRight = moveRight;
+    }
+    public void setMovingUp(boolean moveUp){
+        isMovingUp = moveUp;
+    }
+    public void setMovingDown(boolean moveDown){
+        isMovingDown = moveDown;
     }
 
     public static InGameModel getGameModel() {
@@ -32,6 +51,7 @@ public class InGameModel {
 
     private InGameModel() {
         playerModel = new PlayerShip();
+        createEnemiesLevelOne();
     }
 
 
@@ -56,12 +76,21 @@ public class InGameModel {
         return bulletsModelList.get(bulletsModelList.size()-1);
     }
 
+
     public ArrayList<EnemyShip> getEnemy() {
         return enemiesModelList;
     }
-
+//Adds enemies to enemieModelList
     public void addEnemy(EnemyShip enemy) {
         enemiesModelList.add(enemy);
+    }
+    //Creates 10 enemies and add them to enemeyModelList
+    public void createEnemiesLevelOne(){
+        for (int i = 0; i <10 ; i++) {
+            EnemyShip enemy = new EnemyShip(); //Makes new enemy
+            enemy.setItemCoordX(Constants.enemyShipStartPosX + (i * Constants.enemySpawnSpread) ); //Moves each enemy on different spawnpoints on X-line.
+            addEnemy(enemy);
+        }
     }
 
     ///// ******************* END OF GETTERS AND SETTERS  ******************************
@@ -77,6 +106,35 @@ public class InGameModel {
             }
         }
         return null;
+    }
+    private void checkIfPlayerIsMovingLeft(){
+       if (isMovingLeft && playerModel.getItemCoordX() > 0){
+           playerModel.moveLeft();
+        }
+    }
+    private void checkIfPlayerIsMovingRight() {
+        if (isMovingRight && playerModel.getItemCoordX() < Constants.SCREENWIDTH - Constants.playerShipWidth) {
+            playerModel.moveRight();
+        }
+    }
+
+    private void checkIfPlayerIsMovingUp() {
+        if(isMovingUp && playerModel.getItemCoordY() > Constants.SCREENHEIGHT/2){
+            playerModel.moveUp();
+        }
+    }
+
+    private void checkIfPlayIsMovingDown() {
+        if (isMovingDown && playerModel.getItemCoordY() < Constants.SCREENHEIGHT - Constants.playerShipHeight){
+            playerModel.moveDown();
+        }
+    }
+
+    public void updatePlayerMovement(){
+        checkIfPlayerIsMovingLeft();
+        checkIfPlayerIsMovingRight();
+        checkIfPlayerIsMovingUp();
+        checkIfPlayIsMovingDown();
     }
 
     // Moving all bullets forward
