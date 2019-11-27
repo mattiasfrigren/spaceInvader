@@ -25,14 +25,14 @@ public class SpaceInvaderListener implements EventHandler<KeyEvent> {
             if (event.getCode() == KeyCode.SPACE) {
                 InGameModel.getGameModel().setShooting(true);
             }
-            // TODO add all pressed down events.
+
         }
         else if (event.getEventType().equals(KeyEvent.KEY_RELEASED)) {
             if (event.getCode() == KeyCode.SPACE) {
                 InGameModel.getGameModel().setShooting(false);
             }
-            //TODO add all released events.
         }
+
 
     }
 }
