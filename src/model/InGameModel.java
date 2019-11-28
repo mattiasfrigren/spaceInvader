@@ -18,9 +18,20 @@ public class InGameModel {
     private boolean isMovingRight = false;
     private boolean isMovingUp = false;
     private boolean isMovingDown = false;
-    //TODO add all movement true or false;
+
+    private int points = 0;
 
     /////////************** Getter and setters ***********************
+
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
+
     public boolean isShooting() {
 
         return isShooting;
@@ -77,23 +88,37 @@ public class InGameModel {
     }
 
 
-    public ArrayList<EnemyShip> getEnemy() {
+    public ArrayList<EnemyShip> getEnemyModelList() {
         return enemiesModelList;
     }
 //Adds enemies to enemieModelList
-    public void addEnemy(EnemyShip enemy) {
+    public void addEnemyModel(EnemyShip enemy) {
         enemiesModelList.add(enemy);
     }
+
+    ///// ******************* END OF GETTERS AND SETTERS  ******************************
+
+
     //Creates 10 enemies and add them to enemeyModelList
     public void createEnemiesLevelOne(){
         for (int i = 0; i <10 ; i++) {
             EnemyShip enemy = new EnemyShip(); //Makes new enemy
             enemy.setItemCoordX(Constants.enemyShipStartPosX + (i * Constants.enemySpawnSpread) ); //Moves each enemy on different spawnpoints on X-line.
-            addEnemy(enemy);
+            addEnemyModel(enemy);
         }
     }
 
-    ///// ******************* END OF GETTERS AND SETTERS  ******************************
+    public ArrayList<IBullet> checkIfEnemyIsShooting() {
+        ArrayList<IBullet> enemyModelBullets = new ArrayList<>();
+        for (EnemyShip enemyModel: enemiesModelList) {
+            IBullet theEnemyBullet = enemyModel.weapon.shoot();
+            if (theEnemyBullet != null) {
+                enemyModelBullets.add(theEnemyBullet);
+                bulletsModelList.add(theEnemyBullet);
+            }
+        }
+        return enemyModelBullets;
+    }
 
     // when space is down check if you weapon manage to shoot.
     public IBullet checkIfPlayerIsShooting() {
@@ -107,6 +132,11 @@ public class InGameModel {
         }
         return null;
     }
+
+    public boolean isPlayerDead() {
+        return playerModel.getLifes() < 1;
+    }
+
     private void checkIfPlayerIsMovingLeft(){
        if (isMovingLeft && playerModel.getItemCoordX() > 0){
            playerModel.moveLeft();
@@ -160,15 +190,15 @@ public class InGameModel {
             }
             // checking if bullet collided.
             if (itemBullet.isFacingPlayer()) {
-                if (playerModel.getItemWidth()/2 + itemBullet.getItemWidth()/2 > distanceBetween(itemBullet, playerModel)) {
-                    // TODO player loose hp
+                if (playerModel.getItemWidth()/5 + itemBullet.getItemWidth()/5 > distanceBetween(itemBullet, playerModel)) {
+                    playerModel.looseLife(1);
                     bulletsToRemove.add(bulletsModelList.get(i));
                 }
             }
             else { // commented out while waiting for enemies.
                 for (EnemyShip enemy: enemiesModelList) {
-                    if (enemy.getItemWidth() / 2 + itemBullet.getItemWidth() / 2 > distanceBetween(itemBullet, enemy)) {
-                        // TODO Enemy loose hp
+                    if (enemy.getItemWidth() / 5 + itemBullet.getItemWidth() / 5 > distanceBetween(itemBullet, enemy)) {
+                        enemy.looseLife(1);
                         bulletsToRemove.add(bulletsModelList.get(i));
                     }
                 }
@@ -180,12 +210,24 @@ public class InGameModel {
         return bulletsToRemove;
     }
 
+    public ArrayList<EnemyShip> getDeadEnemies () {
+        ArrayList<EnemyShip> deadEnemyList = new ArrayList<>();
+
+        for (EnemyShip enemy : enemiesModelList) {
+            if (enemy.getLifes() < 1) {
+                deadEnemyList.add(enemy);
+                points++;
+            }
+        }
+        return deadEnemyList;
+    }
+
     //adds +1 to our weaponState to make it ready when at it's state.
     public void updateWeaponsState() {
         playerModel.getWeapon().addToReadyToShoot();
-       /* for (EnemyShip enemyShip: enemiesModelList) {
+        for (EnemyShip enemyShip: enemiesModelList) {
             enemyShip.getWeapon().addToReadyToShoot();
-        }*/
+        }
     }
 
     //Doing pythagoras rate to check distance between positions together with height and width of the objects..
