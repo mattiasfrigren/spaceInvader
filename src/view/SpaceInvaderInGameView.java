@@ -13,6 +13,9 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import model.*;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public class SpaceInvaderInGameView implements IViewState {
@@ -26,10 +29,11 @@ public class SpaceInvaderInGameView implements IViewState {
 
     private ArrayList<ImageView> enemiesImageList = new ArrayList<>();
     private ArrayList<ImageView> bulletsImageList = new ArrayList<>();
-    ;
+
     private ImageView playerImage;
     private ImageView firstBackGroundImage = new ImageView(Constants.BackGroundImage);
     private ImageView secondBackGroundImage = new ImageView(Constants.BackGroundImage);
+    private ImageView[] playerLifeImages;
     private Label pointsLabel;
 
     private AnimationTimer inGameTimer;
@@ -63,13 +67,10 @@ public class SpaceInvaderInGameView implements IViewState {
             @Override
             public void handle(long now) {
                 // checks and update movement of images
-                updateAllModels(); // update all models before checks.
                 updateIfPlayerIsShooting();
-
+                updateIfEnemyIsShooting();
+                updateAllModels(); // update all models before checks.
                 updateAllImageviews();
-                uppdateIfEnemyIsShooting();
-
-
             }
         };
 
@@ -86,16 +87,16 @@ public class SpaceInvaderInGameView implements IViewState {
 
     //add all imagesviews here
     private void updateAllImageviews() {
-        updateBulletsImage();
         updateBackGround();
-
+        updateBulletsImage();
         updatePlayerImage();
-        uppdateEnemiesImgaes();
+        updateEnemyImages();
         updatePointsLabel();
     }
-    private void updatePointsLabel(){
-        int myPoints=model.getPoints();
-        String pointText="points: "+myPoints;
+
+    private void updatePointsLabel() {
+        int myPoints = model.getPoints();
+        String pointText = "Points: " + myPoints;
         pointsLabel.setText(pointText);
     }
 
@@ -103,16 +104,13 @@ public class SpaceInvaderInGameView implements IViewState {
         PlayerShip player = model.getPlayerModel();
         playerImage.setX(player.getItemCoordX());
         playerImage.setY(player.getItemCoordY());
-        if (model.isPlayerDead()) {
-
-            Text playerDeadLabel = new Text("Your dead!");
-            playerDeadLabel.setFont(Font.font("VERDANA", 50));
-            playerDeadLabel.resize(200, 200);
-            playerDeadLabel.setX(Constants.SCREENWIDTH / 3);
-            playerDeadLabel.setY(Constants.SCREENHEIGHT / 2);
+        if (model.isPlayerDead()) {   // TODO Pop up menu when dead
+            Text playerDeadLabel = new Text("You'r dead");
+            playerDeadLabel.setX(Constants.SCREENWIDTH/3);
+            playerDeadLabel.setY(Constants.SCREENHEIGHT/2);
+            playerDeadLabel.setFont(Font.font("Verdana", 50));
             gamePane.getChildren().add(playerDeadLabel);
             inGameTimer.stop();
-            System.out.println("Dead player");
         }
     }
 
@@ -142,20 +140,18 @@ public class SpaceInvaderInGameView implements IViewState {
 
     }
 
-    private void uppdateEnemiesImgaes() {
+    private void updateEnemyImages() {
         ArrayList<EnemyShip> allEnemyModels = model.getEnemyModelList();
         ArrayList<EnemyShip> modelEnemiesToRemove = model.getDeadEnemies();
-        if (!modelEnemiesToRemove.isEmpty()) {
-            for (EnemyShip enemeyModel : modelEnemiesToRemove) {
-                int enemyIndex = allEnemyModels.indexOf(enemeyModel);
-                model.getEnemyModelList().remove(enemyIndex);
-                removeFromGamePane(enemiesImageList.get(enemyIndex));
-                enemiesImageList.remove(enemyIndex);
-                System.out.println("enemyImage removed");
-            }
-
-        }
-
+      if (!modelEnemiesToRemove.isEmpty()) {
+          for (EnemyShip enemyModel : modelEnemiesToRemove) {
+              int enemyIndex = allEnemyModels.indexOf(enemyModel);
+              model.getEnemyModelList().remove(enemyIndex);
+              removeFromGamePane(enemiesImageList.get(enemyIndex));
+              enemiesImageList.remove(enemyIndex);
+              System.out.println("Enemy images removed");
+          }
+      }
     }
 
     private void updateIfPlayerIsShooting() {
@@ -165,11 +161,10 @@ public class SpaceInvaderInGameView implements IViewState {
         }
     }
 
-    private void uppdateIfEnemyIsShooting() {
-        ArrayList<IBullet> allEnemeyModelBullets = model.checkIfEnemyIsShooting();
-        for (IBullet enemeyModelBullet : allEnemeyModelBullets) {
-            createBullet(enemeyModelBullet);
-
+    private void updateIfEnemyIsShooting() {
+        ArrayList<IBullet> allEnemyModelBullets = model.checkIfEnemyIsShooting();
+        for (IBullet enemyModelBullet: allEnemyModelBullets) {
+            createBullet(enemyModelBullet);
         }
     }
 
@@ -184,19 +179,33 @@ public class SpaceInvaderInGameView implements IViewState {
         }
     }
 
-    private void intitializePointLabel() {
-        pointsLabel = new Label("Point: ");
-        pointsLabel.setPrefWidth(130);
+    public void initializePointLabel() {
+        pointsLabel = new Label("Points: ");
+        pointsLabel.setPrefWidth(130); // TODO CHANGE TO CONSTANTS
         pointsLabel.setPrefHeight(50);
-        BackgroundImage backgroundImage = new BackgroundImage(new Image("model/resources/blue_info_label.png", 130, 50, false, true), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, null);
+        BackgroundImage backgroundImage = new BackgroundImage(new Image("model/resources/blue_info_label.png", 130,50,false,true), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, null);
         pointsLabel.setBackground(new Background(backgroundImage));
         pointsLabel.setAlignment(Pos.CENTER_LEFT);
         pointsLabel.setPadding(new Insets(10,10,10,10));
-        pointsLabel.setFont(Font.font("VERDANA",15));
-        pointsLabel.setLayoutX(Constants.SCREENWIDTH*0.9);
-        pointsLabel.setLayoutY(Constants.SCREENHEIGHT*0.02);
+        pointsLabel.setFont(Font.font("Verdana", 15));
+        pointsLabel.setLayoutX(Constants.SCREENWIDTH *0.9);
+        pointsLabel.setLayoutY(Constants.SCREENHEIGHT * 0.02);
         gamePane.getChildren().add(pointsLabel);
     }
+
+    private void initializePlayerLifes() {
+        playerLifeImages = new ImageView[model.getPlayerModel().getLifes()];
+        for (int i = 0; i <  playerLifeImages.length; i++) {
+            playerLifeImages[i] = new ImageView(Constants.heartURL);
+            playerLifeImages[i].setLayoutX(Constants.heartStartX + (i * Constants.heartWidth));
+            playerLifeImages[i].setLayoutY(Constants.heartStartY);
+            playerLifeImages[i].setPreserveRatio(true);
+            playerLifeImages[i].setFitWidth(Constants.heartWidth);
+            playerLifeImages[i].setFitHeight(Constants.heartHeight);
+            gamePane.getChildren().add(playerLifeImages[i]);
+        }
+    }
+
 
     private void initializeBackground() {
         firstBackGroundImage.setPreserveRatio(true);
@@ -237,7 +246,8 @@ public class SpaceInvaderInGameView implements IViewState {
     private void initializeLevelToPane() {
 
         initializeBackground();
-        intitializePointLabel();
+        initializePointLabel();
+        initializePlayerLifes();
         initializePlayer();
         initializeEnemies();
         //TODO add all starting images.
@@ -265,7 +275,6 @@ public class SpaceInvaderInGameView implements IViewState {
         playerImage.setPreserveRatio(true);
         playerImage.setFitHeight(playerModel.getItemHeight());
         playerImage.setFitWidth(playerModel.getItemWidth());
-        System.out.println(playerImage.getX() + " Player start pos");
         //playerImage.resize(playerModel.getItemWidth(), playerModel.getItemHeight());
         addToGamePane(playerImage);
     }
