@@ -2,10 +2,15 @@ package view;
 
 import controller.SpaceInvaderListener;
 import javafx.animation.AnimationTimer;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.*;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import model.*;
 
 import java.util.ArrayList;
@@ -20,10 +25,12 @@ public class SpaceInvaderInGameView implements IViewState {
     private static Scene gameScene;
 
     private ArrayList<ImageView> enemiesImageList = new ArrayList<>();
-    private ArrayList<ImageView> bulletsImageList = new ArrayList<>();;
+    private ArrayList<ImageView> bulletsImageList = new ArrayList<>();
+    ;
     private ImageView playerImage;
     private ImageView firstBackGroundImage = new ImageView(Constants.BackGroundImage);
     private ImageView secondBackGroundImage = new ImageView(Constants.BackGroundImage);
+    private Label pointsLabel;
 
     private AnimationTimer inGameTimer;
 
@@ -55,10 +62,14 @@ public class SpaceInvaderInGameView implements IViewState {
         inGameTimer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-            // checks and update movement of images
-                updateIfPlayerIsShooting();
+                // checks and update movement of images
                 updateAllModels(); // update all models before checks.
+                updateIfPlayerIsShooting();
+
                 updateAllImageviews();
+                uppdateIfEnemyIsShooting();
+
+
             }
         };
 
@@ -77,16 +88,36 @@ public class SpaceInvaderInGameView implements IViewState {
     private void updateAllImageviews() {
         updateBulletsImage();
         updateBackGround();
+
         updatePlayerImage();
+        uppdateEnemiesImgaes();
+        updatePointsLabel();
     }
-    private void updatePlayerImage(){
+    private void updatePointsLabel(){
+        int myPoints=model.getPoints();
+        String pointText="points: "+myPoints;
+        pointsLabel.setText(pointText);
+    }
+
+    private void updatePlayerImage() {
         PlayerShip player = model.getPlayerModel();
         playerImage.setX(player.getItemCoordX());
         playerImage.setY(player.getItemCoordY());
+        if (model.isPlayerDead()) {
+
+            Text playerDeadLabel = new Text("Your dead!");
+            playerDeadLabel.setFont(Font.font("VERDANA", 50));
+            playerDeadLabel.resize(200, 200);
+            playerDeadLabel.setX(Constants.SCREENWIDTH / 3);
+            playerDeadLabel.setY(Constants.SCREENHEIGHT / 2);
+            gamePane.getChildren().add(playerDeadLabel);
+            inGameTimer.stop();
+            System.out.println("Dead player");
+        }
     }
 
 
-// update the bullets images to mirror the model bullets.
+    // update the bullets images to mirror the model bullets.
     private void updateBulletsImage() {
         ArrayList<IBullet> bulletsModelList = model.getBulletsModelList();
 
@@ -101,8 +132,8 @@ public class SpaceInvaderInGameView implements IViewState {
             }
         }
         ArrayList<IBullet> bulletsToRemove = model.getBulletRemoveList(); // adds all bullets who are out of screen and those who collided.
-        for (IBullet bullet: bulletsToRemove) {
-            int bulletIndex = bulletsToRemove.indexOf(bullet);  // gets index of the model bullet.
+        for (IBullet bullet : bulletsToRemove) {
+            int bulletIndex = bulletsModelList.indexOf(bullet);  // gets index of the model bullet.
             model.getBulletsModelList().remove(bulletIndex); // removes the model bullet from our list.
             removeFromGamePane(bulletsImageList.get(bulletIndex)); // removes bullet image from pane.
             bulletsImageList.remove(bulletIndex); // removes bullet image from our bullet image list.
@@ -111,17 +142,41 @@ public class SpaceInvaderInGameView implements IViewState {
 
     }
 
+    private void uppdateEnemiesImgaes() {
+        ArrayList<EnemyShip> allEnemyModels = model.getEnemyModelList();
+        ArrayList<EnemyShip> modelEnemiesToRemove = model.getDeadEnemies();
+        if (!modelEnemiesToRemove.isEmpty()) {
+            for (EnemyShip enemeyModel : modelEnemiesToRemove) {
+                int enemyIndex = allEnemyModels.indexOf(enemeyModel);
+                model.getEnemyModelList().remove(enemyIndex);
+                removeFromGamePane(enemiesImageList.get(enemyIndex));
+                enemiesImageList.remove(enemyIndex);
+                System.out.println("enemyImage removed");
+            }
+
+        }
+
+    }
+
     private void updateIfPlayerIsShooting() {
         IBullet currentBullet = model.checkIfPlayerIsShooting();
         if (currentBullet != null) {
-          createBullet(currentBullet);
+            createBullet(currentBullet);
+        }
+    }
+
+    private void uppdateIfEnemyIsShooting() {
+        ArrayList<IBullet> allEnemeyModelBullets = model.checkIfEnemyIsShooting();
+        for (IBullet enemeyModelBullet : allEnemeyModelBullets) {
+            createBullet(enemeyModelBullet);
+
         }
     }
 
     private void updateBackGround() {
-        firstBackGroundImage.setY(firstBackGroundImage.getY()+5);
-        secondBackGroundImage.setY(secondBackGroundImage.getY()+5);
-        if (firstBackGroundImage.getY()>=Constants.SCREENHEIGHT) {
+        firstBackGroundImage.setY(firstBackGroundImage.getY() + 5);
+        secondBackGroundImage.setY(secondBackGroundImage.getY() + 5);
+        if (firstBackGroundImage.getY() >= Constants.SCREENHEIGHT) {
             firstBackGroundImage.setY(-Constants.SCREENHEIGHT);
         }
         if (secondBackGroundImage.getY() >= Constants.SCREENHEIGHT) {
@@ -129,6 +184,19 @@ public class SpaceInvaderInGameView implements IViewState {
         }
     }
 
+    private void intitializePointLabel() {
+        pointsLabel = new Label("Point: ");
+        pointsLabel.setPrefWidth(130);
+        pointsLabel.setPrefHeight(50);
+        BackgroundImage backgroundImage = new BackgroundImage(new Image("model/resources/blue_info_label.png", 130, 50, false, true), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, null);
+        pointsLabel.setBackground(new Background(backgroundImage));
+        pointsLabel.setAlignment(Pos.CENTER_LEFT);
+        pointsLabel.setPadding(new Insets(10,10,10,10));
+        pointsLabel.setFont(Font.font("VERDANA",15));
+        pointsLabel.setLayoutX(Constants.SCREENWIDTH*0.9);
+        pointsLabel.setLayoutY(Constants.SCREENHEIGHT*0.02);
+        gamePane.getChildren().add(pointsLabel);
+    }
 
     private void initializeBackground() {
         firstBackGroundImage.setPreserveRatio(true);
@@ -144,6 +212,7 @@ public class SpaceInvaderInGameView implements IViewState {
         addToGamePane(firstBackGroundImage);
         addToGamePane(secondBackGroundImage);
     }
+
     // sets the imageView based on the model Ibullet.
     private void createBullet(IBullet bullet) {
         OnScreenItems itemBullet = (OnScreenItems) bullet;
@@ -154,7 +223,7 @@ public class SpaceInvaderInGameView implements IViewState {
         imageBullet.setPreserveRatio(true);
         imageBullet.setFitHeight(itemBullet.getItemHeight());
         imageBullet.setFitWidth(itemBullet.getItemWidth());
-               //imageBullet.resize(itemBullet.getItemWidth(), itemBullet.getItemHeight());
+        //imageBullet.resize(itemBullet.getItemWidth(), itemBullet.getItemHeight());
 
         if (itemBullet.isFacingPlayer()) {
             imageBullet.setRotate(180);
@@ -168,6 +237,7 @@ public class SpaceInvaderInGameView implements IViewState {
     private void initializeLevelToPane() {
 
         initializeBackground();
+        intitializePointLabel();
         initializePlayer();
         initializeEnemies();
         //TODO add all starting images.
@@ -175,8 +245,8 @@ public class SpaceInvaderInGameView implements IViewState {
 
     private void initializeEnemies() {
 
-        ArrayList<EnemyShip> enemyModelList = model.getEnemy();
-        for (int i = 0; i <enemyModelList.size(); i++) {
+        ArrayList<EnemyShip> enemyModelList = model.getEnemyModelList();
+        for (int i = 0; i < enemyModelList.size(); i++) {
             EnemyShip enemyModel = enemyModelList.get(i);
             ImageView enemyImage = new ImageView(new Image(Constants.enemyShipURL));
             enemyImage.setX(enemyModel.getItemCoordX());
@@ -213,8 +283,6 @@ public class SpaceInvaderInGameView implements IViewState {
     private void removeFromGamePane(ImageView imageItem) {
         gamePane.getChildren().remove(imageItem);
     }
-
-
 
 
 }
