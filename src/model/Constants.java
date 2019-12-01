@@ -34,8 +34,10 @@ public class Constants {
     public final static String heartURL = "model/resources/heart.png";
     public final static double heartStartX = SCREENWIDTH * 0.87;
     public final static double heartStartY = SCREENHEIGHT * 0.95;
-    public final static double heartHeight = SCREENHEIGHT * 0.03;
-    public final static double heartWidth = SCREENWIDTH * 0.03;
+    public final static double heartHeight = SCREENHEIGHT * 0.04;
+    public final static double heartWidth = SCREENWIDTH * 0.04;
+
+    public final static String deathSubSceenBackground = "model/resources/yellow.png";
 
 
 

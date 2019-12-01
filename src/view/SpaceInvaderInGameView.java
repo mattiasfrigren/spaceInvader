@@ -4,8 +4,12 @@ import controller.SpaceInvaderListener;
 import javafx.animation.AnimationTimer;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.SubScene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -13,9 +17,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import model.*;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public class SpaceInvaderInGameView implements IViewState {
@@ -33,8 +34,10 @@ public class SpaceInvaderInGameView implements IViewState {
     private ImageView playerImage;
     private ImageView firstBackGroundImage = new ImageView(Constants.BackGroundImage);
     private ImageView secondBackGroundImage = new ImageView(Constants.BackGroundImage);
-    private ImageView[] playerLifeImages;
+    private ArrayList<ImageView> playerLifeImages;
     private Label pointsLabel;
+
+    private SubScene deathSubScene;
 
     private AnimationTimer inGameTimer;
 
@@ -92,6 +95,7 @@ public class SpaceInvaderInGameView implements IViewState {
         updatePlayerImage();
         updateEnemyImages();
         updatePointsLabel();
+        updatePlayerLifeImages();
     }
 
     private void updatePointsLabel() {
@@ -100,18 +104,34 @@ public class SpaceInvaderInGameView implements IViewState {
         pointsLabel.setText(pointText);
     }
 
+    private void updatePlayerLifeImages() {
+        int playerLifes = model.getPlayerModel().getLifes();
+
+        if (playerLifes != playerLifeImages.size()) {
+            int differenceInLife = playerLifeImages.size() - playerLifes;
+            for (int i = 0; i < Math.abs(differenceInLife) ; i++) {
+                if (differenceInLife < 0) {
+                    createPlayerLifeImage(playerLifeImages.size());
+                }
+                else {
+                    removeFromGamePane(playerLifeImages.get(playerLifeImages.size()-1));
+                    playerLifeImages.remove(playerLifeImages.size()-1);
+                }
+            }
+        }
+
+        if (playerLifes < 1) {   // TODO Pop up menu when dead
+            initializeDeathSubScene();
+
+            inGameTimer.stop();
+        }
+    }
+
     private void updatePlayerImage() {
         PlayerShip player = model.getPlayerModel();
         playerImage.setX(player.getItemCoordX());
         playerImage.setY(player.getItemCoordY());
-        if (model.isPlayerDead()) {   // TODO Pop up menu when dead
-            Text playerDeadLabel = new Text("You'r dead");
-            playerDeadLabel.setX(Constants.SCREENWIDTH/3);
-            playerDeadLabel.setY(Constants.SCREENHEIGHT/2);
-            playerDeadLabel.setFont(Font.font("Verdana", 50));
-            gamePane.getChildren().add(playerDeadLabel);
-            inGameTimer.stop();
-        }
+
     }
 
 
@@ -194,18 +214,23 @@ public class SpaceInvaderInGameView implements IViewState {
     }
 
     private void initializePlayerLifes() {
-        playerLifeImages = new ImageView[model.getPlayerModel().getLifes()];
-        for (int i = 0; i <  playerLifeImages.length; i++) {
-            playerLifeImages[i] = new ImageView(Constants.heartURL);
-            playerLifeImages[i].setLayoutX(Constants.heartStartX + (i * Constants.heartWidth));
-            playerLifeImages[i].setLayoutY(Constants.heartStartY);
-            playerLifeImages[i].setPreserveRatio(true);
-            playerLifeImages[i].setFitWidth(Constants.heartWidth);
-            playerLifeImages[i].setFitHeight(Constants.heartHeight);
-            gamePane.getChildren().add(playerLifeImages[i]);
+        playerLifeImages = new ArrayList<>();
+        for (int i = 0; i <  model.getPlayerModel().getLifes(); i++) {
+            createPlayerLifeImage(i);
         }
     }
 
+    private void createPlayerLifeImage(int lifeNumber) {
+        ImageView playerLifeImage = new ImageView(Constants.playerShipURL);
+        playerLifeImage.setLayoutX(Constants.heartStartX + (lifeNumber * Constants.heartWidth));
+        playerLifeImage.setLayoutY(Constants.heartStartY);
+        playerLifeImage.setPreserveRatio(true);
+        playerLifeImage.setFitWidth(Constants.heartWidth);
+        playerLifeImage.setFitHeight(Constants.heartHeight);
+
+        playerLifeImages.add(playerLifeImage);
+        addToGamePane(playerLifeImage);
+    }
 
     private void initializeBackground() {
         firstBackGroundImage.setPreserveRatio(true);
@@ -279,14 +304,69 @@ public class SpaceInvaderInGameView implements IViewState {
         addToGamePane(playerImage);
     }
 
+    private void initializeDeathSubScene() {
+
+        deathSubScene = new SubScene(new AnchorPane(),Constants.SCREENWIDTH * 0.45, Constants.SCREENHEIGHT * 0.45);
+
+        BackgroundImage image = new BackgroundImage(new Image(Constants.deathSubSceenBackground,Constants.SCREENWIDTH * 0.45,Constants.SCREENHEIGHT * 0.45, false, true),
+                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, null);
+
+        AnchorPane deathAnchor = (AnchorPane) deathSubScene.getRoot();
+        deathAnchor.setBackground(new Background(image));
+
+        deathSubScene.setLayoutX(Constants.SCREENWIDTH/3);
+        deathSubScene.setLayoutY(Constants.SCREENHEIGHT/3);
+
+        Text playerDeadText = new Text("You're dead");
+        playerDeadText.setX(deathAnchor.getWidth() * 0.20);
+        playerDeadText.setY(deathAnchor.getHeight() * 0.20);
+        playerDeadText.setFont(Font.font("Verdana", 30));
+        deathAnchor.getChildren().add(playerDeadText);
+
+        Text yourScoreText = new Text("Your score: " + model.getPoints());
+        yourScoreText.setX(deathAnchor.getWidth() * 0.20);
+        yourScoreText.setY(deathAnchor.getHeight() * 0.35);
+        yourScoreText.setFont(Font.font("Verdana", 15));
+        deathAnchor.getChildren().add(yourScoreText);
+
+        Text highScoreText = new Text("Current Highscore: "); // TODO add highscore in the line
+        highScoreText.setX(deathAnchor.getWidth() * 0.20);
+        highScoreText.setY(deathAnchor.getHeight() * 0.50);
+        highScoreText.setFont(Font.font("Verdana", 15));
+        deathAnchor.getChildren().add(highScoreText);
+
+        Text enterNameText = new Text("Enter your username: ");
+        enterNameText.setX(deathAnchor.getWidth() * 0.20);
+        enterNameText.setY(deathAnchor.getHeight() * 0.65);
+        enterNameText.setFont(Font.font("Verdana", 15));
+        deathAnchor.getChildren().add(enterNameText);
+
+        TextField enterNameField = new TextField();
+        enterNameField.setLayoutX(deathAnchor.getWidth() * 0.25);
+        enterNameField.setLayoutY(deathAnchor.getHeight() * 0.70);
+        deathAnchor.getChildren().add(enterNameField);
+
+        Button saveScoreButton = new Button("Save Score");
+        saveScoreButton.setLayoutX(deathAnchor.getWidth() * 0.10);
+        saveScoreButton.setLayoutY(deathAnchor.getHeight() * 0.85);
+        deathAnchor.getChildren().add(saveScoreButton);
+
+        Button playAgainButton = new Button("Play again");
+        playAgainButton.setLayoutX(deathAnchor.getWidth() * 0.70);
+        playAgainButton.setLayoutY(deathAnchor.getHeight() * 0.85);
+        deathAnchor.getChildren().add(playAgainButton);
+
+        addToGamePane(deathSubScene);
+    }
+
     // starts the listeners.
     private void initializeGameListener() {
         gameScene.setOnKeyPressed(SpaceInvaderListener.getListener());
         gameScene.setOnKeyReleased(SpaceInvaderListener.getListener());
     }
 
-    private void addToGamePane(ImageView imageItem) {
-        gamePane.getChildren().add(imageItem);
+    private void addToGamePane(Node node) {
+        gamePane.getChildren().add(node);
     }
 
     private void removeFromGamePane(ImageView imageItem) {
