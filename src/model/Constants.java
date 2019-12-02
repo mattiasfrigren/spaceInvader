@@ -29,4 +29,5 @@ public class Constants {
     public final static double laserBulletMovementSpeed = SCREENHEIGHT * 0.016;
     public final static double laserBulletShootInterval = 15;
 
+    public final static double spawnpointMeteor = Math.random()*SCREENWIDTH;
 }

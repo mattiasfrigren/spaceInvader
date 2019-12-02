@@ -12,6 +12,7 @@ public class InGameModel {
     private ArrayList<IBullet> bulletsModelList = new ArrayList<>();
     private ArrayList<EnemyShip> enemiesModelList = new ArrayList<>();
 
+    private Meteor meteor;
 
     private boolean isShooting = false;
     private boolean isMovingLeft = false;
@@ -21,6 +22,15 @@ public class InGameModel {
     //TODO add all movement true or false;
 
     /////////************** Getter and setters ***********************
+
+    public Meteor getMeteor() {
+        return meteor;
+    }
+
+    public void setMeteor(Meteor meteor) {
+        this.meteor = meteor;
+    }
+
     public boolean isShooting() {
 
         return isShooting;
@@ -52,6 +62,7 @@ public class InGameModel {
     private InGameModel() {
         playerModel = new PlayerShip();
         createEnemiesLevelOne();
+        meteor = new Meteor();
     }
 
 
@@ -157,21 +168,26 @@ public class InGameModel {
             OnScreenItems itemBullet = (OnScreenItems)bulletsModelList.get(i);
             if (checkIfOutOfScreen(itemBullet.getItemCoordX(), itemBullet.getItemCoordY())){
                 bulletsToRemove.add(bulletsModelList.get(i));
+                continue;
             }
             // checking if bullet collided.
             if (itemBullet.isFacingPlayer()) {
                 if (playerModel.getItemWidth()/2 + itemBullet.getItemWidth()/2 > distanceBetween(itemBullet, playerModel)) {
                     // TODO player loose hp
                     bulletsToRemove.add(bulletsModelList.get(i));
+                    bulletsModelList.remove(i);
+                    continue;
                 }
             }
             else { // commented out while waiting for enemies.
-              /*  for (EnemyShip enemy: enemiesModelList) {
-                    if (enemy.getItemWidth() / 2 + itemBullet.getItemWidth() / 2 > distanceBetween(itemBullet, enemy)) {
+                for (EnemyShip enemy: enemiesModelList) {
+                    if (enemy.getItemWidth() / 3 + itemBullet.getItemWidth() / 3 > distanceBetween(itemBullet, enemy)) {
                         // TODO Enemy loose hp
                         bulletsToRemove.add(bulletsModelList.get(i));
+                        bulletsModelList.remove(i);
+                        continue;
                     }
-                } */
+                }
             }
 
         }
@@ -196,7 +212,9 @@ public class InGameModel {
     private double distanceBetween(OnScreenItems firstObjc, OnScreenItems secondObjc) {
         return Math.sqrt(Math.pow((firstObjc.getItemCoordX() + (firstObjc.getItemWidth()/2)) - (secondObjc.getItemCoordX() + (secondObjc.getItemWidth()/2)), 2) + Math.pow((firstObjc.getItemCoordY() + (firstObjc.getItemHeight()/2)) - (secondObjc.getItemCoordY() + (secondObjc.getItemHeight()/2)), 2));
     }
-
+    public void moveMeteor() {
+        meteor.moveDown();
+    }
 
 
 }
