@@ -2,10 +2,19 @@ package view;
 
 import controller.SpaceInvaderListener;
 import javafx.animation.AnimationTimer;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.SubScene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.*;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import model.*;
 
 import java.util.ArrayList;
@@ -19,12 +28,16 @@ public class SpaceInvaderInGameView implements IViewState {
     private static AnchorPane gamePane;
     private static Scene gameScene;
 
-    private ImageView meteor = new ImageView(Constants.meteorImage);
     private ArrayList<ImageView> enemiesImageList = new ArrayList<>();
-    private ArrayList<ImageView> bulletsImageList = new ArrayList<>();;
+    private ArrayList<ImageView> bulletsImageList = new ArrayList<>();
+
     private ImageView playerImage;
     private ImageView firstBackGroundImage = new ImageView(Constants.BackGroundImage);
     private ImageView secondBackGroundImage = new ImageView(Constants.BackGroundImage);
+    private ArrayList<ImageView> playerLifeImages;
+    private Label pointsLabel;
+
+    private SubScene deathSubScene;
 
     private AnimationTimer inGameTimer;
 
@@ -56,10 +69,11 @@ public class SpaceInvaderInGameView implements IViewState {
         inGameTimer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-            // checks and update movement of images
+                // checks and update movement of images
+                updateIfPlayerIsShooting();
+                updateIfEnemyIsShooting();
                 updateAllModels(); // update all models before checks.
                 updateAllImageviews();
-                updateIfPlayerIsShooting();
             }
         };
 
@@ -71,67 +85,166 @@ public class SpaceInvaderInGameView implements IViewState {
         model.updateBullets();
         model.updateWeaponsState();
         model.updatePlayerMovement();
-        model.moveMeteor();
     }
+
 
     //add all imagesviews here
     private void updateAllImageviews() {
         updateBackGround();
-        updatePlayerImage();
         updateBulletsImage();
-        moveMeteorImage();
+        updatePlayerImage();
+        updateEnemyImages();
+        updatePointsLabel();
+        updatePlayerLifeImages();
     }
-    private void updatePlayerImage(){
+
+    private void updatePointsLabel() {
+        int myPoints = model.getPoints();
+        String pointText = "Points: " + myPoints;
+        pointsLabel.setText(pointText);
+    }
+
+    private void updatePlayerLifeImages() {
+        int playerLifes = model.getPlayerModel().getLifes();
+
+        if (playerLifes != playerLifeImages.size()) {
+            int differenceInLife = playerLifeImages.size() - playerLifes;
+            for (int i = 0; i < Math.abs(differenceInLife) ; i++) {
+                if (differenceInLife < 0) {
+                    createPlayerLifeImage(playerLifeImages.size());
+                }
+                else {
+                    removeFromGamePane(playerLifeImages.get(playerLifeImages.size()-1));
+                    playerLifeImages.remove(playerLifeImages.size()-1);
+                }
+            }
+        }
+
+        if (playerLifes < 1) {   // TODO Pop up menu when dead
+            initializeDeathSubScene();
+
+            inGameTimer.stop();
+        }
+    }
+
+    private void updatePlayerImage() {
         PlayerShip player = model.getPlayerModel();
         playerImage.setX(player.getItemCoordX());
         playerImage.setY(player.getItemCoordY());
+
     }
 
 
-// update the bullets images to mirror the model bullets.
+    // update the bullets images to mirror the model bullets.
     private void updateBulletsImage() {
         ArrayList<IBullet> bulletsModelList = model.getBulletsModelList();
 
         if (!bulletsImageList.isEmpty()) {
-                for (int i = 0; i < bulletsImageList.size(); i++) {
-                    ImageView theImageBullet = bulletsImageList.get(i);
-                    OnScreenItems theModelBullet = (OnScreenItems) bulletsModelList.get(i);
+            for (int i = 0; i < bulletsImageList.size(); i++) {
+                ImageView theImageBullet = bulletsImageList.get(i);
+                OnScreenItems theModelBullet = (OnScreenItems) bulletsModelList.get(i);
 
-                    theImageBullet.setX(theModelBullet.getItemCoordX());
-                    theImageBullet.setY(theModelBullet.getItemCoordY());
-                }
-        }
+                theImageBullet.setX(theModelBullet.getItemCoordX());
+                theImageBullet.setY(theModelBullet.getItemCoordY());
 
-        ArrayList<IBullet> bulletsToRemove = model.getBulletRemoveList(); // adds all bullets who are out of screen and those who collided.
-        if (!bulletsToRemove.isEmpty()) {
-            for (int i = 0; i < bulletsToRemove.size(); i++) {
-                IBullet theModelBullet = bulletsToRemove.get(i);
-                int bulletModelIndex = model.getBulletsModelList().indexOf(theModelBullet);  // gets index of the model bullet.
-                ImageView theBulletImage = bulletsImageList.get(bulletModelIndex);
-                removeFromGamePane(theBulletImage); // removes bullet image from pane.
-                bulletsImageList.remove(theBulletImage); // removes bullet image from our bullet image list.
-                System.out.println("Bullet removed");
             }
         }
+        ArrayList<IBullet> bulletsToRemove = model.getBulletRemoveList(); // adds all bullets who are out of screen and those who collided.
+        for (IBullet bullet : bulletsToRemove) {
+            int bulletIndex = bulletsModelList.indexOf(bullet);  // gets index of the model bullet.
+            model.getBulletsModelList().remove(bulletIndex); // removes the model bullet from our list.
+            removeFromGamePane(bulletsImageList.get(bulletIndex)); // removes bullet image from pane.
+            bulletsImageList.remove(bulletIndex); // removes bullet image from our bullet image list.
+            System.out.println("Bullet removed");
+        }
 
+    }
+
+    private void updateEnemyImages() {
+        ArrayList<EnemyShip> allEnemyModels = model.getEnemyModelList();
+        ArrayList<EnemyShip> modelEnemiesToRemove = model.getDeadEnemies();
+      if (!modelEnemiesToRemove.isEmpty()) {
+          for (EnemyShip enemyModel : modelEnemiesToRemove) {
+              int enemyIndex = allEnemyModels.indexOf(enemyModel);
+              model.getEnemyModelList().remove(enemyIndex);
+              removeFromGamePane(enemiesImageList.get(enemyIndex));
+              enemiesImageList.remove(enemyIndex);
+              System.out.println("Enemy images removed");
+          }
+      }
     }
 
     private void updateIfPlayerIsShooting() {
         IBullet currentBullet = model.checkIfPlayerIsShooting();
         if (currentBullet != null) {
-          createBullet(currentBullet);
+            createBullet(currentBullet);
+        }
+    }
+
+    private void updateIfEnemyIsShooting() {
+        ArrayList<IBullet> allEnemyModelBullets = model.checkIfEnemyIsShooting();
+        for (IBullet enemyModelBullet: allEnemyModelBullets) {
+            createBullet(enemyModelBullet);
         }
     }
 
     private void updateBackGround() {
-        firstBackGroundImage.setY(firstBackGroundImage.getY()+5);
-        secondBackGroundImage.setY(secondBackGroundImage.getY()+5);
-        if (firstBackGroundImage.getY()>=Constants.SCREENHEIGHT) {
+        firstBackGroundImage.setY(firstBackGroundImage.getY() + 5);
+        secondBackGroundImage.setY(secondBackGroundImage.getY() + 5);
+        if (firstBackGroundImage.getY() >= Constants.SCREENHEIGHT) {
             firstBackGroundImage.setY(-Constants.SCREENHEIGHT);
         }
         if (secondBackGroundImage.getY() >= Constants.SCREENHEIGHT) {
             secondBackGroundImage.setY(-Constants.SCREENHEIGHT);
         }
+    }
+
+    public void initializePointLabel() {
+        pointsLabel = new Label("Points: ");
+        pointsLabel.setPrefWidth(130); // TODO CHANGE TO CONSTANTS
+        pointsLabel.setPrefHeight(50);
+        BackgroundImage backgroundImage = new BackgroundImage(new Image("model/resources/blue_info_label.png", 130,50,false,true), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, null);
+        pointsLabel.setBackground(new Background(backgroundImage));
+        pointsLabel.setAlignment(Pos.CENTER_LEFT);
+        pointsLabel.setPadding(new Insets(10,10,10,10));
+        pointsLabel.setFont(Font.font("Verdana", 15));
+        pointsLabel.setLayoutX(Constants.SCREENWIDTH *0.9);
+        pointsLabel.setLayoutY(Constants.SCREENHEIGHT * 0.02);
+        gamePane.getChildren().add(pointsLabel);
+    }
+
+    private void initializePlayerLifes() {
+        playerLifeImages = new ArrayList<>();
+        for (int i = 0; i <  model.getPlayerModel().getLifes(); i++) {
+            createPlayerLifeImage(i);
+        }
+    }
+
+    private void createPlayerLifeImage(int lifeNumber) {
+        ImageView playerLifeImage = new ImageView(Constants.playerShipURL);
+        playerLifeImage.setLayoutX(Constants.heartStartX + (lifeNumber * Constants.heartWidth));
+        playerLifeImage.setLayoutY(Constants.heartStartY);
+        playerLifeImage.setPreserveRatio(true);
+        playerLifeImage.setFitWidth(Constants.heartWidth);
+        playerLifeImage.setFitHeight(Constants.heartHeight);
+
+        playerLifeImages.add(playerLifeImage);
+        addToGamePane(playerLifeImage);
+    }
+
+    private void initializeBackground() {
+        firstBackGroundImage.setPreserveRatio(true);
+        secondBackGroundImage.setPreserveRatio(true);
+
+        firstBackGroundImage.setFitWidth(Constants.SCREENWIDTH);
+        firstBackGroundImage.setFitHeight(Constants.SCREENHEIGHT);
+
+        secondBackGroundImage.setFitHeight(Constants.SCREENHEIGHT);
+        secondBackGroundImage.setFitWidth(Constants.SCREENWIDTH);
+
+        secondBackGroundImage.setY(-Constants.SCREENHEIGHT);
+        addToGamePane(firstBackGroundImage);
+        addToGamePane(secondBackGroundImage);
     }
 
     // sets the imageView based on the model Ibullet.
@@ -144,7 +257,7 @@ public class SpaceInvaderInGameView implements IViewState {
         imageBullet.setPreserveRatio(true);
         imageBullet.setFitHeight(itemBullet.getItemHeight());
         imageBullet.setFitWidth(itemBullet.getItemWidth());
-               //imageBullet.resize(itemBullet.getItemWidth(), itemBullet.getItemHeight());
+        //imageBullet.resize(itemBullet.getItemWidth(), itemBullet.getItemHeight());
 
         if (itemBullet.isFacingPlayer()) {
             imageBullet.setRotate(180);
@@ -154,49 +267,25 @@ public class SpaceInvaderInGameView implements IViewState {
         addToGamePane(imageBullet);
     }
 
-    private void createBackGround() {
-        firstBackGroundImage.setPreserveRatio(true);
-        firstBackGroundImage.setFitWidth(Constants.SCREENWIDTH);
-        firstBackGroundImage.setFitHeight(Constants.SCREENHEIGHT);
-        addToGamePane(firstBackGroundImage);
-        secondBackGroundImage.setPreserveRatio(true);
-        secondBackGroundImage.setFitWidth(Constants.SCREENWIDTH);
-        secondBackGroundImage.setFitHeight(Constants.SCREENHEIGHT);
-        secondBackGroundImage.setY(-Constants.SCREENHEIGHT);
-        addToGamePane(secondBackGroundImage);
-    }
-    private void createMeteor() {
-        meteor.setY(model.getMeteor().getItemCoordY());
-        meteor.setX(model.getMeteor().getItemCoordX());
-        addToGamePane(meteor);
-    }
-    private void moveMeteorImage() {
-        meteor.setY(meteor.getY()+10);
-        if (meteor.getY()>=Constants.SCREENHEIGHT+100) {
-            removeFromGamePane(meteor);
-            createMeteor();
-        }
-    }
 
     private void initializeLevelToPane() {
-        createBackGround();
+
+        initializeBackground();
+        initializePointLabel();
+        initializePlayerLifes();
         initializePlayer();
         initializeEnemies();
-        createMeteor();
         //TODO add all starting images.
     }
 
     private void initializeEnemies() {
 
-        ArrayList<EnemyShip> enemyModelList = model.getEnemy();
-        for (int i = 0; i <enemyModelList.size(); i++) {
+        ArrayList<EnemyShip> enemyModelList = model.getEnemyModelList();
+        for (int i = 0; i < enemyModelList.size(); i++) {
             EnemyShip enemyModel = enemyModelList.get(i);
             ImageView enemyImage = new ImageView(new Image(Constants.enemyShipURL));
             enemyImage.setX(enemyModel.getItemCoordX());
             enemyImage.setY(enemyModel.getItemCoordY());
-            enemyImage.setPreserveRatio(true);
-            enemyImage.setFitHeight(enemyModel.getItemHeight());
-            enemyImage.setFitWidth(enemyModel.getItemWidth());
             addToGamePane(enemyImage);
             enemiesImageList.add(enemyImage);
         }
@@ -211,9 +300,63 @@ public class SpaceInvaderInGameView implements IViewState {
         playerImage.setPreserveRatio(true);
         playerImage.setFitHeight(playerModel.getItemHeight());
         playerImage.setFitWidth(playerModel.getItemWidth());
-        System.out.println(playerImage.getX() + " Player start pos");
         //playerImage.resize(playerModel.getItemWidth(), playerModel.getItemHeight());
         addToGamePane(playerImage);
+    }
+
+    private void initializeDeathSubScene() {
+
+        deathSubScene = new SubScene(new AnchorPane(),Constants.SCREENWIDTH * 0.45, Constants.SCREENHEIGHT * 0.45);
+
+        BackgroundImage image = new BackgroundImage(new Image(Constants.deathSubSceenBackground,Constants.SCREENWIDTH * 0.45,Constants.SCREENHEIGHT * 0.45, false, true),
+                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, null);
+
+        AnchorPane deathAnchor = (AnchorPane) deathSubScene.getRoot();
+        deathAnchor.setBackground(new Background(image));
+
+        deathSubScene.setLayoutX(Constants.SCREENWIDTH/3);
+        deathSubScene.setLayoutY(Constants.SCREENHEIGHT/3);
+
+        Text playerDeadText = new Text("You're dead");
+        playerDeadText.setX(deathAnchor.getWidth() * 0.20);
+        playerDeadText.setY(deathAnchor.getHeight() * 0.20);
+        playerDeadText.setFont(Font.font("Verdana", 30));
+        deathAnchor.getChildren().add(playerDeadText);
+
+        Text yourScoreText = new Text("Your score: " + model.getPoints());
+        yourScoreText.setX(deathAnchor.getWidth() * 0.20);
+        yourScoreText.setY(deathAnchor.getHeight() * 0.35);
+        yourScoreText.setFont(Font.font("Verdana", 15));
+        deathAnchor.getChildren().add(yourScoreText);
+
+        Text highScoreText = new Text("Current Highscore: "); // TODO add highscore in the line
+        highScoreText.setX(deathAnchor.getWidth() * 0.20);
+        highScoreText.setY(deathAnchor.getHeight() * 0.50);
+        highScoreText.setFont(Font.font("Verdana", 15));
+        deathAnchor.getChildren().add(highScoreText);
+
+        Text enterNameText = new Text("Enter your username: ");
+        enterNameText.setX(deathAnchor.getWidth() * 0.20);
+        enterNameText.setY(deathAnchor.getHeight() * 0.65);
+        enterNameText.setFont(Font.font("Verdana", 15));
+        deathAnchor.getChildren().add(enterNameText);
+
+        TextField enterNameField = new TextField();
+        enterNameField.setLayoutX(deathAnchor.getWidth() * 0.25);
+        enterNameField.setLayoutY(deathAnchor.getHeight() * 0.70);
+        deathAnchor.getChildren().add(enterNameField);
+
+        Button saveScoreButton = new Button("Save Score");
+        saveScoreButton.setLayoutX(deathAnchor.getWidth() * 0.10);
+        saveScoreButton.setLayoutY(deathAnchor.getHeight() * 0.85);
+        deathAnchor.getChildren().add(saveScoreButton);
+
+        Button playAgainButton = new Button("Play again");
+        playAgainButton.setLayoutX(deathAnchor.getWidth() * 0.70);
+        playAgainButton.setLayoutY(deathAnchor.getHeight() * 0.85);
+        deathAnchor.getChildren().add(playAgainButton);
+
+        addToGamePane(deathSubScene);
     }
 
     // starts the listeners.
@@ -222,16 +365,13 @@ public class SpaceInvaderInGameView implements IViewState {
         gameScene.setOnKeyReleased(SpaceInvaderListener.getListener());
     }
 
-    private void addToGamePane(ImageView imageItem) {
-        gamePane.getChildren().add(imageItem);
-
+    private void addToGamePane(Node node) {
+        gamePane.getChildren().add(node);
     }
 
     private void removeFromGamePane(ImageView imageItem) {
         gamePane.getChildren().remove(imageItem);
     }
-
-
 
 
 }

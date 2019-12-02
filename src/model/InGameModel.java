@@ -8,27 +8,27 @@ public class InGameModel {
     private static InGameModel gameModel;
 
     private PlayerShip playerModel;
-    private EnemyShip singleEnemyShip;
     private ArrayList<IBullet> bulletsModelList = new ArrayList<>();
     private ArrayList<EnemyShip> enemiesModelList = new ArrayList<>();
 
-    private Meteor meteor;
 
     private boolean isShooting = false;
     private boolean isMovingLeft = false;
     private boolean isMovingRight = false;
     private boolean isMovingUp = false;
     private boolean isMovingDown = false;
-    //TODO add all movement true or false;
+
+    private int points = 0;
 
     /////////************** Getter and setters ***********************
 
-    public Meteor getMeteor() {
-        return meteor;
+
+    public int getPoints() {
+        return points;
     }
 
-    public void setMeteor(Meteor meteor) {
-        this.meteor = meteor;
+    public void setPoints(int points) {
+        this.points = points;
     }
 
     public boolean isShooting() {
@@ -62,7 +62,6 @@ public class InGameModel {
     private InGameModel() {
         playerModel = new PlayerShip();
         createEnemiesLevelOne();
-        meteor = new Meteor();
     }
 
 
@@ -88,23 +87,37 @@ public class InGameModel {
     }
 
 
-    public ArrayList<EnemyShip> getEnemy() {
+    public ArrayList<EnemyShip> getEnemyModelList() {
         return enemiesModelList;
     }
 //Adds enemies to enemieModelList
-    public void addEnemy(EnemyShip enemy) {
+    public void addEnemyModel(EnemyShip enemy) {
         enemiesModelList.add(enemy);
     }
+
+    ///// ******************* END OF GETTERS AND SETTERS  ******************************
+
+
     //Creates 10 enemies and add them to enemeyModelList
     public void createEnemiesLevelOne(){
         for (int i = 0; i <10 ; i++) {
             EnemyShip enemy = new EnemyShip(); //Makes new enemy
             enemy.setItemCoordX(Constants.enemyShipStartPosX + (i * Constants.enemySpawnSpread) ); //Moves each enemy on different spawnpoints on X-line.
-            addEnemy(enemy);
+            addEnemyModel(enemy);
         }
     }
 
-    ///// ******************* END OF GETTERS AND SETTERS  ******************************
+    public ArrayList<IBullet> checkIfEnemyIsShooting() {
+        ArrayList<IBullet> enemyModelBullets = new ArrayList<>();
+        for (EnemyShip enemyModel: enemiesModelList) {
+            IBullet theEnemyBullet = enemyModel.weapon.shoot();
+            if (theEnemyBullet != null) {
+                enemyModelBullets.add(theEnemyBullet);
+                bulletsModelList.add(theEnemyBullet);
+            }
+        }
+        return enemyModelBullets;
+    }
 
     // when space is down check if you weapon manage to shoot.
     public IBullet checkIfPlayerIsShooting() {
@@ -118,6 +131,7 @@ public class InGameModel {
         }
         return null;
     }
+
     private void checkIfPlayerIsMovingLeft(){
        if (isMovingLeft && playerModel.getItemCoordX() > 0){
            playerModel.moveLeft();
@@ -168,24 +182,19 @@ public class InGameModel {
             OnScreenItems itemBullet = (OnScreenItems)bulletsModelList.get(i);
             if (checkIfOutOfScreen(itemBullet.getItemCoordX(), itemBullet.getItemCoordY())){
                 bulletsToRemove.add(bulletsModelList.get(i));
-                continue;
             }
             // checking if bullet collided.
             if (itemBullet.isFacingPlayer()) {
-                if (playerModel.getItemWidth()/2 + itemBullet.getItemWidth()/2 > distanceBetween(itemBullet, playerModel)) {
-                    // TODO player loose hp
+                if (playerModel.getItemWidth()/5 + itemBullet.getItemWidth()/5 > distanceBetween(itemBullet, playerModel)) {
+                    playerModel.looseLife(1);
                     bulletsToRemove.add(bulletsModelList.get(i));
-                    bulletsModelList.remove(i);
-                    continue;
                 }
             }
             else { // commented out while waiting for enemies.
                 for (EnemyShip enemy: enemiesModelList) {
-                    if (enemy.getItemWidth() / 3 + itemBullet.getItemWidth() / 3 > distanceBetween(itemBullet, enemy)) {
-                        // TODO Enemy loose hp
+                    if (enemy.getItemWidth() / 5 + itemBullet.getItemWidth() / 5 > distanceBetween(itemBullet, enemy)) {
+                        enemy.looseLife(1);
                         bulletsToRemove.add(bulletsModelList.get(i));
-                        bulletsModelList.remove(i);
-                        continue;
                     }
                 }
             }
@@ -196,12 +205,24 @@ public class InGameModel {
         return bulletsToRemove;
     }
 
+    public ArrayList<EnemyShip> getDeadEnemies () {
+        ArrayList<EnemyShip> deadEnemyList = new ArrayList<>();
+
+        for (EnemyShip enemy : enemiesModelList) {
+            if (enemy.getLifes() < 1) {
+                deadEnemyList.add(enemy);
+                points++;
+            }
+        }
+        return deadEnemyList;
+    }
+
     //adds +1 to our weaponState to make it ready when at it's state.
     public void updateWeaponsState() {
         playerModel.getWeapon().addToReadyToShoot();
-       /* for (EnemyShip enemyShip: enemiesModelList) {
+        for (EnemyShip enemyShip: enemiesModelList) {
             enemyShip.getWeapon().addToReadyToShoot();
-        }*/
+        }
     }
 
     //Doing pythagoras rate to check distance between positions together with height and width of the objects..
@@ -212,9 +233,7 @@ public class InGameModel {
     private double distanceBetween(OnScreenItems firstObjc, OnScreenItems secondObjc) {
         return Math.sqrt(Math.pow((firstObjc.getItemCoordX() + (firstObjc.getItemWidth()/2)) - (secondObjc.getItemCoordX() + (secondObjc.getItemWidth()/2)), 2) + Math.pow((firstObjc.getItemCoordY() + (firstObjc.getItemHeight()/2)) - (secondObjc.getItemCoordY() + (secondObjc.getItemHeight()/2)), 2));
     }
-    public void moveMeteor() {
-        meteor.moveDown();
-    }
+
 
 
 }
