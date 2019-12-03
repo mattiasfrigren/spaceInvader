@@ -1,5 +1,6 @@
 package model;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 // All info in the game.
@@ -17,11 +18,22 @@ public class InGameModel {
     private boolean isMovingRight = false;
     private boolean isMovingUp = false;
     private boolean isMovingDown = false;
+    private boolean saveGameButtonClicked = false;
+
+    private String nameInput;
 
     private int points = 0;
 
     /////////************** Getter and setters ***********************
 
+
+    public boolean isSaveGameButtonClicked() {
+        return saveGameButtonClicked;
+    }
+
+    public void setSaveGameButtonClicked(boolean saveGameButtonClicked) {
+        this.saveGameButtonClicked = saveGameButtonClicked;
+    }
 
     public int getPoints() {
         return points;
@@ -234,6 +246,24 @@ public class InGameModel {
         return Math.sqrt(Math.pow((firstObjc.getItemCoordX() + (firstObjc.getItemWidth()/2)) - (secondObjc.getItemCoordX() + (secondObjc.getItemWidth()/2)), 2) + Math.pow((firstObjc.getItemCoordY() + (firstObjc.getItemHeight()/2)) - (secondObjc.getItemCoordY() + (secondObjc.getItemHeight()/2)), 2));
     }
 
+    public String generateHighScoreName(String nameInput){
+            callHighScore();
+        if (saveGameButtonClicked){
+            this.nameInput = nameInput;
+            System.out.println(nameInput);
+            callHighScore();
+        }
+        return nameInput;
+    }
 
+    public static void callHighScore() {
+        try {
+            HighScore.handleHighScore();
+        }
+        catch (SQLException e){
+            System.err.println(e);
+        }
+
+    }
 
 }
