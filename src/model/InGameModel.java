@@ -8,7 +8,6 @@ public class InGameModel {
     private static InGameModel gameModel;
 
     private PlayerShip playerModel;
-    private EnemyShip singleEnemyShip;
     private ArrayList<IBullet> bulletsModelList = new ArrayList<>();
     private ArrayList<EnemyShip> enemiesModelList = new ArrayList<>();
 
@@ -131,10 +130,6 @@ public class InGameModel {
             }
         }
         return null;
-    }
-
-    public boolean isPlayerDead() {
-        return playerModel.getLifes() < 1;
     }
 
     private void checkIfPlayerIsMovingLeft(){
