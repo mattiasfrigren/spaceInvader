@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 // All info in the game.
 public class InGameModel {
@@ -19,6 +20,8 @@ public class InGameModel {
     private boolean isMovingDown = false;
 
     private int points = 0;
+
+    private int moveTimes = 0;
 
     /////////************** Getter and setters ***********************
 
@@ -97,12 +100,24 @@ public class InGameModel {
 
     ///// ******************* END OF GETTERS AND SETTERS  ******************************
 
+    public boolean checkIfLevelIsDone() {
+        return enemiesModelList.isEmpty();
+    }
 
     //Creates 10 enemies and add them to enemeyModelList
     public void createEnemiesLevelOne(){
-        for (int i = 0; i <10 ; i++) {
+        int amountOfEnemies = 11;
+        double enemyStartPosY = Constants.enemyShipStartPosY;
+        for (int i = 0; i < amountOfEnemies ; i++) {
             EnemyShip enemy = new EnemyShip(); //Makes new enemy
             enemy.setItemCoordX(Constants.enemyShipStartPosX + (i * Constants.enemySpawnSpread) ); //Moves each enemy on different spawnpoints on X-line.
+            if (i > amountOfEnemies/2) {
+                enemyStartPosY -=  20;
+            }
+            else {
+                enemyStartPosY +=  20;
+            }
+            enemy.setItemCoordY(enemyStartPosY);
             addEnemyModel(enemy);
         }
     }
@@ -152,6 +167,31 @@ public class InGameModel {
     private void checkIfPlayIsMovingDown() {
         if (isMovingDown && playerModel.getItemCoordY() < Constants.SCREENHEIGHT - Constants.playerShipHeight){
             playerModel.moveDown();
+        }
+    }
+
+    public void updateEnemyMovement() {
+        for (EnemyShip enemy: enemiesModelList) {
+
+            switch (moveTimes) {
+                case 10:
+                case 0:
+                    enemy.moveRight();
+                break;
+                case 20: enemy.moveUp();
+                break;
+                case 50:
+                    enemy.moveDown();
+                break;
+                case 30:
+                case 40:
+                    enemy.moveLeft();
+                break;
+            }
+        }
+        moveTimes++;
+        if (moveTimes > 59) {
+            moveTimes = 0;
         }
     }
 

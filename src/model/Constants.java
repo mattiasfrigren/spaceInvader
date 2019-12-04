@@ -16,14 +16,14 @@ public class Constants {
     public final static String enemyShipURL = "model/resources/enemy.png";
     public final static double enemyShipHeight = SCREENHEIGHT * 0.12;
     public final static double enemyShipWidth = SCREENWIDTH * 0.08;
-    public final static double enemyShipMovementSpeed = SCREENHEIGHT * 0.008;
+    public final static double enemyShipMovementSpeed = SCREENHEIGHT * 0.012;
     public final static double enemyShipStartPosX = SCREENWIDTH * 0.1;
     public final static double enemyShipStartPosY = SCREENHEIGHT * 0.08;
     public final static double enemySpawnSpread = SCREENWIDTH * 0.08;
     public final static int enemyLifes = 1;
     public final static double enemyLaserGunShootingInterval = 300;
 
-    public final static String BackGroundImage = "model/resources/BackGround.png";
+    public final static String BackGroundImage = "model/resources/background2.png";
 
     public final static String laserBulletURL = "model/resources/bulletShot.png";
     public final static double laserBulletHeight = SCREENHEIGHT * 0.04;
