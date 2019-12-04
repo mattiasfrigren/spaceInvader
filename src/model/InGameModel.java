@@ -1,6 +1,8 @@
 package model;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Random;
 
 // All info in the game.
 public class InGameModel {
@@ -17,10 +19,25 @@ public class InGameModel {
     private boolean isMovingRight = false;
     private boolean isMovingUp = false;
     private boolean isMovingDown = false;
+    private boolean saveGameButtonClicked = false;
 
+    private String nameInput;
+
+    private double moveinterval =0;
     private int points = 0;
 
+    private int moveTimes = 0;
+
     /////////************** Getter and setters ***********************
+
+
+    public boolean isSaveGameButtonClicked() {
+        return saveGameButtonClicked;
+    }
+
+    public void setSaveGameButtonClicked(boolean saveGameButtonClicked) {
+        this.saveGameButtonClicked = saveGameButtonClicked;
+    }
 
     public int getPoints() {
         return points;
@@ -99,14 +116,45 @@ public class InGameModel {
 
     ///// ******************* END OF GETTERS AND SETTERS  ******************************
 
+    public boolean checkIfLevelIsDone() {
+        return enemiesModelList.isEmpty();
+    }
 
     //Creates 10 enemies and add them to enemeyModelList
     public void createEnemiesLevelOne() {
-        for (int i = 0; i < 10; i++) {
+        int amountOfEnemies = 11;
+        double enemyStartPosY = Constants.enemyShipStartPosY;
+        for (int i = 0; i < amountOfEnemies; i++) {
             EnemyShip enemy = new EnemyShip(); //Makes new enemy
             enemy.setItemCoordX(Constants.enemyShipStartPosX + (i * Constants.enemySpawnSpread)); //Moves each enemy on different spawnpoints on X-line.
+            if (i > amountOfEnemies/2) {
+                enemyStartPosY -=  20;
+            }
+            else {
+                enemyStartPosY +=  20;
+            }
+            enemy.setItemCoordY(enemyStartPosY);
             addEnemyModel(enemy);
         }
+        for (int i = 0; i <10 ; i++) {
+            EnemyShip enemy = new EnemyShip();
+            enemy.setItemCoordX(Constants.enemyShipStartPosX + (i *Constants.enemySpawnSpread));
+            enemy.setItemCoordY(Constants.enemyShipStartPosY + 50);
+            addEnemyModel(enemy);
+        }
+    }
+    public ArrayList<EnemyShip> checkIfEnemyIsmoving() {
+
+        for (EnemyShip enemymove: enemiesModelList) {
+           moveinterval = enemymove.getRandomMoveInterval();
+            if (moveinterval >= Constants.enemyShipMovmentInterval && enemymove.getItemCoordY()<= Constants.SCREENHEIGHT /2) {
+                enemymove.moveUp();
+                System.out.println("move down");
+
+            }
+
+        }
+        return enemiesModelList;
     }
 
     public ArrayList<IBullet> checkIfEnemyIsShooting() {
@@ -156,6 +204,31 @@ public class InGameModel {
     private void checkIfPlayIsMovingDown() {
         if (isMovingDown && playerModel.getItemCoordY() < Constants.SCREENHEIGHT - Constants.playerShipHeight) {
             playerModel.moveDown();
+        }
+    }
+
+    public void updateEnemyMovement() {
+        for (EnemyShip enemy: enemiesModelList) {
+
+            switch (moveTimes) {
+                case 10:
+                case 0:
+                    enemy.moveRight();
+                break;
+                case 20: enemy.moveUp();
+                break;
+                case 50:
+                    enemy.moveDown();
+                break;
+                case 30:
+                case 40:
+                    enemy.moveLeft();
+                break;
+            }
+        }
+        moveTimes++;
+        if (moveTimes > 59) {
+            moveTimes = 0;
         }
     }
 
@@ -237,5 +310,24 @@ public class InGameModel {
         return Math.sqrt(Math.pow((firstObjc.getItemCoordX() + (firstObjc.getItemWidth() / 2)) - (secondObjc.getItemCoordX() + (secondObjc.getItemWidth() / 2)), 2) + Math.pow((firstObjc.getItemCoordY() + (firstObjc.getItemHeight() / 2)) - (secondObjc.getItemCoordY() + (secondObjc.getItemHeight() / 2)), 2));
     }
 
+    public String generateHighScoreName(String nameInput){
+            callHighScore();
+        if (saveGameButtonClicked){
+            this.nameInput = nameInput;
+            System.out.println(nameInput);
+            callHighScore();
+        }
+        return nameInput;
+    }
+
+    public static void callHighScore() {
+        try {
+            HighScore.handleHighScore();
+        }
+        catch (SQLException e){
+            System.err.println(e);
+        }
+
+    }
 
 }

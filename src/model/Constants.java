@@ -22,8 +22,11 @@ public class Constants {
     public final static double enemySpawnSpread = SCREENWIDTH * 0.08;
     public final static int enemyLifes = 1;
     public final static double enemyLaserGunShootingInterval = 300;
+    public final static double enemyShipMovmentInterval = 300;
 
-    public final static String BackGroundImage = "model/resources/BackGround.png";
+    public final static String BackGroundImage = "model/resources/background2.png";
+    public final static String meteorImage = "model/resources/pokeball.png";
+
 
     public final static String laserBulletURL = "model/resources/bulletShot.png";
     public final static double laserBulletHeight = SCREENHEIGHT * 0.04;
@@ -41,4 +44,5 @@ public class Constants {
 
 
 
+    public final static double spawnpointMeteor = Math.random()*SCREENWIDTH;
 }

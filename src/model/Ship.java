@@ -37,4 +37,8 @@ public class Ship extends OnScreenItems{
         }
         return null;
     }
+
+    public double getRandomMoveInterval() {
+       return (Math.random()* 202) + 100;
+    }
 }
