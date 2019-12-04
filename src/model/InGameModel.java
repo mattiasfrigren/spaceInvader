@@ -18,6 +18,7 @@ public class InGameModel {
     private boolean isMovingUp = false;
     private boolean isMovingDown = false;
 
+    private double moveinterval =0;
     private int points = 0;
 
     /////////************** Getter and setters ***********************
@@ -105,6 +106,25 @@ public class InGameModel {
             enemy.setItemCoordX(Constants.enemyShipStartPosX + (i * Constants.enemySpawnSpread) ); //Moves each enemy on different spawnpoints on X-line.
             addEnemyModel(enemy);
         }
+        for (int i = 0; i <10 ; i++) {
+            EnemyShip enemy = new EnemyShip();
+            enemy.setItemCoordX(Constants.enemyShipStartPosX + (i *Constants.enemySpawnSpread));
+            enemy.setItemCoordY(Constants.enemyShipStartPosY + 50);
+            addEnemyModel(enemy);
+        }
+    }
+    public ArrayList<EnemyShip> checkIfEnemyIsmoving() {
+
+        for (EnemyShip enemymove: enemiesModelList) {
+           moveinterval = enemymove.getRandomMoveInterval();
+            if (moveinterval >= Constants.enemyShipMovmentInterval && enemymove.getItemCoordY()<= Constants.SCREENHEIGHT /2) {
+                enemymove.moveUp();
+                System.out.println("move down");
+
+            }
+
+        }
+        return enemiesModelList;
     }
 
     public ArrayList<IBullet> checkIfEnemyIsShooting() {
@@ -195,12 +215,12 @@ public class InGameModel {
                     if (enemy.getItemWidth() / 5 + itemBullet.getItemWidth() / 5 > distanceBetween(itemBullet, enemy)) {
                         enemy.looseLife(1);
                         bulletsToRemove.add(bulletsModelList.get(i));
+
                     }
                 }
             }
 
         }
-
 
         return bulletsToRemove;
     }

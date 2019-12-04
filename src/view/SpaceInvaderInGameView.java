@@ -72,6 +72,7 @@ public class SpaceInvaderInGameView implements IViewState {
                 // checks and update movement of images
                 updateIfPlayerIsShooting();
                 updateIfEnemyIsShooting();
+                model.checkIfEnemyIsmoving();
                 updateAllModels(); // update all models before checks.
                 updateAllImageviews();
             }
@@ -85,6 +86,7 @@ public class SpaceInvaderInGameView implements IViewState {
         model.updateBullets();
         model.updateWeaponsState();
         model.updatePlayerMovement();
+
     }
 
 
@@ -94,6 +96,7 @@ public class SpaceInvaderInGameView implements IViewState {
         updateBulletsImage();
         updatePlayerImage();
         updateEnemyImages();
+        updateIfEnemyIsMoving();
         updatePointsLabel();
         updatePlayerLifeImages();
     }
@@ -186,6 +189,14 @@ public class SpaceInvaderInGameView implements IViewState {
         for (IBullet enemyModelBullet: allEnemyModelBullets) {
             createBullet(enemyModelBullet);
         }
+    }
+    private void updateIfEnemyIsMoving() {
+        ArrayList <EnemyShip> enemymove = model.getEnemyModelList();
+        for (int i = 0; i < enemymove.size() ; i++) {
+            enemiesImageList.get(i).setY(enemymove.get(i).getItemCoordY());
+            enemiesImageList.get(i).setX(enemymove.get(i).getItemCoordX());
+        }
+
     }
 
     private void updateBackGround() {
