@@ -96,7 +96,6 @@ public class SpaceInvaderInGameView implements IViewState {
         updateBulletsImage();
         updatePlayerImage();
         updateEnemyImages();
-        updateIfEnemyIsMoving();
         updatePointsLabel();
         updatePlayerLifeImages();
     }
@@ -174,12 +173,10 @@ public class SpaceInvaderInGameView implements IViewState {
         ArrayList<EnemyShip> allEnemyModels = model.getEnemyModelList();
         ArrayList<EnemyShip> modelEnemiesToRemove = model.getDeadEnemies();
 
-        for (int i = 0; i < enemiesImageList.size() ; i++) {
-            ImageView theImageEnemy = enemiesImageList.get(i);
-            OnScreenItems theModelEnemy = allEnemyModels.get(i);
-
-            theImageEnemy.setX(theModelEnemy.getItemCoordX());
-            theImageEnemy.setY(theModelEnemy.getItemCoordY());
+        ArrayList <EnemyShip> enemymove = model.getEnemyModelList();
+        for (int i = 0; i < enemymove.size() ; i++) {
+            enemiesImageList.get(i).setY(enemymove.get(i).getItemCoordY());
+            enemiesImageList.get(i).setX(enemymove.get(i).getItemCoordX());
         }
 
       if (!modelEnemiesToRemove.isEmpty()) {
@@ -206,14 +203,14 @@ public class SpaceInvaderInGameView implements IViewState {
             createBullet(enemyModelBullet);
         }
     }
-    private void updateIfEnemyIsMoving() {
+  /*  private void updateIfEnemyIsMoving() {
         ArrayList <EnemyShip> enemymove = model.getEnemyModelList();
         for (int i = 0; i < enemymove.size() ; i++) {
             enemiesImageList.get(i).setY(enemymove.get(i).getItemCoordY());
             enemiesImageList.get(i).setX(enemymove.get(i).getItemCoordX());
         }
 
-    }
+    }  */
 
     private void updateBackGround() {
         firstBackGroundImage.setY(firstBackGroundImage.getY() + 5);
@@ -260,7 +257,7 @@ public class SpaceInvaderInGameView implements IViewState {
     }
 
     private void initializeBackground() {
-        firstBackGroundImage.setPreserveRatio(true);
+       /* firstBackGroundImage.setPreserveRatio(true);
         secondBackGroundImage.setPreserveRatio(true);
 
         firstBackGroundImage.setFitWidth(Constants.SCREENWIDTH);
@@ -268,7 +265,7 @@ public class SpaceInvaderInGameView implements IViewState {
 
         secondBackGroundImage.setFitHeight(Constants.SCREENHEIGHT);
         secondBackGroundImage.setFitWidth(Constants.SCREENWIDTH);
-
+*/
         secondBackGroundImage.setY(-3600);
         addToGamePane(firstBackGroundImage);
         addToGamePane(secondBackGroundImage);
@@ -313,6 +310,7 @@ public class SpaceInvaderInGameView implements IViewState {
             ImageView enemyImage = new ImageView(new Image(Constants.enemyShipURL));
             enemyImage.setX(enemyModel.getItemCoordX());
             enemyImage.setY(enemyModel.getItemCoordY());
+            enemyImage.setRotate(180);
             addToGamePane(enemyImage);
             enemiesImageList.add(enemyImage);
         }
@@ -376,13 +374,13 @@ public class SpaceInvaderInGameView implements IViewState {
         Button saveScoreButton = new Button("Save Score");
         saveScoreButton.setLayoutX(deathAnchor.getWidth() * 0.10);
         saveScoreButton.setLayoutY(deathAnchor.getHeight() * 0.85);
-        saveScoreButton.addEventFilter(MouseEvent.MOUSE_CLICKED, SpaceInvaderButtonListener.getButtonListener().saveScoreEvent);
+       // saveScoreButton.addEventFilter(MouseEvent.MOUSE_CLICKED, SpaceInvaderButtonListener.getButtonListener().saveScoreEvent);
         deathAnchor.getChildren().add(saveScoreButton);
 
         Button playAgainButton = new Button("Play again");
         playAgainButton.setLayoutX(deathAnchor.getWidth() * 0.70);
         playAgainButton.setLayoutY(deathAnchor.getHeight() * 0.85);
-        playAgainButton.addEventFilter(MouseEvent.MOUSE_CLICKED, SpaceInvaderButtonListener.getButtonListener().resetGameEvent);
+       // playAgainButton.addEventFilter(MouseEvent.MOUSE_CLICKED, SpaceInvaderButtonListener.getButtonListener().resetGameEvent);
         deathAnchor.getChildren().add(playAgainButton);
 
         addToGamePane(deathSubScene);

@@ -18,12 +18,12 @@ public class SoundEffects {
 
 
 
-    private String laser1 = "C:\\Users\\81khameh\\Documents\\Master\\src\\model\\resources\\Laser2.wav";
-    private String laser2 = "C:\\Users\\81khameh\\Documents\\Master\\src\\model\\resources\\Laser1.wav";
-    private String explo = "C:\\Users\\81khameh\\Documents\\Master\\src\\model\\resources\\Explosion.wav";
-    private String explo2 = "C:\\Users\\81khameh\\Documents\\Master\\src\\model\\resources\\Explosion2.wav";
-    private String pUp = "C:\\Users\\81khameh\\Documents\\Master\\src\\model\\resources\\Powerup.wav";
-    private String plasma = "C:\\Users\\81khameh\\Documents\\Master\\src\\model\\resources\\Sci-Fi Plasma.mp3";
+    private String laser1 = "C:\\Users\\91matfri\\IdeaProjects\\master\\src\\model\\resources\\Laser1.wav";
+    private String laser2 = "C:\\Users\\91matfri\\IdeaProjects\\master\\src\\model\\resources\\Laser2.wav";
+    private String explo = "C:\\Users\\91matfri\\IdeaProjects\\master\\src\\model\\resources\\Explosion.wav";
+    private String explo2 = "C:\\Users\\91matfri\\IdeaProjects\\master\\src\\model\\resources\\Explosion2.wav";
+    private String pUp = "C:\\Users\\91matfri\\IdeaProjects\\master\\src\\model\\resources\\Powerup.wav";
+    private String plasma = "C:\\Users\\91matfri\\IdeaProjects\\master\\src\\model\\resources\\Sci-Fi Plasma.mp3";
 
     private AudioClip laserSound1 = new AudioClip(new File(laser2).toURI().toString());
     private AudioClip laserSound2 = new AudioClip(new File(laser2).toURI().toString());
