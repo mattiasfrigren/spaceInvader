@@ -1,8 +1,6 @@
 package model;
 
 import javafx.scene.media.AudioClip;
-
-
 import java.io.File;
 
 public class SoundEffects {
@@ -14,23 +12,19 @@ public class SoundEffects {
         }
         return soundEffects;
     }
-
-
-
-
     private String laser1 = "src\\model\\resources\\Laser1.wav";
     private String laser2 = "src\\model\\resources\\Laser2.wav";
     private String explo = "src\\model\\resources\\Explosion.wav";
     private String explo2 = "src\\model\\resources\\Explosion2.wav";
     private String pUp = "src\\model\\resources\\Powerup.wav";
-    private String plasma = "src\\model\\resources\\Sci-Fi Plasma.mp3";
+
 
     private AudioClip laserSound1 = new AudioClip(new File(laser2).toURI().toString());
     private AudioClip laserSound2 = new AudioClip(new File(laser2).toURI().toString());
     private AudioClip explosion = new AudioClip(new File(explo).toURI().toString());
     private AudioClip explosion2 = new AudioClip(new File(explo2).toURI().toString());
     private AudioClip powerUp = new AudioClip(new File(pUp).toURI().toString());
-    private AudioClip plasmaSciFi = new AudioClip(new File(plasma).toURI().toString());
+
 
     public void playLaser1Sound() {
         laserSound1.play();
@@ -51,10 +45,4 @@ public class SoundEffects {
     public void playPowerUpSound() {
         powerUp.play();
     }
-
-    public void playPlasmaSound() {
-        plasmaSciFi.play();
-    }
-
-
 }

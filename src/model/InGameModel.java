@@ -268,7 +268,7 @@ public class InGameModel {
             } else { // commented out while waiting for enemies.
                 for (EnemyShip enemy : enemiesModelList) {
                     if (enemy.getItemWidth() / 5 + itemBullet.getItemWidth() / 5 > distanceBetween(itemBullet, enemy)) {
-                        SoundEffects.getSoundEffects().playExplosion1Sound(); //Enemy deadSouncEffect.KM
+                        SoundEffects.getSoundEffects().playPowerUpSound(); //Enemy deadSouncEffect.KM
                         enemy.looseLife(1);
                         bulletsToRemove.add(bulletsModelList.get(i));
                     }
