@@ -75,6 +75,7 @@ public class SpaceInvaderInGameView implements IViewState {
                 model.checkIfEnemyIsmoving();
                 updateAllModels(); // update all models before checks.
                 updateAllImageviews();
+                updateIfLevelIsDone();
             }
         };
 
@@ -86,7 +87,6 @@ public class SpaceInvaderInGameView implements IViewState {
         model.updateBullets();
         model.updateWeaponsState();
         model.updatePlayerMovement();
-
     }
 
 
@@ -107,6 +107,13 @@ public class SpaceInvaderInGameView implements IViewState {
         pointsLabel.setText(pointText);
     }
 
+    private void updateIfLevelIsDone() {
+        if (model.checkIfLevelIsDone()) {
+            initializeDeathSubScene();
+            inGameTimer.stop();
+        }
+    }
+
     private void updatePlayerLifeImages() {
         int playerLifes = model.getPlayerModel().getLifes();
 
@@ -125,7 +132,7 @@ public class SpaceInvaderInGameView implements IViewState {
 
         if (playerLifes < 1) {   // TODO Pop up menu when dead
             initializeDeathSubScene();
-
+            model.generateHighScoreName("name");
             inGameTimer.stop();
         }
     }
@@ -166,6 +173,15 @@ public class SpaceInvaderInGameView implements IViewState {
     private void updateEnemyImages() {
         ArrayList<EnemyShip> allEnemyModels = model.getEnemyModelList();
         ArrayList<EnemyShip> modelEnemiesToRemove = model.getDeadEnemies();
+
+        for (int i = 0; i < enemiesImageList.size() ; i++) {
+            ImageView theImageEnemy = enemiesImageList.get(i);
+            OnScreenItems theModelEnemy = allEnemyModels.get(i);
+
+            theImageEnemy.setX(theModelEnemy.getItemCoordX());
+            theImageEnemy.setY(theModelEnemy.getItemCoordY());
+        }
+
       if (!modelEnemiesToRemove.isEmpty()) {
           for (EnemyShip enemyModel : modelEnemiesToRemove) {
               int enemyIndex = allEnemyModels.indexOf(enemyModel);
@@ -203,10 +219,10 @@ public class SpaceInvaderInGameView implements IViewState {
         firstBackGroundImage.setY(firstBackGroundImage.getY() + 5);
         secondBackGroundImage.setY(secondBackGroundImage.getY() + 5);
         if (firstBackGroundImage.getY() >= Constants.SCREENHEIGHT) {
-            firstBackGroundImage.setY(-Constants.SCREENHEIGHT);
+            firstBackGroundImage.setY(-3600);
         }
         if (secondBackGroundImage.getY() >= Constants.SCREENHEIGHT) {
-            secondBackGroundImage.setY(-Constants.SCREENHEIGHT);
+            secondBackGroundImage.setY(-3600);
         }
     }
 
@@ -253,7 +269,7 @@ public class SpaceInvaderInGameView implements IViewState {
         secondBackGroundImage.setFitHeight(Constants.SCREENHEIGHT);
         secondBackGroundImage.setFitWidth(Constants.SCREENWIDTH);
 
-        secondBackGroundImage.setY(-Constants.SCREENHEIGHT);
+        secondBackGroundImage.setY(-3600);
         addToGamePane(firstBackGroundImage);
         addToGamePane(secondBackGroundImage);
     }
@@ -360,11 +376,13 @@ public class SpaceInvaderInGameView implements IViewState {
         Button saveScoreButton = new Button("Save Score");
         saveScoreButton.setLayoutX(deathAnchor.getWidth() * 0.10);
         saveScoreButton.setLayoutY(deathAnchor.getHeight() * 0.85);
+        saveScoreButton.addEventFilter(MouseEvent.MOUSE_CLICKED, SpaceInvaderButtonListener.getButtonListener().saveScoreEvent);
         deathAnchor.getChildren().add(saveScoreButton);
 
         Button playAgainButton = new Button("Play again");
         playAgainButton.setLayoutX(deathAnchor.getWidth() * 0.70);
         playAgainButton.setLayoutY(deathAnchor.getHeight() * 0.85);
+        playAgainButton.addEventFilter(MouseEvent.MOUSE_CLICKED, SpaceInvaderButtonListener.getButtonListener().resetGameEvent);
         deathAnchor.getChildren().add(playAgainButton);
 
         addToGamePane(deathSubScene);
