@@ -132,6 +132,7 @@ public class SpaceInvaderInGameView implements IViewState {
 
         if (playerLifes < 1) {   // TODO Pop up menu when dead
             initializeDeathSubScene();
+            model.generateHighScoreName("name");
             inGameTimer.stop();
         }
     }
