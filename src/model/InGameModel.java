@@ -22,7 +22,6 @@ public class InGameModel {
 
     /////////************** Getter and setters ***********************
 
-
     public int getPoints() {
         return points;
     }
@@ -174,7 +173,6 @@ public class InGameModel {
             itemBullet.moveUp();
         }
     }
-
     // check if something is out of screen
     private boolean checkIfOutOfScreen(double x, double y) {
         return y > Constants.SCREENHEIGHT + 50 || x > Constants.SCREENWIDTH + 50 || y < -50 || x < -50;
@@ -197,7 +195,7 @@ public class InGameModel {
             } else { // commented out while waiting for enemies.
                 for (EnemyShip enemy : enemiesModelList) {
                     if (enemy.getItemWidth() / 5 + itemBullet.getItemWidth() / 5 > distanceBetween(itemBullet, enemy)) {
-                        SoundEffects.getSoundEffects().playPowerUpSound(); //Enemy deadSouncEffect.KM
+                        SoundEffects.getSoundEffects().playExplosion1Sound(); //Enemy deadSouncEffect.KM
                         enemy.looseLife(1);
                         bulletsToRemove.add(bulletsModelList.get(i));
                     }

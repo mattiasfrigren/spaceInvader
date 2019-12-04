@@ -14,16 +14,12 @@ public class SoundEffects {
         }
         return soundEffects;
     }
-
-
-
-
-    private String laser1 = "C:\\Users\\81khameh\\Documents\\Master\\src\\model\\resources\\Laser2.wav";
-    private String laser2 = "C:\\Users\\81khameh\\Documents\\Master\\src\\model\\resources\\Laser1.wav";
-    private String explo = "C:\\Users\\81khameh\\Documents\\Master\\src\\model\\resources\\Explosion.wav";
-    private String explo2 = "C:\\Users\\81khameh\\Documents\\Master\\src\\model\\resources\\Explosion2.wav";
-    private String pUp = "C:\\Users\\81khameh\\Documents\\Master\\src\\model\\resources\\Powerup.wav";
-    private String plasma = "C:\\Users\\81khameh\\Documents\\Master\\src\\model\\resources\\Sci-Fi Plasma.mp3";
+     String laser1 ="src\\media\\Laser1.wav";
+     String laser2 = "src\\media\\Laser2.wav";
+     String explo = "src\\media\\Explosion.wav";
+     String explo2 = "src\\media\\Explosion2.wav";
+     String pUp = "src\\media\\Powerup.wav";
+     String plasma = "src\\media\\Sci-Fi Plasma.mp3";
 
     private AudioClip laserSound1 = new AudioClip(new File(laser2).toURI().toString());
     private AudioClip laserSound2 = new AudioClip(new File(laser2).toURI().toString());
