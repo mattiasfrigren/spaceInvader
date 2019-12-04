@@ -2,8 +2,9 @@ package controller;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.input.MouseEvent;
 
-public class SpaceInvaderButtonListener implements EventHandler<ActionEvent> {
+public class SpaceInvaderButtonListener {
 
     private static SpaceInvaderButtonListener buttonListener;
 
@@ -14,13 +15,21 @@ public class SpaceInvaderButtonListener implements EventHandler<ActionEvent> {
         return buttonListener;
     }
 
-    public void catchUserInput(ActionEvent event){
 
-    }
+    public EventHandler<MouseEvent> resetGameEvent = new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent e) {
+            System.out.println("reset game");
+        }
+    };
 
-    @Override
-    public void handle(ActionEvent event) {
-        model.InGameModel.getGameModel().setSaveGameButtonClicked(true);
-    }
+    public EventHandler<MouseEvent> saveScoreEvent = new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent e) {
+            System.out.println("Score saved");
+        }
+    };
+
+    // TODO add more event handlers below
 }
 

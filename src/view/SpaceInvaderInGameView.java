@@ -1,5 +1,6 @@
 package view;
 
+import controller.SpaceInvaderButtonListener;
 import controller.SpaceInvaderListener;
 import javafx.animation.AnimationTimer;
 import javafx.geometry.Insets;
@@ -12,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -368,11 +370,13 @@ public class SpaceInvaderInGameView implements IViewState {
         Button saveScoreButton = new Button("Save Score");
         saveScoreButton.setLayoutX(deathAnchor.getWidth() * 0.10);
         saveScoreButton.setLayoutY(deathAnchor.getHeight() * 0.85);
+        saveScoreButton.addEventFilter(MouseEvent.MOUSE_CLICKED, SpaceInvaderButtonListener.getButtonListener().saveScoreEvent);
         deathAnchor.getChildren().add(saveScoreButton);
 
         Button playAgainButton = new Button("Play again");
         playAgainButton.setLayoutX(deathAnchor.getWidth() * 0.70);
         playAgainButton.setLayoutY(deathAnchor.getHeight() * 0.85);
+        playAgainButton.addEventFilter(MouseEvent.MOUSE_CLICKED, SpaceInvaderButtonListener.getButtonListener().resetGameEvent);
         deathAnchor.getChildren().add(playAgainButton);
 
         addToGamePane(deathSubScene);
