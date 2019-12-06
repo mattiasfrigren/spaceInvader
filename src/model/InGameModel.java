@@ -93,7 +93,6 @@ public class InGameModel {
         createEnemiesLevelOne();
     }
 
-
     public PlayerShip getPlayerModel() {
         return playerModel;
     }
@@ -114,7 +113,6 @@ public class InGameModel {
     public IBullet getLastBullet() {
         return bulletsModelList.get(bulletsModelList.size() - 1);
     }
-
 
     public ArrayList<EnemyShip> getEnemyModelList() {
         return enemiesModelList;
@@ -200,6 +198,7 @@ public class InGameModel {
             playerModel.moveLeft();
         }
     }
+
     private void checkIfPlayerIsMovingRight() {
         if (isMovingRight && playerModel.getItemCoordX() < Constants.SCREENWIDTH - Constants.playerShipWidth) {
             playerModel.moveRight();
@@ -257,7 +256,6 @@ public class InGameModel {
             itemBullet.moveUp();
         }
     }
-
     // check if something is out of screen
     private boolean checkIfOutOfScreen(double x, double y) {
         return y > Constants.SCREENHEIGHT + 50 || x > Constants.SCREENWIDTH + 50 || y < -50 || x < -50;
@@ -283,12 +281,12 @@ public class InGameModel {
                         SoundEffects.getSoundEffects().playPowerUpSound(); //Enemy deadSouncEffect.KM
                         enemy.looseLife(1);
                         bulletsToRemove.add(bulletsModelList.get(i));
-
                     }
                 }
             }
 
         }
+
 
         return bulletsToRemove;
     }

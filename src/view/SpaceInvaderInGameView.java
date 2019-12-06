@@ -303,7 +303,6 @@ public class SpaceInvaderInGameView implements IViewState {
     }
 
     private void initializeEnemies() {
-
         ArrayList<EnemyShip> enemyModelList = model.getEnemyModelList();
         for (int i = 0; i < enemyModelList.size(); i++) {
             EnemyShip enemyModel = enemyModelList.get(i);
