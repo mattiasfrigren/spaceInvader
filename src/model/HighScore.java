@@ -12,9 +12,10 @@ public class HighScore {
             model = InGameModel.getGameModel();
             view = SpaceInvaderInGameView.getGameView();
             int scoreToEnter = model.getPoints();
-            String enteredName = "bells";
+            String enteredName = model.getNameInput();
             System.out.println("Connecting database...");
-            //Bean bean;
+            System.out.println("Current high score:");
+
 
             try
                     (Connection conn = DriverManager.getConnection(DBUtil.CONNECTION, DBUtil.USERNAME, DBUtil.PASSWORD);
@@ -46,34 +47,5 @@ public class HighScore {
             }
 
         }
-
-    /*public static Bean getRow() throws SQLException{
-        String sql = "SELECT * FROM highscoretable";
-        ResultSet result = null;
-        try(
-                Connection conn = DriverManager.getConnection(DBUtil.CONNECTION, DBUtil.USERNAME, DBUtil.PASSWORD);
-                PreparedStatement stmt = conn.prepareStatement(sql);
-        ) {
-            //stmt.setInt(1, explorerID);
-            result = stmt.executeQuery();
-            if (result.next()) {
-                Bean bean = new Bean();
-                bean.setName(result.getString("name"));
-                bean.setScore(result.getInt(score));
-                return bean;
-            } else {
-                System.err.println("No rows were found");
-                return null;
-            }
-        }
-        finally{
-            if(result != null){
-                result.close();
-            }
-
-        }
-
-    }*/
-
 
 }

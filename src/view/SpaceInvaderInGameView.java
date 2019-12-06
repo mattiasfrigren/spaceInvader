@@ -131,7 +131,6 @@ public class SpaceInvaderInGameView implements IViewState {
 
         if (playerLifes < 1) {   // TODO Pop up menu when dead
             initializeDeathSubScene();
-            model.generateHighScoreName("name");
             inGameTimer.stop();
         }
     }
@@ -203,14 +202,15 @@ public class SpaceInvaderInGameView implements IViewState {
             createBullet(enemyModelBullet);
         }
     }
-  /*  private void updateIfEnemyIsMoving() {
+
+    private void updateIfEnemyIsMoving() {
         ArrayList <EnemyShip> enemymove = model.getEnemyModelList();
         for (int i = 0; i < enemymove.size() ; i++) {
             enemiesImageList.get(i).setY(enemymove.get(i).getItemCoordY());
             enemiesImageList.get(i).setX(enemymove.get(i).getItemCoordX());
         }
 
-    }  */
+    }
 
     private void updateBackGround() {
         firstBackGroundImage.setY(firstBackGroundImage.getY() + 5);
@@ -374,8 +374,9 @@ public class SpaceInvaderInGameView implements IViewState {
         Button saveScoreButton = new Button("Save Score");
         saveScoreButton.setLayoutX(deathAnchor.getWidth() * 0.10);
         saveScoreButton.setLayoutY(deathAnchor.getHeight() * 0.85);
-       // saveScoreButton.addEventFilter(MouseEvent.MOUSE_CLICKED, SpaceInvaderButtonListener.getButtonListener().saveScoreEvent);
+        saveScoreButton.setOnAction(e->model.setNameInput(enterNameField.getText()));
         deathAnchor.getChildren().add(saveScoreButton);
+
 
         Button playAgainButton = new Button("Play again");
         playAgainButton.setLayoutX(deathAnchor.getWidth() * 0.70);

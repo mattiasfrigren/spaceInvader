@@ -31,6 +31,15 @@ public class InGameModel {
     /////////************** Getter and setters ***********************
 
 
+    public String getNameInput() {
+        return nameInput;
+    }
+
+    public void setNameInput(String nameInput) {
+        this.nameInput = nameInput;
+        generateHighScoreName();
+    }
+
     public boolean isSaveGameButtonClicked() {
         return saveGameButtonClicked;
     }
@@ -117,6 +126,7 @@ public class InGameModel {
     }
 
     ///// ******************* END OF GETTERS AND SETTERS  ******************************
+
 
     public boolean checkIfLevelIsDone() {
         return enemiesModelList.isEmpty();
@@ -312,17 +322,13 @@ public class InGameModel {
         return Math.sqrt(Math.pow((firstObjc.getItemCoordX() + (firstObjc.getItemWidth() / 2)) - (secondObjc.getItemCoordX() + (secondObjc.getItemWidth() / 2)), 2) + Math.pow((firstObjc.getItemCoordY() + (firstObjc.getItemHeight() / 2)) - (secondObjc.getItemCoordY() + (secondObjc.getItemHeight() / 2)), 2));
     }
 
-    public String generateHighScoreName(String nameInput){
+    public void generateHighScoreName(){
+            System.out.println(getNameInput());
             callHighScore();
-        if (saveGameButtonClicked){
-            this.nameInput = nameInput;
-            System.out.println(nameInput);
-            callHighScore();
-        }
-        return nameInput;
     }
 
     public static void callHighScore() {
+
         try {
             HighScore.handleHighScore();
         }
