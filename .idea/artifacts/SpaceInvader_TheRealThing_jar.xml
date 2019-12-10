@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="SpaceInvader_TheRealThing:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/SpaceInvader_TheRealThing_jar</output-path>
+    <root id="archive" name="SpaceInvader_TheRealThing.jar">
+      <element id="module-output" name="SpaceInvader_TheRealThing" />
+      <element id="library" level="project" name="mysql-connector-java-8.0.18" />
+      <element id="library" level="project" name="src" />
+    </root>
+  </artifact>
+</component>

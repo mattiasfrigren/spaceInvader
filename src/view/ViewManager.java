@@ -4,11 +4,12 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import model.Constants;
+import model.InGameModel;
 
 import java.util.Scanner;
 
 
-public class  ViewManager{
+public class ViewManager {
 
     private static ViewManager view;
 
@@ -37,6 +38,11 @@ public class  ViewManager{
         return view;
     }
 
+    public static ViewManager getViewManager() {
+        return view;
+    }
+
+
     private ViewManager(Stage stage) {
 
        /* if (changeGameState) {
@@ -46,22 +52,43 @@ public class  ViewManager{
             mainStage.setScene(mainScene);
         }*/
         //else {
-            gameState = SpaceInvaderInGameView.getGameView();
-            mainScene = ((SpaceInvaderInGameView) gameState).getGameScene();
-            mainStage = stage;
-            mainStage.setTitle("SpaceInvader");
-            mainStage.setScene(mainScene);
-            mainStage.setResizable(false);
-            mainStage.sizeToScene();
-       // }
+        gameState = SpaceInvaderMenuView.getSpaceInvaderMenuView();
+        // gameState = SpaceInvaderInGameView.getGameView();
+        mainScene = ((SpaceInvaderMenuView) gameState).getMenuScene();
+        mainStage = stage;
+        mainStage.setTitle("SpaceInvader");
+        mainStage.setScene(mainScene);
+        mainStage.setResizable(false);
+        mainStage.sizeToScene();
+        // }
         stage.show();
 
 
     }
 
+    public void resetGameScene() {
+        SpaceInvaderInGameView.getGameView().resetGame();
+        InGameModel.getGameModel().resetAllModel();
+        changeToInGameScene(true);
+    }
+
     public void setMainScene(Scene mainScene) {
         this.mainScene = mainScene;
         mainStage.setScene(mainScene);
+    }
+
+    public void changeToInGameScene(boolean isPlaying) {
+
+        if (isPlaying) {
+            gameState = SpaceInvaderInGameView.getGameView();
+            mainScene = ((SpaceInvaderInGameView) gameState).getGameScene();
+        } else {
+            gameState = SpaceInvaderMenuView.getSpaceInvaderMenuView();
+            mainScene = ((SpaceInvaderMenuView) gameState).getMenuScene();
+        }
+        mainStage.setScene(mainScene);
+
+
     }
 
 }

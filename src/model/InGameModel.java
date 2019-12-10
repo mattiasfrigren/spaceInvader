@@ -125,6 +125,9 @@ public class InGameModel {
 
     ///// ******************* END OF GETTERS AND SETTERS  ******************************
 
+    public void resetAllModel() {
+        gameModel = null;
+    }
 
     public boolean checkIfLevelIsDone() {
         return enemiesModelList.isEmpty();
