@@ -1,7 +1,6 @@
 package view;
 
 import controller.SpaceInvaderButtonListener;
-import controller.SpaceInvaderListener;
 import javafx.scene.Scene;
 import javafx.scene.SubScene;
 import javafx.scene.control.Button;
@@ -12,21 +11,13 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import model.Constants;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class SpaceInvaderMenuView implements IViewState {
     private ArrayList<Button> buttonArrayList = new ArrayList<>();
-    private final double buttonStartingXPos = Constants.SCREENWIDTH * 0.1;
-    private final double buttonStartingYPos = Constants.SCREENHEIGHT * 0.7;
-    private final double buttonWidth = Constants.SCREENWIDTH * 0.15;
-    private final double buttonHight = 0;
     private Button button;
-    private String buttonBgClicked = "";
-    private String buttonBg = "";
     private SubScene currentSubScene;
 
 
@@ -68,7 +59,7 @@ public class SpaceInvaderMenuView implements IViewState {
     private void createButtonToList() {
         String[] buttonList = {"Play", "Highscore", "Setting", "Help", "Credits", "Exit"};
         for (int i = 1; i < buttonList.length + 1; i++) {
-            createButton(buttonList[i - 1], buttonStartingXPos, buttonStartingYPos * (i * 0.2));
+            createButton(buttonList[i - 1], Constants.menuButtonStartingXPos, Constants.menuButtonStartingYPos * (i * 0.2));
         }
         menuPane.getChildren().addAll(buttonArrayList);
     }
@@ -168,8 +159,8 @@ public class SpaceInvaderMenuView implements IViewState {
         button.setLayoutX(x);
         button.setLayoutY(y);
         button.setFont(Font.font("Verdana", 20));
-        button.setPrefWidth(buttonWidth);
-        button.setPrefHeight(buttonHight);
+        button.setPrefWidth(Constants.menuButtonWidth);
+        //button.setPrefHeight(buttonHight);
         buttonArrayList.add(button);
     }
 
@@ -184,7 +175,7 @@ public class SpaceInvaderMenuView implements IViewState {
             {
                 button.setOnMousePressed(e -> {
                     if (e.getButton().equals(MouseButton.PRIMARY)) {
-                        button.setStyle(buttonBgClicked);
+                        button.setStyle(Constants.buttonBgClickedURL);
                         button.setFont(Font.font("Verdana", 18));
                         button.setLayoutY(button.getLayoutY()+4);
                     }
@@ -195,7 +186,7 @@ public class SpaceInvaderMenuView implements IViewState {
                 });
                 button.setOnMouseReleased(e->{
                     if (e.getButton().equals(MouseButton.PRIMARY)){
-                        button.setStyle(buttonBg);
+                        button.setStyle(Constants.buttonBgURL);
                         button.setFont(Font.font("Verdana", 20));
                         button.setLayoutY(button.getLayoutY()-4);
                     }

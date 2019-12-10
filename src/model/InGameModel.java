@@ -23,7 +23,7 @@ public class InGameModel {
 
     private String nameInput;
 
-    private double moveinterval =0;
+    private double moveinterval = 0;
     private int points = 0;
 
     private int moveTimes = 0;
@@ -165,10 +165,12 @@ public class InGameModel {
              addEnemyModel(enemyDrone);
          }
      } */
+
     public void createMeteor() {
         Meteor meteor = new Meteor();
         meteor.setItemCoordX(Math.random() * 600);
         addMeteorModel(meteor);
+    }
 
     public ArrayList<Meteor> moveMeteorModel() {
         for (Meteor meteor : meteorModelList) {
@@ -185,9 +187,8 @@ public class InGameModel {
     }
 
     //moves enemys
-    }
 
-            public ArrayList<EnemyShip> checkIfEnemyIsmoving() {
+    public ArrayList<EnemyShip> checkIfEnemyIsmoving() {
 
         for (EnemyShip enemymove : enemiesModelList) {
             moveinterval = enemymove.getRandomMoveInterval();
@@ -250,22 +251,23 @@ public class InGameModel {
     }
 
     public void updateEnemyMovement() {
-        for (EnemyShip enemy: enemiesModelList) {
+        for (EnemyShip enemy : enemiesModelList) {
 
             switch (moveTimes) {
                 case 10:
                 case 0:
                     enemy.moveRight();
-                break;
-                case 20: enemy.moveUp();
-                break;
+                    break;
+                case 20:
+                    enemy.moveUp();
+                    break;
                 case 50:
                     enemy.moveDown();
-                break;
+                    break;
                 case 30:
                 case 40:
                     enemy.moveLeft();
-                break;
+                    break;
             }
         }
         moveTimes++;
@@ -288,6 +290,7 @@ public class InGameModel {
             itemBullet.moveUp();
         }
     }
+
     // check if something is out of screen
     private boolean checkIfOutOfScreen(double x, double y) {
         return y > Constants.SCREENHEIGHT + 50 || x > Constants.SCREENWIDTH + 50 || y < -50 || x < -50;
