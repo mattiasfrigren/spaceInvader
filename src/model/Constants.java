@@ -18,14 +18,25 @@ public class Constants {
     public final static double enemyShipWidth = SCREENWIDTH * 0.08;
     public final static double enemyShipMovementSpeed = SCREENHEIGHT * 0.008;
     public final static double enemyShipStartPosX = SCREENWIDTH * 0.1;
-    public final static double enemyShipStartPosY = SCREENHEIGHT * 0.08;
+    public final static double enemyShipStartPosY = SCREENHEIGHT -(SCREENHEIGHT+45);
     public final static double enemySpawnSpread = SCREENWIDTH * 0.08;
     public final static int enemyLifes = 1;
     public final static double enemyLaserGunShootingInterval = 300;
     public final static double enemyShipMovmentInterval = 300;
 
+    public final static String enemyDroneShipUrl = "model/resources/enemy1_4.png";
+    public final static double enemyDroneShipHeight = SCREENHEIGHT*0.12;
+    public final static double enemyDroneShipWidth = SCREENWIDTH*0.08;
+    public final static double enemyDroneShipMovmentSpeed = SCREENHEIGHT*0.016;
+    public final static double enemyDroneShipStartPosX = SCREENWIDTH*0.1;
+    public final static double enemyDroneShipStartPosY = SCREENHEIGHT -(SCREENHEIGHT +45);
+    public final static double enemyDroneShipSpawnSpread = SCREENWIDTH*0.08;
+    public final static int enemyDroneShipLifes =2;
+    public final static double enemyDroneShipLaserGunShootingInterval = 200;
+
+
     public final static String BackGroundImage = "model/resources/background2.png";
-    public final static String meteorImage = "model/resources/pokeball.png";
+    public final static String meteorImage = "model/resources/meteor.png";
 
 
     public final static String laserBulletURL = "model/resources/bulletShot.png";
@@ -42,8 +53,6 @@ public class Constants {
 
     public final static String GameOverSubSceneBackground = "model/resources/yellow.png";
     public final static String GameBootSubSceneBackGround="model/resources/background2.png";
-
-
 
     public final static double spawnpointMeteor = Math.random()*SCREENWIDTH;
 }

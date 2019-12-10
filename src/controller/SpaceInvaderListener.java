@@ -7,7 +7,9 @@ package controller;
         import javafx.scene.input.KeyCode;
         import javafx.scene.input.KeyEvent;
         import javafx.scene.input.MouseEvent;
+        import model.Constants;
         import model.InGameModel;
+        import model.LaserGun;
 
 public class SpaceInvaderListener implements EventHandler<KeyEvent> {
 
@@ -40,6 +42,8 @@ public class SpaceInvaderListener implements EventHandler<KeyEvent> {
             if (event.getCode() == KeyCode.S){
                 InGameModel.getGameModel().setMovingDown(true);
             }
+            if (event.getCode() ==KeyCode.SHIFT)
+                InGameModel.getGameModel().getPlayerModel().setMovementSpeed(Constants.SCREENHEIGHT*0.016);
             // TODO add all pressed down events.
         }
         else if (event.getEventType().equals(KeyEvent.KEY_RELEASED)) {
@@ -57,6 +61,9 @@ public class SpaceInvaderListener implements EventHandler<KeyEvent> {
             }
             if (event.getCode() == KeyCode.S){
                 InGameModel.getGameModel().setMovingDown(false);
+            }
+            if (event.getCode() == KeyCode.SHIFT) {
+                InGameModel.getGameModel().getPlayerModel().setMovementSpeed(Constants.playerShipMovementSpeed);
             }
             //TODO add all released events.
         }

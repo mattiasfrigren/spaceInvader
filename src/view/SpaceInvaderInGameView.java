@@ -32,15 +32,17 @@ public class SpaceInvaderInGameView implements IViewState {
 
     private ArrayList<ImageView> enemiesImageList = new ArrayList<>();
     private ArrayList<ImageView> bulletsImageList = new ArrayList<>();
+    private ArrayList<ImageView> meteorImageList = new ArrayList<>();
 
     private ImageView playerImage;
     private ImageView firstBackGroundImage = new ImageView(Constants.BackGroundImage);
     private ImageView secondBackGroundImage = new ImageView(Constants.BackGroundImage);
     private ArrayList<ImageView> playerLifeImages;
     private Label pointsLabel;
+    private int rotation=0;
 
     private SubScene deathSubScene;
-
+    private long spawnNewEnemies =0;
     private AnimationTimer inGameTimer;
 
     public static Scene getGameScene() {
@@ -60,7 +62,6 @@ public class SpaceInvaderInGameView implements IViewState {
         gamePane = new AnchorPane();
         gameScene = new Scene(gamePane, Constants.SCREENWIDTH, Constants.SCREENHEIGHT);
 
-
         initializeLevelToPane();  //adds all images to the pane.
         initializeGameListener(); // add key listener to game
         createGameLoop(); // starts animator.
@@ -77,25 +78,31 @@ public class SpaceInvaderInGameView implements IViewState {
             @Override
             public void handle(long now) {
                 // checks and update movement of images
+                updateIfSpawnNewEnemies();
                 updateIfPlayerIsShooting();
                 updateIfEnemyIsShooting();
-                model.checkIfEnemyIsmoving();
                 updateAllModels(); // update all models before checks.
                 updateAllImageviews();
                 updateIfLevelIsDone();
+                spawnNewEnemies++;
             }
         };
 
         inGameTimer.start();
     }
 
+    /****************** update Methods below  ******************************/
+
     //add all model updates here
     private void updateAllModels() {
         model.updateBullets();
         model.updateWeaponsState();
         model.updatePlayerMovement();
-    }
+        model.checkIfEnemyIsmoving();
+        model.moveMeteorModel();
+        model.checkIfMeteorCollide();
 
+    }
 
     //add all imagesviews here
     private void updateAllImageviews() {
@@ -105,6 +112,8 @@ public class SpaceInvaderInGameView implements IViewState {
         updateEnemyImages();
         updatePointsLabel();
         updatePlayerLifeImages();
+        updateMeteorImages();
+        updateMeteorRotation();
     }
 
     private void updatePointsLabel() {
@@ -114,9 +123,24 @@ public class SpaceInvaderInGameView implements IViewState {
     }
 
     private void updateIfLevelIsDone() {
-        if (model.checkIfLevelIsDone()) {
+        if (model.getPlayerModel().getLifes() <=0) {
             initializeDeathSubScene();
             inGameTimer.stop();
+        }
+    }
+    //Spawns Enemys at an interval.
+    private void updateIfSpawnNewEnemies() {
+
+        if (spawnNewEnemies==0|| spawnNewEnemies ==600 || spawnNewEnemies == 1200 || spawnNewEnemies == 1600) {
+            model.createDefaultEnemieWave();
+            initializeEnemies();
+        }
+        if ((Math.random()*100)<2) {
+            model.createMeteor();
+            updateLastMeteor();
+        }
+        if (spawnNewEnemies ==2200) {
+            spawnNewEnemies =0;
         }
     }
 
@@ -149,7 +173,6 @@ public class SpaceInvaderInGameView implements IViewState {
 
     }
 
-
     // update the bullets images to mirror the model bullets.
     private void updateBulletsImage() {
         ArrayList<IBullet> bulletsModelList = model.getBulletsModelList();
@@ -172,7 +195,32 @@ public class SpaceInvaderInGameView implements IViewState {
             bulletsImageList.remove(bulletIndex); // removes bullet image from our bullet image list.
             System.out.println("Bullet removed");
         }
-
+    }//updates the movement of the meteor and removes it Y>=then the ScreenHeight
+    private ArrayList<ImageView> updateMeteorImages() {
+        if (model.getMeteorModelList() !=null) {
+            ArrayList<Meteor> allMetoerModels = model.getMeteorModelList();
+            for (int i = 0; i < allMetoerModels.size(); i++) {
+                meteorImageList.get(i).setY(allMetoerModels.get(i).getItemCoordY());
+                meteorImageList.get(i).setX(allMetoerModels.get(i).getItemCoordX());
+                if (meteorImageList.get(i).getY() >= Constants.SCREENHEIGHT+300) {
+                    model.removeMeteorFromList(allMetoerModels.get(i));
+                    removeFromGamePane(meteorImageList.get(i));
+                    meteorImageList.remove(i);
+                    System.out.println("meteor removed at: " + i + " cheers");
+                }
+            }
+        }
+        return meteorImageList;
+    }//rotates the meteor
+    private ArrayList<ImageView> updateMeteorRotation() {
+        for (ImageView meteor: meteorImageList) {
+            meteor.setRotate(rotation);
+           if (rotation >= 360) {
+               rotation=0;
+           }
+        }
+        rotation++;
+        return meteorImageList;
     }
 
     private void updateEnemyImages() {
@@ -210,15 +258,6 @@ public class SpaceInvaderInGameView implements IViewState {
         }
     }
 
-    private void updateIfEnemyIsMoving() {
-        ArrayList <EnemyShip> enemymove = model.getEnemyModelList();
-        for (int i = 0; i < enemymove.size() ; i++) {
-            enemiesImageList.get(i).setY(enemymove.get(i).getItemCoordY());
-            enemiesImageList.get(i).setX(enemymove.get(i).getItemCoordX());
-        }
-
-    }
-
     private void updateBackGround() {
         firstBackGroundImage.setY(firstBackGroundImage.getY() + 5);
         secondBackGroundImage.setY(secondBackGroundImage.getY() + 5);
@@ -228,6 +267,20 @@ public class SpaceInvaderInGameView implements IViewState {
         if (secondBackGroundImage.getY() >= Constants.SCREENHEIGHT) {
             secondBackGroundImage.setY(-3600);
         }
+    }
+
+    /****************** update Methods ENDS  ******************************/
+
+    /****************** Initialize Methods below  ******************************/
+
+    private void initializeLevelToPane() {
+
+        initializeBackground();
+        initializePointLabel();
+        initializePlayerLifes();
+        initializePlayer();
+        initializeEnemies();
+        //TODO add all starting images.
     }
 
     public void initializePointLabel() {
@@ -244,69 +297,29 @@ public class SpaceInvaderInGameView implements IViewState {
         gamePane.getChildren().add(pointsLabel);
     }
 
+    private void initializeBackground() {
+        secondBackGroundImage.setY(-3600);
+        addToGamePane(firstBackGroundImage);
+        addToGamePane(secondBackGroundImage);
+    }
+
     private void initializePlayerLifes() {
         playerLifeImages = new ArrayList<>();
         for (int i = 0; i <  model.getPlayerModel().getLifes(); i++) {
             createPlayerLifeImage(i);
         }
     }
+private void updateLastMeteor() {
+        if (model.getMeteorModelList() !=null) {
+        ArrayList<Meteor> meteorsModelList = model.getMeteorModelList();
+            // Meteor meteorModel = new Meteor();
+            ImageView meteorImage = new ImageView((new Image(Constants.meteorImage)));
+            meteorImage.setX(meteorsModelList.get(meteorsModelList.size()-1).getItemCoordX());
+            meteorImage.setY(meteorsModelList.get(meteorsModelList.size()-1).getItemCoordY());
+            addToGamePane(meteorImage);
+            meteorImageList.add(meteorImage);
 
-    private void createPlayerLifeImage(int lifeNumber) {
-        ImageView playerLifeImage = new ImageView(Constants.playerShipURL);
-        playerLifeImage.setLayoutX(Constants.heartStartX + (lifeNumber * Constants.heartWidth));
-        playerLifeImage.setLayoutY(Constants.heartStartY);
-        playerLifeImage.setPreserveRatio(true);
-        playerLifeImage.setFitWidth(Constants.heartWidth);
-        playerLifeImage.setFitHeight(Constants.heartHeight);
-
-        playerLifeImages.add(playerLifeImage);
-        addToGamePane(playerLifeImage);
-    }
-
-    private void initializeBackground() {
-       /* firstBackGroundImage.setPreserveRatio(true);
-        secondBackGroundImage.setPreserveRatio(true);
-
-        firstBackGroundImage.setFitWidth(Constants.SCREENWIDTH);
-        firstBackGroundImage.setFitHeight(Constants.SCREENHEIGHT);
-
-        secondBackGroundImage.setFitHeight(Constants.SCREENHEIGHT);
-        secondBackGroundImage.setFitWidth(Constants.SCREENWIDTH);
-*/
-        secondBackGroundImage.setY(-3600);
-        addToGamePane(firstBackGroundImage);
-        addToGamePane(secondBackGroundImage);
-    }
-
-    // sets the imageView based on the model Ibullet.
-    private void createBullet(IBullet bullet) {
-        OnScreenItems itemBullet = (OnScreenItems) bullet;
-        System.out.println("bullet image created at x: " + itemBullet.getItemCoordX() + " y: " + itemBullet.getItemCoordY());
-        ImageView imageBullet = new ImageView(itemBullet.getImageUrl());
-        imageBullet.setX(itemBullet.getItemCoordX());
-        imageBullet.setY(itemBullet.getItemCoordY());
-        imageBullet.setPreserveRatio(true);
-        imageBullet.setFitHeight(itemBullet.getItemHeight());
-        imageBullet.setFitWidth(itemBullet.getItemWidth());
-        //imageBullet.resize(itemBullet.getItemWidth(), itemBullet.getItemHeight());
-
-        if (itemBullet.isFacingPlayer()) {
-            imageBullet.setRotate(180);
         }
-
-        bulletsImageList.add(imageBullet);
-        addToGamePane(imageBullet);
-    }
-
-
-    private void initializeLevelToPane() {
-
-        initializeBackground();
-        initializePointLabel();
-        initializePlayerLifes();
-        initializePlayer();
-        initializeEnemies();
-        //TODO add all starting images.
     }
 
     private void initializeEnemies() {
@@ -399,6 +412,49 @@ public class SpaceInvaderInGameView implements IViewState {
         gameScene.setOnKeyReleased(SpaceInvaderListener.getListener());
     }
 
+    /****************** Initialize Methods ends  ******************************/
+
+
+    /****************** Create Methods below  ******************************/
+
+    private void createPlayerLifeImage(int lifeNumber) {
+        ImageView playerLifeImage = new ImageView(Constants.playerShipURL);
+        playerLifeImage.setLayoutX(Constants.heartStartX + (lifeNumber * Constants.heartWidth));
+        playerLifeImage.setLayoutY(Constants.heartStartY);
+        playerLifeImage.setPreserveRatio(true);
+        playerLifeImage.setFitWidth(Constants.heartWidth);
+        playerLifeImage.setFitHeight(Constants.heartHeight);
+
+        playerLifeImages.add(playerLifeImage);
+        addToGamePane(playerLifeImage);
+    }
+
+
+    // sets the imageView based on the model Ibullet.
+    private void createBullet(IBullet bullet) {
+        OnScreenItems itemBullet = (OnScreenItems) bullet;
+        System.out.println("bullet image created at x: " + itemBullet.getItemCoordX() + " y: " + itemBullet.getItemCoordY());
+        ImageView imageBullet = new ImageView(itemBullet.getImageUrl());
+        imageBullet.setX(itemBullet.getItemCoordX());
+        imageBullet.setY(itemBullet.getItemCoordY());
+        imageBullet.setPreserveRatio(true);
+        imageBullet.setFitHeight(itemBullet.getItemHeight());
+        imageBullet.setFitWidth(itemBullet.getItemWidth());
+        //imageBullet.resize(itemBullet.getItemWidth(), itemBullet.getItemHeight());
+
+        if (itemBullet.isFacingPlayer()) {
+            imageBullet.setRotate(180);
+        }
+
+        bulletsImageList.add(imageBullet);
+        addToGamePane(imageBullet);
+    }
+
+    /****************** Create Methods ENDS  ******************************/
+
+
+    /****************** Helper Methods below  ******************************/
+
     private void addToGamePane(Node node) {
         gamePane.getChildren().add(node);
     }
@@ -406,6 +462,8 @@ public class SpaceInvaderInGameView implements IViewState {
     private void removeFromGamePane(ImageView imageItem) {
         gamePane.getChildren().remove(imageItem);
     }
+
+    /****************** Helper Methods ENDS  ******************************/
 
 
 }
