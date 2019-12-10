@@ -84,6 +84,8 @@ public class SpaceInvaderInGameView implements IViewState {
         inGameTimer.start();
     }
 
+    /****************** update Methods below  ******************************/
+
     //add all model updates here
     private void updateAllModels() {
         model.updateBullets();
@@ -153,7 +155,6 @@ public class SpaceInvaderInGameView implements IViewState {
 
         if (playerLifes < 1) {   // TODO Pop up menu when dead
             initializeDeathSubScene();
-            model.generateHighScoreName("name");
             inGameTimer.stop();
         }
     }
@@ -261,6 +262,20 @@ public class SpaceInvaderInGameView implements IViewState {
         }
     }
 
+    /****************** update Methods ENDS  ******************************/
+
+    /****************** Initialize Methods below  ******************************/
+
+    private void initializeLevelToPane() {
+
+        initializeBackground();
+        initializePointLabel();
+        initializePlayerLifes();
+        initializePlayer();
+        initializeEnemies();
+        //TODO add all starting images.
+    }
+
     public void initializePointLabel() {
         pointsLabel = new Label("Points: ");
         pointsLabel.setPrefWidth(130); // TODO CHANGE TO CONSTANTS
@@ -275,45 +290,16 @@ public class SpaceInvaderInGameView implements IViewState {
         gamePane.getChildren().add(pointsLabel);
     }
 
-    private void initializePlayerLifes() {
-        playerLifeImages = new ArrayList<>();
-        for (int i = 0; i <  model.getPlayerModel().getLifes(); i++) {
-            createPlayerLifeImage(i);
-        }
-    }
-
-    private void createPlayerLifeImage(int lifeNumber) {
-        ImageView playerLifeImage = new ImageView(Constants.playerShipURL);
-        playerLifeImage.setLayoutX(Constants.heartStartX + (lifeNumber * Constants.heartWidth));
-        playerLifeImage.setLayoutY(Constants.heartStartY);
-        playerLifeImage.setPreserveRatio(true);
-        playerLifeImage.setFitWidth(Constants.heartWidth);
-        playerLifeImage.setFitHeight(Constants.heartHeight);
-
-        playerLifeImages.add(playerLifeImage);
-        addToGamePane(playerLifeImage);
-    }
-
     private void initializeBackground() {
         secondBackGroundImage.setY(-3600);
         addToGamePane(firstBackGroundImage);
         addToGamePane(secondBackGroundImage);
     }
 
-    // sets the imageView based on the model Ibullet.
-    private void createBullet(IBullet bullet) {
-        OnScreenItems itemBullet = (OnScreenItems) bullet;
-        System.out.println("bullet image created at x: " + itemBullet.getItemCoordX() + " y: " + itemBullet.getItemCoordY());
-        ImageView imageBullet = new ImageView(itemBullet.getImageUrl());
-        imageBullet.setX(itemBullet.getItemCoordX());
-        imageBullet.setY(itemBullet.getItemCoordY());
-        imageBullet.setPreserveRatio(true);
-        imageBullet.setFitHeight(itemBullet.getItemHeight());
-        imageBullet.setFitWidth(itemBullet.getItemWidth());
-        //imageBullet.resize(itemBullet.getItemWidth(), itemBullet.getItemHeight());
-
-        if (itemBullet.isFacingPlayer()) {
-            imageBullet.setRotate(180);
+    private void initializePlayerLifes() {
+        playerLifeImages = new ArrayList<>();
+        for (int i = 0; i <  model.getPlayerModel().getLifes(); i++) {
+            createPlayerLifeImage(i);
         }
 
         bulletsImageList.add(imageBullet);
@@ -344,7 +330,6 @@ public class SpaceInvaderInGameView implements IViewState {
     }
 
     private void initializeEnemies() {
-
         ArrayList<EnemyShip> enemyModelList = model.getEnemyModelList();
         for (int i = 0; i < enemyModelList.size(); i++) {
             EnemyShip enemyModel = enemyModelList.get(i);
@@ -415,8 +400,9 @@ public class SpaceInvaderInGameView implements IViewState {
         Button saveScoreButton = new Button("Save Score");
         saveScoreButton.setLayoutX(deathAnchor.getWidth() * 0.10);
         saveScoreButton.setLayoutY(deathAnchor.getHeight() * 0.85);
-       // saveScoreButton.addEventFilter(MouseEvent.MOUSE_CLICKED, SpaceInvaderButtonListener.getButtonListener().saveScoreEvent);
+        saveScoreButton.setOnAction(e->model.setNameInput(enterNameField.getText()));
         deathAnchor.getChildren().add(saveScoreButton);
+
 
         Button playAgainButton = new Button("Play again");
         playAgainButton.setLayoutX(deathAnchor.getWidth() * 0.70);
@@ -433,6 +419,49 @@ public class SpaceInvaderInGameView implements IViewState {
         gameScene.setOnKeyReleased(SpaceInvaderListener.getListener());
     }
 
+    /****************** Initialize Methods ends  ******************************/
+
+
+    /****************** Create Methods below  ******************************/
+
+    private void createPlayerLifeImage(int lifeNumber) {
+        ImageView playerLifeImage = new ImageView(Constants.playerShipURL);
+        playerLifeImage.setLayoutX(Constants.heartStartX + (lifeNumber * Constants.heartWidth));
+        playerLifeImage.setLayoutY(Constants.heartStartY);
+        playerLifeImage.setPreserveRatio(true);
+        playerLifeImage.setFitWidth(Constants.heartWidth);
+        playerLifeImage.setFitHeight(Constants.heartHeight);
+
+        playerLifeImages.add(playerLifeImage);
+        addToGamePane(playerLifeImage);
+    }
+
+
+    // sets the imageView based on the model Ibullet.
+    private void createBullet(IBullet bullet) {
+        OnScreenItems itemBullet = (OnScreenItems) bullet;
+        System.out.println("bullet image created at x: " + itemBullet.getItemCoordX() + " y: " + itemBullet.getItemCoordY());
+        ImageView imageBullet = new ImageView(itemBullet.getImageUrl());
+        imageBullet.setX(itemBullet.getItemCoordX());
+        imageBullet.setY(itemBullet.getItemCoordY());
+        imageBullet.setPreserveRatio(true);
+        imageBullet.setFitHeight(itemBullet.getItemHeight());
+        imageBullet.setFitWidth(itemBullet.getItemWidth());
+        //imageBullet.resize(itemBullet.getItemWidth(), itemBullet.getItemHeight());
+
+        if (itemBullet.isFacingPlayer()) {
+            imageBullet.setRotate(180);
+        }
+
+        bulletsImageList.add(imageBullet);
+        addToGamePane(imageBullet);
+    }
+
+    /****************** Create Methods ENDS  ******************************/
+
+
+    /****************** Helper Methods below  ******************************/
+
     private void addToGamePane(Node node) {
         gamePane.getChildren().add(node);
     }
@@ -440,6 +469,8 @@ public class SpaceInvaderInGameView implements IViewState {
     private void removeFromGamePane(ImageView imageItem) {
         gamePane.getChildren().remove(imageItem);
     }
+
+    /****************** Helper Methods ENDS  ******************************/
 
 
 }

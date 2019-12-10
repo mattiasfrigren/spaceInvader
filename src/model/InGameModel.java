@@ -2,6 +2,7 @@ package model;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Random;
 
 // All info in the game.
 public class InGameModel {
@@ -35,6 +36,15 @@ public class InGameModel {
 
     public void setMeteorModelList(ArrayList<Meteor> meteorModelList) {
         this.meteorModelList = meteorModelList;
+    }
+
+    public String getNameInput() {
+        return nameInput;
+    }
+
+    public void setNameInput(String nameInput) {
+        this.nameInput = nameInput;
+        generateHighScoreName();
     }
 
     public boolean isSaveGameButtonClicked() {
@@ -87,7 +97,6 @@ public class InGameModel {
 
     private InGameModel() {
         playerModel = new PlayerShip();
-
     }
 
 
@@ -176,7 +185,9 @@ public class InGameModel {
             if (moveinterval >= Constants.enemyShipMovmentInterval && enemymove.getItemCoordY()<= Constants.SCREENHEIGHT /2) {
                 enemymove.moveUp();
                 System.out.println("move down");
+
             }
+
         }
         return enemiesModelList;
     }
@@ -229,6 +240,7 @@ public class InGameModel {
             playerModel.moveDown();
         }
     }
+
 
     public void updatePlayerMovement() {
         checkIfPlayerIsMovingLeft();
@@ -329,17 +341,15 @@ public class InGameModel {
         return Math.sqrt(Math.pow((firstObjc.getItemCoordX() + (firstObjc.getItemWidth() / 2)) - (secondObjc.getItemCoordX() + (secondObjc.getItemWidth() / 2)), 2) + Math.pow((firstObjc.getItemCoordY() + (firstObjc.getItemHeight() / 2)) - (secondObjc.getItemCoordY() + (secondObjc.getItemHeight() / 2)), 2));
     }
 
-    public String generateHighScoreName(String nameInput){
-            callHighScore();
-        if (saveGameButtonClicked){
-            this.nameInput = nameInput;
+    public void generateHighScoreName(){
             System.out.println(nameInput);
             callHighScore();
         }
-        return nameInput;
+
     }
 
     public static void callHighScore() {
+
         try {
             HighScore.handleHighScore();
         }
