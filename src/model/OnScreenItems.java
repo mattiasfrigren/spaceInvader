@@ -17,6 +17,7 @@ public class OnScreenItems {
     private double moveY;
 
 
+
     public OnScreenItems(String imageURL, double itemCoordX, double itemCoordY, double itemHeight, double itemWidth, double movementSpeed, boolean isFacingPlayer) {
         this.imageUrl = imageURL;
         this.itemCoordX = itemCoordX-itemWidth/2;
@@ -96,6 +97,13 @@ public class OnScreenItems {
         this.itemHeight = itemHeight;
     }
 
+    public double getMovementSpeed() {
+        return movementSpeed;
+    }
+
+    public void setMovementSpeed(double movementSpeed) {
+        this.movementSpeed = movementSpeed;
+    }
 
 
 }

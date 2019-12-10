@@ -2,7 +2,6 @@ package model;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Random;
 
 // All info in the game.
 public class InGameModel {
@@ -12,7 +11,7 @@ public class InGameModel {
     private PlayerShip playerModel;
     private ArrayList<IBullet> bulletsModelList = new ArrayList<>();
     private ArrayList<EnemyShip> enemiesModelList = new ArrayList<>();
-
+    private ArrayList<Meteor> meteorModelList = new ArrayList<>();
 
     private boolean isShooting = false;
     private boolean isMovingLeft = false;
@@ -30,6 +29,13 @@ public class InGameModel {
 
     /////////************** Getter and setters ***********************
 
+    public ArrayList<Meteor> getMeteorModelList() {
+        return meteorModelList;
+    }
+
+    public void setMeteorModelList(ArrayList<Meteor> meteorModelList) {
+        this.meteorModelList = meteorModelList;
+    }
 
     public boolean isSaveGameButtonClicked() {
         return saveGameButtonClicked;
@@ -81,7 +87,7 @@ public class InGameModel {
 
     private InGameModel() {
         playerModel = new PlayerShip();
-        createEnemiesLevelOne();
+
     }
 
 
@@ -115,36 +121,54 @@ public class InGameModel {
     public void addEnemyModel(EnemyShip enemy) {
         enemiesModelList.add(enemy);
     }
+    //adds meteor to meteorModelList
+    public void addMeteorModel(Meteor meteor) {
+        meteorModelList.add(meteor);
+    }
 
     ///// ******************* END OF GETTERS AND SETTERS  ******************************
 
-    public boolean checkIfLevelIsDone() {
-        return enemiesModelList.isEmpty();
-    }
-
-    //Creates 10 enemies and add them to enemeyModelList
-    public void createEnemiesLevelOne() {
-        int amountOfEnemies = 11;
-        double enemyStartPosY = Constants.enemyShipStartPosY;
-        for (int i = 0; i < amountOfEnemies; i++) {
-            EnemyShip enemy = new EnemyShip(); //Makes new enemy
-            enemy.setItemCoordX(Constants.enemyShipStartPosX + (i * Constants.enemySpawnSpread)); //Moves each enemy on different spawnpoints on X-line.
-            if (i > amountOfEnemies/2) {
-                enemyStartPosY -=  20;
+    //Creates 20 enemies and add them to enemeyModelList
+    public void createDefaultEnemieWave() {
+            for (int i = 0; i < 10; i++) {
+                EnemyShip enemy = new EnemyShip();
+                enemy.setItemCoordX(Constants.enemyShipStartPosX + (i * Constants.enemySpawnSpread));
+                enemy.setItemCoordY(Constants.enemyShipStartPosY);
+                addEnemyModel(enemy);
             }
-            else {
-                enemyStartPosY +=  20;
-            }
-            enemy.setItemCoordY(enemyStartPosY);
-            addEnemyModel(enemy);
-        }
         for (int i = 0; i <10 ; i++) {
             EnemyShip enemy = new EnemyShip();
-            enemy.setItemCoordX(Constants.enemyShipStartPosX + (i *Constants.enemySpawnSpread));
-            enemy.setItemCoordY(Constants.enemyShipStartPosY + 50);
+            enemy.setItemCoordX(Constants.enemyShipStartPosX + (i * Constants.enemySpawnSpread));
+            enemy.setItemCoordY(Constants.enemyShipStartPosY-50);
             addEnemyModel(enemy);
         }
-    }
+    }// will create a new set of EnemyShips
+   /* public void createEnemyDroneShipWave(){
+        for (int i = 0; i < 10 ; i++) {
+            EnemyDroneShip enemyDrone = new EnemyDroneShip();
+            enemyDrone.setItemCoordX(Constants.enemyShipStartPosX + (i *Constants.enemyDroneShipSpawnSpread));
+            enemyDrone.setItemCoordY(Constants.enemyDroneShipStartPosY);
+            addEnemyModel(enemyDrone);
+        }
+    } */
+   public void createMeteor() {
+           Meteor meteor = new Meteor();
+           meteor.setItemCoordX(Math.random()*600);
+           addMeteorModel(meteor);
+   }
+   public ArrayList<Meteor> moveMeteorModel() {
+       for (Meteor meteor: meteorModelList) {
+           meteor.moveUp();
+           System.out.println("meteor move down");
+       }
+       return meteorModelList;
+   }//removes a meteor from modellist
+   public ArrayList<Meteor> removeMeteorFromList(Meteor removeMeteor) {
+       meteorModelList.remove(removeMeteor);
+       System.out.println("removed : "  + removeMeteor  +" from MeteorModel");
+       return meteorModelList;
+   }
+    //moves enemys
     public ArrayList<EnemyShip> checkIfEnemyIsmoving() {
 
         for (EnemyShip enemymove: enemiesModelList) {
@@ -152,9 +176,7 @@ public class InGameModel {
             if (moveinterval >= Constants.enemyShipMovmentInterval && enemymove.getItemCoordY()<= Constants.SCREENHEIGHT /2) {
                 enemymove.moveUp();
                 System.out.println("move down");
-
             }
-
         }
         return enemiesModelList;
     }
@@ -208,31 +230,6 @@ public class InGameModel {
         }
     }
 
-    public void updateEnemyMovement() {
-        for (EnemyShip enemy: enemiesModelList) {
-
-            switch (moveTimes) {
-                case 10:
-                case 0:
-                    enemy.moveRight();
-                break;
-                case 20: enemy.moveUp();
-                break;
-                case 50:
-                    enemy.moveDown();
-                break;
-                case 30:
-                case 40:
-                    enemy.moveLeft();
-                break;
-            }
-        }
-        moveTimes++;
-        if (moveTimes > 59) {
-            moveTimes = 0;
-        }
-    }
-
     public void updatePlayerMovement() {
         checkIfPlayerIsMovingLeft();
         checkIfPlayerIsMovingRight();
@@ -251,6 +248,26 @@ public class InGameModel {
     // check if something is out of screen
     private boolean checkIfOutOfScreen(double x, double y) {
         return y > Constants.SCREENHEIGHT + 50 || x > Constants.SCREENWIDTH + 50 || y < -50 || x < -50;
+    }
+    //Checks if meteor connetcs with the playership.
+    public ArrayList<Meteor> checkIfMeteorCollide() {
+      // ArrayList<IBullet> bulletsToRemove = new ArrayList<>();
+        for (int i = 0; i < meteorModelList.size() ; i++) {
+          // OnScreenItems bulletsToRemoveNow = (OnScreenItems)bulletsModelList.get(i);
+            if (playerModel.getItemWidth() / 5 + meteorModelList.get(i).getItemWidth() / 5 > distanceBetween(meteorModelList.get(i), playerModel)) {
+                playerModel.looseLife(1);
+                removeMeteorFromList(meteorModelList.get(i));
+            }
+           /* if(!bulletsToRemoveNow.isFacingPlayer()) {
+                for (int j = 0; j <bulletsModelList.size() ; j++) {
+                    if (meteorModelList.get(i).getItemWidth() / 5 + bulletsToRemoveNow.getItemWidth() / 5 > distanceBetween(bulletsToRemoveNow , meteorModelList.get(i))) {
+                 removeMeteorIfOutOfScreen(meteorModelList.get(i));
+
+                    }
+                }
+            }*/
+        }
+        return meteorModelList;
     }
 
     // Checking if bullet is out of screen and return the index of the bullets that needs to be removed in our imageview list.

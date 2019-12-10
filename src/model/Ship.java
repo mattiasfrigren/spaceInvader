@@ -33,12 +33,13 @@ public class Ship extends OnScreenItems{
 
     public IBullet performShootingAction() {
         if (weapon != null) {
+
             return weapon.shoot();
         }
         return null;
     }
 
     public double getRandomMoveInterval() {
-       return (Math.random()* 202) + 100;
+       return (Math.random()* 208) + 100;
     }
 }
