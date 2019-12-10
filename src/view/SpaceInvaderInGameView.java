@@ -301,22 +301,8 @@ public class SpaceInvaderInGameView implements IViewState {
         for (int i = 0; i <  model.getPlayerModel().getLifes(); i++) {
             createPlayerLifeImage(i);
         }
-
-        bulletsImageList.add(imageBullet);
-        addToGamePane(imageBullet);
     }
-
-
-    private void initializeLevelToPane() {
-
-        initializeBackground();
-        initializePointLabel();
-        initializePlayerLifes();
-        initializePlayer();
-
-        //TODO add all starting images.
-    }
-    private void updateLastMeteor() {
+private void updateLastMeteor() {
         if (model.getMeteorModelList() !=null) {
         ArrayList<Meteor> meteorsModelList = model.getMeteorModelList();
             // Meteor meteorModel = new Meteor();
