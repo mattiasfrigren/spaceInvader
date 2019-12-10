@@ -271,7 +271,7 @@ public class InGameModel {
             }
             // checking if bullet collided.
             if (itemBullet.isFacingPlayer()) {
-                if (playerModel.getItemWidth() / 5 + itemBullet.getItemWidth() / 5 > distanceBetween(itemBullet, playerModel)) {
+                if (playerModel.getItemWidth() / 3 + itemBullet.getItemWidth() / 3 > distanceBetween(itemBullet, playerModel)) {
                     playerModel.looseLife(1);
                     bulletsToRemove.add(bulletsModelList.get(i));
                 }
@@ -321,7 +321,7 @@ public class InGameModel {
     }
 
     public void generateHighScoreName(){
-            System.out.println(getNameInput());
+            System.out.println(nameInput);
             callHighScore();
     }
 
