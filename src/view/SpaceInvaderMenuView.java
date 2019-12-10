@@ -151,6 +151,8 @@ public class SpaceInvaderMenuView implements IViewState {
         scoreAncor.getChildren().add(text);
         menuPane.getChildren().add(currentSubScene);
     }
+
+
     
     
 

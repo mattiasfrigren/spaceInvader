@@ -18,7 +18,7 @@ public class HighScore {
 
             try
                     (Connection conn = DriverManager.getConnection(DBUtil.CONNECTION, DBUtil.USERNAME, DBUtil.PASSWORD);
-                     PreparedStatement st = conn.prepareStatement("INSERT INTO highscoretable (name, score)" + "VALUES (?, ?)")) {
+                     PreparedStatement st = conn.prepareStatement("INSERT INTO highscore (name, score)" + "VALUES (?, ?)")) {
 
                 st.setString(1, enteredName);
                 st.setInt(2, scoreToEnter);
@@ -40,7 +40,7 @@ public class HighScore {
                 try{
 
                 Connection conn = DriverManager.getConnection(DBUtil.CONNECTION, DBUtil.USERNAME, DBUtil.PASSWORD);
-                String query = "SELECT * FROM highscoretable" +" ORDER BY score DESC" + " LIMIT 10";
+                String query = "SELECT * FROM highscore" +" ORDER BY score DESC" + " LIMIT 10";
                 Statement st = conn.createStatement();
                 ResultSet rs = st.executeQuery(query);
 
