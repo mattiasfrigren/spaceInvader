@@ -35,7 +35,7 @@ public class Constants {
     public final static double enemyDroneShipLaserGunShootingInterval = 200;
 
 
-    public final static String BackGroundImage = "model/resources/background2.png";
+    public final static String BackGroundImage = "model/resources/Background3.png";
     public final static String meteorImage = "model/resources/meteor.png";
 
 
@@ -52,7 +52,7 @@ public class Constants {
     public final static double heartWidth = SCREENWIDTH * 0.04;
 
     public final static String GameOverSubSceneBackground = "model/resources/yellow.png";
-    public final static String GameBootSubSceneBackGround="model/resources/background2.png";
+    public final static String GameBootSubSceneBackGround="model/resources/Background3.png";
 
     public final static double spawnPointMeteor = Math.random()*SCREENWIDTH;
 
