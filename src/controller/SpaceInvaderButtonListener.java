@@ -82,7 +82,8 @@ public class SpaceInvaderButtonListener {
         @Override
         public void handle(MouseEvent e) {
             if (e.getButton().equals(MouseButton.PRIMARY)) {
-                System.exit(0);
+                SpaceInvaderMenuView.getSpaceInvaderMenuView().initializeExitSubScene();
+
             }
         }
     };
