@@ -265,24 +265,31 @@ public class InGameModel {
     private boolean checkIfOutOfScreen(double x, double y) {
         return y > Constants.SCREENHEIGHT + 50 || x > Constants.SCREENWIDTH + 50 || y < -50 || x < -50;
     }
+    public ArrayList<Meteor> checkIfMeteorShoot() {
+        if (!bulletsModelList.isEmpty()) {
+            for (int j = 0; j < bulletsModelList.size(); j++) {
+                OnScreenItems bulletsToRemoveNow = (OnScreenItems) bulletsModelList.get(j);
+                if (!bulletsToRemoveNow.isFacingPlayer()) {
+                    for (int i = 0; i < meteorModelList.size(); i++) {
+                        if (meteorModelList.get(i).getItemWidth() / 5 + bulletsToRemoveNow.getItemWidth() / 5 > distanceBetween(bulletsToRemoveNow, meteorModelList.get(i))) {
+                            removeMeteorFromList(meteorModelList.get(i));
+                            bulletsModelList.remove(bulletsToRemoveNow);
+                        }
+                    }
+                }
+            }
+        }
+        return meteorModelList;
+    }
 
     //Checks if meteor connetcs with the playership.
     public ArrayList<Meteor> checkIfMeteorCollide() {
-        // ArrayList<IBullet> bulletsToRemove = new ArrayList<>();
+        ArrayList<IBullet> bulletsToRemove = new ArrayList<>();
         for (int i = 0; i < meteorModelList.size(); i++) {
-            // OnScreenItems bulletsToRemoveNow = (OnScreenItems)bulletsModelList.get(i);
             if (playerModel.getItemWidth() / 5 + meteorModelList.get(i).getItemWidth() / 5 > distanceBetween(meteorModelList.get(i), playerModel)) {
                 playerModel.looseLife(1);
                 removeMeteorFromList(meteorModelList.get(i));
             }
-           /* if(!bulletsToRemoveNow.isFacingPlayer()) {
-                for (int j = 0; j <bulletsModelList.size() ; j++) {
-                    if (meteorModelList.get(i).getItemWidth() / 5 + bulletsToRemoveNow.getItemWidth() / 5 > distanceBetween(bulletsToRemoveNow , meteorModelList.get(i))) {
-                 removeMeteorIfOutOfScreen(meteorModelList.get(i));
-
-                    }
-                }
-            }*/
         }
         return meteorModelList;
     }

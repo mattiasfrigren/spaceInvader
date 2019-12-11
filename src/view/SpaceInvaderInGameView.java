@@ -94,6 +94,7 @@ public class SpaceInvaderInGameView implements IViewState {
         model.checkIfEnemyIsmoving();
         model.moveMeteorModel();
         model.checkIfMeteorCollide();
+        model.checkIfMeteorShoot();
 
     }
 
@@ -173,11 +174,11 @@ public class SpaceInvaderInGameView implements IViewState {
         if (!bulletsImageList.isEmpty()) {
             for (int i = 0; i < bulletsImageList.size(); i++) {
                 ImageView theImageBullet = bulletsImageList.get(i);
-                OnScreenItems theModelBullet = (OnScreenItems) bulletsModelList.get(i);
-
-                theImageBullet.setX(theModelBullet.getItemCoordX());
-                theImageBullet.setY(theModelBullet.getItemCoordY());
-
+                if (i < bulletsModelList.size()) {
+                    OnScreenItems theModelBullet = (OnScreenItems) bulletsModelList.get(i);
+                    theImageBullet.setX(theModelBullet.getItemCoordX());
+                    theImageBullet.setY(theModelBullet.getItemCoordY());
+                }
             }
         }
         ArrayList<IBullet> bulletsToRemove = model.getBulletRemoveList(); // adds all bullets who are out of screen and those who collided.
