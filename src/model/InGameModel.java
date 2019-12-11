@@ -99,7 +99,6 @@ public class InGameModel {
         playerModel = new PlayerShip();
     }
 
-
     public PlayerShip getPlayerModel() {
         return playerModel;
     }
@@ -121,7 +120,6 @@ public class InGameModel {
         return bulletsModelList.get(bulletsModelList.size() - 1);
     }
 
-
     public ArrayList<EnemyShip> getEnemyModelList() {
         return enemiesModelList;
     }
@@ -138,6 +136,11 @@ public class InGameModel {
 
     ///// ******************* END OF GETTERS AND SETTERS  ******************************
 
+    public void resetAllModel() {
+        gameModel = null;
+    }
+
+
     //Creates 20 enemies and add them to enemeyModelList
     public void createDefaultEnemieWave() {
         for (int i = 0; i < 10; i++) {
@@ -146,15 +149,15 @@ public class InGameModel {
             enemy.setItemCoordY(Constants.enemyShipStartPosY);
             addEnemyModel(enemy);
         }
+
         for (int i = 0; i < 10; i++) {
             EnemyShip enemy = new EnemyShip();
             enemy.setItemCoordX(Constants.enemyShipStartPosX + (i * Constants.enemySpawnSpread));
             enemy.setItemCoordY(Constants.enemyShipStartPosY - 50);
             addEnemyModel(enemy);
-        }
-    }// will create a new set of EnemyShips
+        }// will create a new set of EnemyShips
 
-    /* public void createEnemyDroneShipWave(){
+    }/* public void createEnemyDroneShipWave(){
          for (int i = 0; i < 10 ; i++) {
              EnemyDroneShip enemyDrone = new EnemyDroneShip();
              enemyDrone.setItemCoordX(Constants.enemyShipStartPosX + (i *Constants.enemyDroneShipSpawnSpread));
@@ -162,6 +165,7 @@ public class InGameModel {
              addEnemyModel(enemyDrone);
          }
      } */
+
     public void createMeteor() {
         Meteor meteor = new Meteor();
         meteor.setItemCoordX(Math.random() * 600);
@@ -183,6 +187,7 @@ public class InGameModel {
     }
 
     //moves enemys
+
     public ArrayList<EnemyShip> checkIfEnemyIsmoving() {
 
         for (EnemyShip enemymove : enemiesModelList) {
@@ -245,6 +250,31 @@ public class InGameModel {
         }
     }
 
+    public void updateEnemyMovement() {
+        for (EnemyShip enemy : enemiesModelList) {
+
+            switch (moveTimes) {
+                case 10:
+                case 0:
+                    enemy.moveRight();
+                    break;
+                case 20:
+                    enemy.moveUp();
+                    break;
+                case 50:
+                    enemy.moveDown();
+                    break;
+                case 30:
+                case 40:
+                    enemy.moveLeft();
+                    break;
+            }
+        }
+        moveTimes++;
+        if (moveTimes > 59) {
+            moveTimes = 0;
+        }
+    }
 
     public void updatePlayerMovement() {
         checkIfPlayerIsMovingLeft();
@@ -314,12 +344,12 @@ public class InGameModel {
                         SoundEffects.getSoundEffects().playPowerUpSound(); //Enemy deadSouncEffect.KM
                         enemy.looseLife(1);
                         bulletsToRemove.add(bulletsModelList.get(i));
-
                     }
                 }
             }
 
         }
+
 
         return bulletsToRemove;
     }
@@ -357,7 +387,6 @@ public class InGameModel {
         System.out.println(nameInput);
         callHighScore();
     }
-
 
     public static void callHighScore() {
 

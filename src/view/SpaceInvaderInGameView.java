@@ -1,5 +1,6 @@
 package view;
 
+import controller.SpaceInvaderButtonListener;
 import controller.SpaceInvaderListener;
 import javafx.animation.AnimationTimer;
 import javafx.geometry.Insets;
@@ -12,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -63,6 +65,11 @@ public class SpaceInvaderInGameView implements IViewState {
         initializeLevelToPane();  //adds all images to the pane.
         initializeGameListener(); // add key listener to game
         createGameLoop(); // starts animator.
+
+    }
+
+    public void resetGame() {
+        gameView = null;
 
     }
 
@@ -346,7 +353,7 @@ private void updateLastMeteor() {
 
         deathSubScene = new SubScene(new AnchorPane(),Constants.SCREENWIDTH * 0.45, Constants.SCREENHEIGHT * 0.45);
 
-        BackgroundImage image = new BackgroundImage(new Image(Constants.deathSubSceenBackground,Constants.SCREENWIDTH * 0.45,Constants.SCREENHEIGHT * 0.45, false, true),
+        BackgroundImage image = new BackgroundImage(new Image(Constants.GameOverSubSceneBackground,Constants.SCREENWIDTH * 0.45,Constants.SCREENHEIGHT * 0.45, false, true),
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, null);
 
         AnchorPane deathAnchor = (AnchorPane) deathSubScene.getRoot();
@@ -394,7 +401,7 @@ private void updateLastMeteor() {
         Button playAgainButton = new Button("Play again");
         playAgainButton.setLayoutX(deathAnchor.getWidth() * 0.70);
         playAgainButton.setLayoutY(deathAnchor.getHeight() * 0.85);
-       // playAgainButton.addEventFilter(MouseEvent.MOUSE_CLICKED, SpaceInvaderButtonListener.getButtonListener().resetGameEvent);
+        playAgainButton.addEventFilter(MouseEvent.MOUSE_CLICKED, SpaceInvaderButtonListener.getButtonListener().resetGameEvent);
         deathAnchor.getChildren().add(playAgainButton);
 
         addToGamePane(deathSubScene);
