@@ -152,6 +152,32 @@ public class SpaceInvaderMenuView implements IViewState {
         scoreAncor.getChildren().add(text);
         menuPane.getChildren().add(currentSubScene);
     }
+
+    //give the user options to either exit the game or return to the menu
+    public void initializeExitSubScene(){
+        if (currentSubScene != null) {
+            menuPane.getChildren().remove(currentSubScene);
+        }
+
+        AnchorPane exitAnchor = new AnchorPane();
+        currentSubScene = new SubScene(exitAnchor, Constants.SCREENWIDTH * 0.45, Constants.SCREENHEIGHT * 0.45);
+
+        BackgroundImage image = new BackgroundImage(new Image(Constants.GameOverSubSceneBackground, Constants.SCREENWIDTH * 0.45, Constants.SCREENHEIGHT * 0.45, false, true),
+                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, null);
+
+        exitAnchor.setBackground(new Background(image));
+
+        currentSubScene.setLayoutX(Constants.SCREENWIDTH / 3);
+        currentSubScene.setLayoutY(Constants.SCREENHEIGHT / 3);
+
+        Text exitText = new Text("Are you sure you want to quit?");
+        exitAnchor.getChildren().add(exitText);
+
+        createButton("yes", Constants.menuButtonStartingXPos, Constants.menuButtonStartingYPos);
+        createButton("no", Constants.menuButtonStartingXPos, Constants.menuButtonStartingYPos);
+
+        menuPane.getChildren().add(currentSubScene);
+    }
     
     
 
