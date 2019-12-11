@@ -9,6 +9,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import model.Constants;
@@ -46,11 +47,11 @@ public class SpaceInvaderMenuView implements IViewState {
 
         menuPane.setBackground(new Background(bootImage));
 
-        Text bootGameText = new Text("Lets rock!!!");
+        Text bootGameText = new Text("Game menu");
         bootGameText.setX(Constants.SCREENWIDTH / 2);
         bootGameText.setY(Constants.SCREENHEIGHT * 0.1);
-        bootGameText.setFont(Font.font("Verdana", 40));
-        //bootGameText.setTextAlignment(TextAlignment.CENTER);
+        bootGameText.setFont(Font.font("verdana", 40));
+        bootGameText.setFill(Color.GREENYELLOW);
         menuPane.getChildren().add(bootGameText);
         createButtonToList();
         initializeButtonListerners();
