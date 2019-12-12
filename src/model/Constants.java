@@ -51,8 +51,8 @@ public class Constants {
     public final static double heartHeight = SCREENHEIGHT * 0.04;
     public final static double heartWidth = SCREENWIDTH * 0.04;
 
-    public final static String GameOverSubSceneBackground = "model/resources/yellow.png";
-    public final static String GameBootSubSceneBackGround="model/resources/Background3.png";
+    public final static String GameOverSubSceneBackground = "model/resources/bgGameOver.png";
+    public final static String GameBootSceneBackGround ="model/resources/background2.png";
 
     public final static double spawnPointMeteor = Math.random()*SCREENWIDTH;
 

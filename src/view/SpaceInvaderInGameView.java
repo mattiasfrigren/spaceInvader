@@ -377,7 +377,7 @@ private void updateLastMeteor() {
         deathSubScene.setLayoutX(Constants.SCREENWIDTH/3);
         deathSubScene.setLayoutY(Constants.SCREENHEIGHT/3);
 
-        Text playerDeadText = new Text("You're dead");
+        Text playerDeadText = new Text("GAME OVER");
         playerDeadText.setX(deathAnchor.getWidth() * 0.20);
         playerDeadText.setY(deathAnchor.getHeight() * 0.20);
         playerDeadText.setFont(Font.font("Verdana", 30));
