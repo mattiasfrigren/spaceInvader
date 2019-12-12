@@ -2,6 +2,7 @@ package model;
 import view.SpaceInvaderInGameView;
 
 import java.sql.*;
+import java.lang.*;
 
 public class HighScore {
     public static SpaceInvaderInGameView view;
@@ -14,24 +15,33 @@ public class HighScore {
             int scoreToEnter = model.getPoints();
             String enteredName = model.getNameInput();
             System.out.println("Connecting to database...");
+           /* try {
+                Class.forName("org.mariadb.jdbc.Driver");
+            } catch (Exception e) {
+                System.out.println("An error has occurred");
+            }*/
+
+            try {
+                Class.forName("org.mariadb.jdbc.Driver");
+                Connection connection = DriverManager.getConnection("jdbc:mariadb://service4rs.com.mysql:3306/service4rs_com_pixelusers?user=service4rs_com_pixelusers&password=space123");
+
+                //(Connection conn = DriverManager.getConnection(DBUtil.CONNECTION, DBUtil.USERNAME, DBUtil.PASSWORD);
+                PreparedStatement st = connection.prepareStatement("INSERT INTO highscore (name, score)" + "VALUES (?, ?)");
 
 
-            try
-                    (Connection conn = DriverManager.getConnection(DBUtil.CONNECTION, DBUtil.USERNAME, DBUtil.PASSWORD);
-                     PreparedStatement st = conn.prepareStatement("INSERT INTO highscore (name, score)" + "VALUES (?, ?)")) {
+                    st.setString(1, enteredName);
+                    st.setInt(2, scoreToEnter);
 
-                st.setString(1, enteredName);
-                st.setInt(2, scoreToEnter);
+                    st.execute();
 
-                st.execute();
-
+                }
+            catch(Exception e){
+                    System.err.println(e);
+                }
+                System.out.println("Saved to database");
+                showHighScore();
             }
-            catch (Exception e) {
-                System.err.println(e);
-            }
-            System.out.println("Saved to database");
-            showHighScore();
-        }
+
 
         public static void showHighScore() {
             System.out.println("Connecting to database...");
