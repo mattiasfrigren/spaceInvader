@@ -19,7 +19,9 @@ import java.util.ArrayList;
 public class SpaceInvaderMenuView implements IViewState {
     private ArrayList<Button> buttonArrayList = new ArrayList<>();
     private Button button;
-    private SubScene currentSubScene;
+    private static SubScene currentSubScene;
+    private Button yesButton;
+    private Button noButton;
 
 
     private static Scene menuScene;
@@ -29,6 +31,14 @@ public class SpaceInvaderMenuView implements IViewState {
 
     public static Scene getMenuScene() {
         return menuScene;
+    }
+
+    public static AnchorPane getMenuPane(){
+        return menuPane;
+    }
+
+    public static SubScene getCurrentSubScene(){
+        return currentSubScene;
     }
 
     public static SpaceInvaderMenuView getSpaceInvaderMenuView() {
@@ -67,9 +77,7 @@ public class SpaceInvaderMenuView implements IViewState {
 
     public void initializeHighScoreSubScene() {
 
-        if (currentSubScene != null) {
-            menuPane.getChildren().remove(currentSubScene);
-        }
+        closeCurrentSubScene();
 
         AnchorPane scoreAncor = new AnchorPane();
         currentSubScene = new SubScene(scoreAncor, Constants.SCREENWIDTH * 0.45, Constants.SCREENHEIGHT * 0.45);
@@ -89,9 +97,7 @@ public class SpaceInvaderMenuView implements IViewState {
 
     public void initializeCreditsSubScene() {
 
-        if (currentSubScene != null) {
-            menuPane.getChildren().remove(currentSubScene);
-        }
+        closeCurrentSubScene();
 
         AnchorPane scoreAncor = new AnchorPane();
         currentSubScene = new SubScene(scoreAncor, Constants.SCREENWIDTH * 0.45, Constants.SCREENHEIGHT * 0.45);
@@ -111,9 +117,7 @@ public class SpaceInvaderMenuView implements IViewState {
 
     public void initializeSettingsSubScene() {
 
-        if (currentSubScene != null) {
-            menuPane.getChildren().remove(currentSubScene);
-        }
+        closeCurrentSubScene();
 
         AnchorPane scoreAncor = new AnchorPane();
         currentSubScene = new SubScene(scoreAncor, Constants.SCREENWIDTH * 0.45, Constants.SCREENHEIGHT * 0.45);
@@ -133,9 +137,7 @@ public class SpaceInvaderMenuView implements IViewState {
 
     public void initializeHelpSubScene() {
 
-        if (currentSubScene != null) {
-            menuPane.getChildren().remove(currentSubScene);
-        }
+        closeCurrentSubScene();
 
         AnchorPane scoreAncor = new AnchorPane();
         currentSubScene = new SubScene(scoreAncor, Constants.SCREENWIDTH * 0.45, Constants.SCREENHEIGHT * 0.45);
@@ -153,14 +155,15 @@ public class SpaceInvaderMenuView implements IViewState {
         menuPane.getChildren().add(currentSubScene);
     }
 
-    //give the user options to either exit the game or return to the menu
+
     public void initializeExitSubScene(){
-        if (currentSubScene != null) {
-            menuPane.getChildren().remove(currentSubScene);
-        }
+        double subSceneWidth = Constants.SCREENWIDTH * 0.45;
+        double subSceneHeight = Constants.SCREENHEIGHT * 0.45;
+
+        closeCurrentSubScene();
 
         AnchorPane exitAnchor = new AnchorPane();
-        currentSubScene = new SubScene(exitAnchor, Constants.SCREENWIDTH * 0.45, Constants.SCREENHEIGHT * 0.45);
+        currentSubScene = new SubScene(exitAnchor, subSceneWidth, subSceneHeight);
 
         BackgroundImage image = new BackgroundImage(new Image(Constants.GameOverSubSceneBackground, Constants.SCREENWIDTH * 0.45, Constants.SCREENHEIGHT * 0.45, false, true),
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, null);
@@ -171,15 +174,36 @@ public class SpaceInvaderMenuView implements IViewState {
         currentSubScene.setLayoutY(Constants.SCREENHEIGHT / 3);
 
         Text exitText = new Text("Are you sure you want to quit?");
+        exitText.setX(subSceneWidth/8);
+        exitText.setY(subSceneHeight/3);
+        exitText.setFont(Font.font("Verdana", 20));
         exitAnchor.getChildren().add(exitText);
 
-        createButton("yes", Constants.menuButtonStartingXPos, Constants.menuButtonStartingYPos);
-        createButton("no", Constants.menuButtonStartingXPos, Constants.menuButtonStartingYPos);
+        yesButton = new Button("yes");
+        yesButton.setLayoutX(subSceneWidth/5);
+        yesButton.setLayoutY(subSceneHeight/2);
+        yesButton.setFont(Font.font("Verdana", 20));
+        yesButton.setPrefWidth(Constants.menuButtonWidth*0.7);
+        exitAnchor.getChildren().add(yesButton);
+
+        noButton = new Button("no");
+        noButton.setLayoutX(subSceneWidth/2);
+        noButton.setLayoutY(subSceneHeight/2);
+        noButton.setFont(Font.font("Verdana", 20));
+        noButton.setPrefWidth(Constants.menuButtonWidth*0.7);
+        exitAnchor.getChildren().add(noButton);
+
+        yesButton.addEventFilter(MouseEvent.MOUSE_CLICKED, SpaceInvaderButtonListener.getButtonListener().reallyExit);
+        noButton.addEventFilter(MouseEvent.MOUSE_CLICKED, SpaceInvaderButtonListener.getButtonListener().exitToMenu);
 
         menuPane.getChildren().add(currentSubScene);
     }
     
-    
+    public void closeCurrentSubScene(){
+        if (currentSubScene != null) {
+            menuPane.getChildren().remove(currentSubScene);
+        }
+    }
 
     private void createButton(String buttonText, double x, double y) {
         button = new Button(buttonText);
@@ -198,6 +222,8 @@ public class SpaceInvaderMenuView implements IViewState {
         buttonArrayList.get(3).addEventFilter(MouseEvent.MOUSE_CLICKED, SpaceInvaderButtonListener.getButtonListener().showHelp);
         buttonArrayList.get(4).addEventFilter(MouseEvent.MOUSE_CLICKED, SpaceInvaderButtonListener.getButtonListener().showCredits);
         buttonArrayList.get(5).addEventFilter(MouseEvent.MOUSE_CLICKED, SpaceInvaderButtonListener.getButtonListener().exit);
+
+
         for (Button button : buttonArrayList) {
             {
                 button.setOnMousePressed(e -> {

@@ -88,5 +88,26 @@ public class SpaceInvaderButtonListener {
         }
     };
 
+    public EventHandler<MouseEvent>reallyExit=new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent e) {
+            if (e.getButton().equals(MouseButton.PRIMARY)) {
+                System.exit(0);
+
+            }
+        }
+    };
+
+    public EventHandler<MouseEvent>exitToMenu=new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent e) {
+            if (e.getButton().equals(MouseButton.PRIMARY)) {
+
+                SpaceInvaderMenuView.getSpaceInvaderMenuView().closeCurrentSubScene();
+
+            }
+        }
+    };
+
     // TODO add more event handlers below
 }
