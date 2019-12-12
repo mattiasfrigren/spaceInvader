@@ -15,6 +15,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import model.*;
@@ -285,9 +286,10 @@ public class SpaceInvaderInGameView implements IViewState {
 
     public void initializePointLabel() {
         pointsLabel = new Label("Points: ");
+        pointsLabel.setTextFill(Color.ORANGERED);
         pointsLabel.setPrefWidth(130); // TODO CHANGE TO CONSTANTS
         pointsLabel.setPrefHeight(50);
-        BackgroundImage backgroundImage = new BackgroundImage(new Image("model/resources/blue_info_label.png", 130,50,false,true), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, null);
+        BackgroundImage backgroundImage = new BackgroundImage(new Image(Constants.pointLabelBackGround, 130,50,false,true), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, null);
         pointsLabel.setBackground(new Background(backgroundImage));
         pointsLabel.setAlignment(Pos.CENTER_LEFT);
         pointsLabel.setPadding(new Insets(10,10,10,10));
@@ -352,7 +354,7 @@ private void updateLastMeteor() {
 
         deathSubScene = new SubScene(new AnchorPane(),Constants.SCREENWIDTH * 0.45, Constants.SCREENHEIGHT * 0.45);
 
-        BackgroundImage image = new BackgroundImage(new Image(Constants.GameOverSubSceneBackground,Constants.SCREENWIDTH * 0.45,Constants.SCREENHEIGHT * 0.45, false, true),
+        BackgroundImage image = new BackgroundImage(new Image(Constants.gameOverSubSceneBackground,Constants.SCREENWIDTH * 0.45,Constants.SCREENHEIGHT * 0.45, false, true),
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, null);
 
         AnchorPane deathAnchor = (AnchorPane) deathSubScene.getRoot();
