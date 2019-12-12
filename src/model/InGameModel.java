@@ -26,9 +26,14 @@ public class InGameModel {
     private double moveinterval = 0;
     private int points = 0;
 
+    private int lastRemovedMeteorIndex;
     private int moveTimes = 0;
 
     /////////************** Getter and setters ***********************
+
+    public int getLastRemovedMeteorIndex() {
+        return lastRemovedMeteorIndex;
+    }
 
     public ArrayList<Meteor> getMeteorModelList() {
         return meteorModelList;
@@ -45,14 +50,6 @@ public class InGameModel {
     public void setNameInput(String nameInput) {
         this.nameInput = nameInput;
         generateHighScoreName();
-    }
-
-    public boolean isSaveGameButtonClicked() {
-        return saveGameButtonClicked;
-    }
-
-    public void setSaveGameButtonClicked(boolean saveGameButtonClicked) {
-        this.saveGameButtonClicked = saveGameButtonClicked;
     }
 
     public int getPoints() {
@@ -105,6 +102,10 @@ public class InGameModel {
 
     public void setPlayerModel(PlayerShip playerModel) {
         this.playerModel = playerModel;
+    }
+
+    public void setBulletsModelList(ArrayList<IBullet> bulletsModelList) {
+        this.bulletsModelList = bulletsModelList;
     }
 
     public ArrayList<IBullet> getBulletsModelList() {
@@ -175,8 +176,7 @@ public class InGameModel {
     public ArrayList<Meteor> moveMeteorModel() {
         for (Meteor meteor : meteorModelList) {
             meteor.moveUp();
-            System.out.println("meteor move down");
-        }
+                    }
         return meteorModelList;
     }//removes a meteor from modellist
 
@@ -185,16 +185,12 @@ public class InGameModel {
         System.out.println("removed : " + removeMeteor + " from MeteorModel");
         return meteorModelList;
     }
-
-    //moves enemys
-
     public ArrayList<EnemyShip> checkIfEnemyIsmoving() {
 
-        for (EnemyShip enemymove : enemiesModelList) {
-            moveinterval = enemymove.getRandomMoveInterval();
-            if (moveinterval >= Constants.enemyShipMovmentInterval && enemymove.getItemCoordY() <= Constants.SCREENHEIGHT / 2) {
-                enemymove.moveUp();
-                System.out.println("move down");
+        for (int i = 0; i < enemiesModelList.size() ; i++) {
+            moveinterval = enemiesModelList.get(i).getRandomMoveInterval();
+            if (moveinterval >= Constants.enemyShipMovmentInterval && enemiesModelList.get(i).getItemCoordY() <= Constants.SCREENHEIGHT / 2){
+            enemiesModelList.get(i).moveUp();
             }
         }
         return enemiesModelList;
@@ -250,32 +246,6 @@ public class InGameModel {
         }
     }
 
-    public void updateEnemyMovement() {
-        for (EnemyShip enemy : enemiesModelList) {
-
-            switch (moveTimes) {
-                case 10:
-                case 0:
-                    enemy.moveRight();
-                    break;
-                case 20:
-                    enemy.moveUp();
-                    break;
-                case 50:
-                    enemy.moveDown();
-                    break;
-                case 30:
-                case 40:
-                    enemy.moveLeft();
-                    break;
-            }
-        }
-        moveTimes++;
-        if (moveTimes > 59) {
-            moveTimes = 0;
-        }
-    }
-
     public void updatePlayerMovement() {
         checkIfPlayerIsMovingLeft();
         checkIfPlayerIsMovingRight();
@@ -295,7 +265,8 @@ public class InGameModel {
     private boolean checkIfOutOfScreen(double x, double y) {
         return y > Constants.SCREENHEIGHT + 50 || x > Constants.SCREENWIDTH + 50 || y < -50 || x < -50;
     }
-    public ArrayList<Meteor> checkIfMeteorShoot() {
+    public ArrayList<IBullet> checkIfMeteorShoot() {
+        ArrayList<IBullet> bulletsToRemove = new ArrayList<>();
         if (!bulletsModelList.isEmpty()) {
             for (int j = 0; j < bulletsModelList.size(); j++) {
                 OnScreenItems bulletsToRemoveNow = (OnScreenItems) bulletsModelList.get(j);
@@ -303,22 +274,23 @@ public class InGameModel {
                     for (int i = 0; i < meteorModelList.size(); i++) {
                         if (meteorModelList.get(i).getItemWidth() / 5 + bulletsToRemoveNow.getItemWidth() / 5 > distanceBetween(bulletsToRemoveNow, meteorModelList.get(i))) {
                             removeMeteorFromList(meteorModelList.get(i));
-                            bulletsModelList.remove(bulletsToRemoveNow);
+                            bulletsToRemove.add((IBullet) bulletsToRemoveNow);
                         }
                     }
                 }
             }
         }
-        return meteorModelList;
+        return bulletsToRemove;
     }
 
     //Checks if meteor connetcs with the playership.
     public ArrayList<Meteor> checkIfMeteorCollide() {
-        ArrayList<IBullet> bulletsToRemove = new ArrayList<>();
+
         for (int i = 0; i < meteorModelList.size(); i++) {
+            lastRemovedMeteorIndex =i;
             if (playerModel.getItemWidth() / 5 + meteorModelList.get(i).getItemWidth() / 5 > distanceBetween(meteorModelList.get(i), playerModel)) {
                 playerModel.looseLife(1);
-                removeMeteorFromList(meteorModelList.get(i));
+                removeMeteorFromList(meteorModelList.get(lastRemovedMeteorIndex));
             }
         }
         return meteorModelList;

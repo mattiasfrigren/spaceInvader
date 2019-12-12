@@ -101,7 +101,6 @@ public class SpaceInvaderInGameView implements IViewState {
         model.checkIfEnemyIsmoving();
         model.moveMeteorModel();
         model.checkIfMeteorCollide();
-        model.checkIfMeteorShoot();
 
     }
 
@@ -196,11 +195,27 @@ public class SpaceInvaderInGameView implements IViewState {
             bulletsImageList.remove(bulletIndex); // removes bullet image from our bullet image list.
             System.out.println("Bullet removed");
         }
+        ArrayList<IBullet> bulletsToRemoveMeteor = model.checkIfMeteorShoot();
+        for (IBullet bullet: bulletsToRemoveMeteor) {
+            int bulletIndexFromMeteor = bulletsModelList.indexOf(bullet);
+            model.getBulletsModelList().remove(bulletIndexFromMeteor);
+            removeFromGamePane(bulletsImageList.get(bulletIndexFromMeteor));
+            bulletsImageList.remove(bulletIndexFromMeteor);
+            System.out.println("remove bullet from meteorshoot");
+        }
+
     }//updates the movement of the meteor and removes it Y>=then the ScreenHeight
     private ArrayList<ImageView> updateMeteorImages() {
+        if (model.getMeteorModelList().isEmpty()&&!meteorImageList.isEmpty()) {
+            removeFromGamePane(meteorImageList.get(0));
+            meteorImageList.clear(); }
         if (model.getMeteorModelList() !=null) {
             ArrayList<Meteor> allMetoerModels = model.getMeteorModelList();
             for (int i = 0; i < allMetoerModels.size(); i++) {
+                if (allMetoerModels.size() != meteorImageList.size()) {
+                    removeFromGamePane(meteorImageList.get(model.getLastRemovedMeteorIndex()));
+                    meteorImageList.remove(model.getLastRemovedMeteorIndex());
+                }
                 meteorImageList.get(i).setY(allMetoerModels.get(i).getItemCoordY());
                 meteorImageList.get(i).setX(allMetoerModels.get(i).getItemCoordX());
                 if (meteorImageList.get(i).getY() >= Constants.SCREENHEIGHT+300) {
