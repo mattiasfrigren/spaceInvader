@@ -45,6 +45,9 @@ public class SpaceInvaderListener implements EventHandler<KeyEvent> {
             if (event.getCode() ==KeyCode.SHIFT)
                 InGameModel.getGameModel().getPlayerModel().setMovementSpeed(Constants.SCREENHEIGHT*0.016);
             // TODO add all pressed down events.
+            if (event.getCode() == KeyCode.ESCAPE) {
+                SpaceInvaderController.getController().pauseGame();
+            }
         }
         else if (event.getEventType().equals(KeyEvent.KEY_RELEASED)) {
             if (event.getCode() == KeyCode.SPACE) {

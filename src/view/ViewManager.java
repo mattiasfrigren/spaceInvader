@@ -31,6 +31,10 @@ public class ViewManager {
         return mainStage;
     }
 
+    public IViewState getGameState () {
+        return gameState;
+    }
+
     public static ViewManager getViewManager(Stage stage) {
         if (view == null) {
             view = new ViewManager(stage);
