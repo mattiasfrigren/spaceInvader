@@ -42,7 +42,7 @@ public class SpaceInvaderMenuView implements IViewState {
         menuPane = new AnchorPane();
         menuScene = new Scene(menuPane, Constants.SCREENWIDTH, Constants.SCREENHEIGHT);
 
-        BackgroundImage bootImage = new BackgroundImage(new Image(Constants.GameBootSubSceneBackGround, Constants.SCREENWIDTH, Constants.SCREENHEIGHT, false, true),
+        BackgroundImage bootImage = new BackgroundImage(new Image(Constants.GameBootSceneBackGround, Constants.SCREENWIDTH, Constants.SCREENHEIGHT, false, true),
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, null);
 
         menuPane.setBackground(new Background(bootImage));
