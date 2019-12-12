@@ -51,14 +51,15 @@ public class Constants {
     public final static double heartHeight = SCREENHEIGHT * 0.04;
     public final static double heartWidth = SCREENWIDTH * 0.04;
 
-    public final static String GameOverSubSceneBackground = "model/resources/bgGameOver.png";
-    public final static String GameBootSceneBackGround ="model/resources/background2.png";
+    public final static String gameOverSubSceneBackground = "model/resources/subScenBG.png";
+    public final static String gameBootSceneBackGround ="model/resources/background2.png";
+    public final static String pointLabelBackGround ="model/resources/pointLabel.png";
 
     public final static double spawnPointMeteor = Math.random()*SCREENWIDTH;
 
 
-    public static final String buttonBgClickedURL = ""; //TODO
-    public static final String buttonBgURL = ""; // TODO
+    public static final String buttonBgClickedURL = "model/resources/buttonOnClick.png"; //TODO
+    public static final String buttonBgURL = "model/resources/buttonImg.png"; // TODO
     public static final double menuButtonWidth = SCREENWIDTH * 0.15;
     public static final double menuButtonStartingXPos = SCREENWIDTH * 0.1;
     public static final double menuButtonStartingYPos = SCREENHEIGHT * 0.7;
