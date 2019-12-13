@@ -1,9 +1,11 @@
 package view;
 
 import controller.SpaceInvaderButtonListener;
+import controller.SpaceInvaderController;
 import javafx.scene.Scene;
 import javafx.scene.SubScene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
@@ -13,7 +15,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import model.Constants;
+import model.HighScore;
 
+import java.sql.Struct;
 import java.util.ArrayList;
 
 public class SpaceInvaderMenuView implements IViewState {
@@ -84,6 +88,8 @@ public class SpaceInvaderMenuView implements IViewState {
 
     public void initializeHighScoreSubScene() {
 
+
+
         closeCurrentSubScene();
 
         AnchorPane scoreAncor = new AnchorPane();
@@ -98,10 +104,26 @@ public class SpaceInvaderMenuView implements IViewState {
         currentSubScene.setLayoutY(Constants.SCREENHEIGHT / 3);
 
         Text text = new Text("Highscore"); //TODO COLOR SET on text in the subscene
-        text.setX(Constants.SCREENWIDTH / 3);
-        text.setY(Constants.SCREENHEIGHT / 3);
+        text.setX(scoreAncor.getWidth() /2);
+        text.setY(scoreAncor.getHeight() * 0.1);
         // text.setFill(Color.ORANGERED);
         scoreAncor.getChildren().add(text);
+
+        double highscoreTextStartX = scoreAncor.getWidth() /2;
+        double highscoreTextStartY = scoreAncor.getHeight() * 0.2;
+        double highscoreTextYMargin = scoreAncor.getHeight() * 0.1;
+
+        /*
+        for (HighScorePoints highscore : HighScore.getTop10) {
+
+            Text highScoreText = new Text(highscore.getName + " - " + highscore.getScore);
+            highScoreText.setX(highscoreTextStartX);
+            highScoreText.setY(highscoreTextStartY);
+            highscoreTextStartY += highscoreTextYMargin;
+            menuPane.getChildren().add(highScoreText);
+        }
+        */
+
         menuPane.getChildren().add(currentSubScene);
     }
 
@@ -109,21 +131,30 @@ public class SpaceInvaderMenuView implements IViewState {
 
         closeCurrentSubScene();
 
-        AnchorPane scoreAncor = new AnchorPane();
-        currentSubScene = new SubScene(scoreAncor, Constants.SCREENWIDTH * 0.45, Constants.SCREENHEIGHT * 0.45);
+        AnchorPane creditAncor = new AnchorPane();
+        currentSubScene = new SubScene(creditAncor, Constants.SCREENWIDTH * 0.45, Constants.SCREENHEIGHT * 0.45);
 
         BackgroundImage image = new BackgroundImage(new Image(Constants.gameOverSubSceneBackground, Constants.SCREENWIDTH * 0.45, Constants.SCREENHEIGHT * 0.45, false, true),
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, null);
 
-        scoreAncor.setBackground(new Background(image));
+        creditAncor.setBackground(new Background(image));
 
         currentSubScene.setLayoutX(Constants.SCREENWIDTH / 3);
         currentSubScene.setLayoutY(Constants.SCREENHEIGHT / 3);
 
         Text text = new Text("Credits"); //TODO se highScore
-        text.setX(Constants.SCREENWIDTH / 3);
-        text.setY(Constants.SCREENHEIGHT / 3);
-        scoreAncor.getChildren().add(text);
+        text.setX(creditAncor.getWidth() /3);
+        text.setY(creditAncor.getHeight() * 0.1);
+        creditAncor.getChildren().add(text);
+
+        String[] creditsTo = {"Isabelle Romhagen","Jasmine Söderberg", "Khazar Mehraban", "Mattias Frigren", "Ludvig Lundin"};
+        for (int i = 0; i < creditsTo.length; i++) {
+            Text nameText = new Text(creditsTo[i]);
+            nameText.setX(creditAncor.getWidth()/3);
+            nameText.setY(creditAncor.getHeight() * 0.2 + (creditAncor.getHeight() * 0.1 * i));
+            creditAncor.getChildren().add(nameText);
+        }
+
         menuPane.getChildren().add(currentSubScene);
     }
 
@@ -143,9 +174,21 @@ public class SpaceInvaderMenuView implements IViewState {
         currentSubScene.setLayoutY(Constants.SCREENHEIGHT / 3);
 
         Text text = new Text("Settings"); //TODO COLOR SET
-        text.setX(Constants.SCREENWIDTH / 3);
-        text.setY(Constants.SCREENHEIGHT / 3);
+        text.setX(scoreAncor.getWidth() / 3);
+        text.setY(scoreAncor.getHeight() * 0.2);
         scoreAncor.getChildren().add(text);
+
+        CheckBox soundOn = new CheckBox("Sound");
+        soundOn.setSelected(true);
+        soundOn.setLayoutX(scoreAncor.getWidth() / 3);
+        soundOn.setLayoutY(scoreAncor.getHeight() * 0.4);
+        soundOn.setOnMouseClicked(e -> {
+            if (e.getButton().equals(MouseButton.PRIMARY)) {
+                SpaceInvaderController.getController().setSoundOn(soundOn.isSelected());
+            }
+        });
+        scoreAncor.getChildren().add(soundOn);
+
         menuPane.getChildren().add(currentSubScene);
     }
 

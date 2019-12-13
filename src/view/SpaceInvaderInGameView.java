@@ -44,6 +44,7 @@ public class SpaceInvaderInGameView implements IViewState {
 
     private SubScene deathSubScene;
     private long spawnNewEnemies =0;
+
     private AnimationTimer inGameTimer;
 
     public static Scene getGameScene() {
@@ -294,6 +295,7 @@ public class SpaceInvaderInGameView implements IViewState {
 
         initializeBackground();
         initializePointLabel();
+        initializeHighscorePointLabel();
         initializePlayerLifes();
         initializePlayer();
         initializeEnemies();
@@ -313,6 +315,22 @@ public class SpaceInvaderInGameView implements IViewState {
         pointsLabel.setLayoutX(Constants.SCREENWIDTH *0.9);
         pointsLabel.setLayoutY(Constants.SCREENHEIGHT * 0.02);
         gamePane.getChildren().add(pointsLabel);
+    }
+
+    public void initializeHighscorePointLabel() {
+        String currentHighscore = "0";//HighScore.getTop10[0].getScore;
+        Label highScoreLabel = new Label("Highscore: " + currentHighscore);
+        highScoreLabel.setTextFill(Color.ORANGERED);
+        highScoreLabel.setPrefWidth(130); // TODO CHANGE TO CONSTANTS
+        highScoreLabel.setPrefHeight(50);
+        BackgroundImage backgroundImage = new BackgroundImage(new Image(Constants.pointLabelBackGround, 130,50,false,true), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, null);
+        highScoreLabel.setBackground(new Background(backgroundImage));
+        highScoreLabel.setAlignment(Pos.CENTER_LEFT);
+        highScoreLabel.setPadding(new Insets(10,10,10,10));
+        highScoreLabel.setFont(Font.font("Verdana", 15));
+        highScoreLabel.setLayoutX(Constants.SCREENWIDTH *0.5);
+        highScoreLabel.setLayoutY(Constants.SCREENHEIGHT * 0.02);
+        gamePane.getChildren().add(highScoreLabel);
     }
 
     private void initializeBackground() {
@@ -472,6 +490,15 @@ private void updateLastMeteor() {
 
 
     /****************** Helper Methods below  ******************************/
+
+    public void setAnimationTimer(boolean on) {
+
+        if (on) {
+            inGameTimer.start();
+        } else {
+            inGameTimer.stop();
+        }
+    }
 
     private void addToGamePane(Node node) {
         gamePane.getChildren().add(node);

@@ -1,5 +1,6 @@
 package model;
 
+import controller.SpaceInvaderController;
 import javafx.scene.media.AudioClip;
 
 
@@ -33,11 +34,15 @@ public class SoundEffects {
 
 
     public void playLaser1Sound() {
-        laserSound1.play();
+        if (SpaceInvaderController.getController().isSoundOn()) {
+            laserSound1.play();
+        }
     }
 
     public void playLaser2Sound() {
-        laserSound2.play();
+        if (SpaceInvaderController.getController().isSoundOn()) {
+            laserSound2.play();
+        }
     }
 
     public void playExplosion1Sound() {
@@ -49,7 +54,9 @@ public class SoundEffects {
     }
 
     public void playPowerUpSound() {
-        powerUp.play();
+        if (SpaceInvaderController.getController().isSoundOn()) {
+            powerUp.play();
+        }
     }
 
 }
