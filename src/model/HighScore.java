@@ -1,71 +1,36 @@
 package model;
-import view.SpaceInvaderInGameView;
 
-import java.sql.*;
-import java.lang.*;
+
+import java.sql.SQLException;
 
 public class HighScore {
-    public static SpaceInvaderInGameView view;
-    public static InGameModel model;
 
+    private static HighScore highScore;
 
-        public static void handleHighScore() throws SQLException {
-            model = InGameModel.getGameModel();
-            view = SpaceInvaderInGameView.getGameView();
-            int scoreToEnter = model.getPoints();
-            String enteredName = model.getNameInput();
-            System.out.println("Connecting to database...");
-           /* try {
-                Class.forName("org.mariadb.jdbc.Driver");
-            } catch (Exception e) {
-                System.out.println("An error has occurred");
-            }*/
+    private HighScoreBean[] top10;
 
-            try {
-                //Class.forName("org.mariadb.jdbc.Driver");
-                //Connection connection = DriverManager.getConnection("jdbc:mariadb://service4rs.com.mysql:3306/service4rs_com_pixelusers?user=service4rs_com_pixelusers&password=space123");
+    private HighScore() {
+        top10 = new DBUtil().updateHighScore();
+    }
 
-                Connection connection = DriverManager.getConnection(DBUtil.CONNECTION, DBUtil.USERNAME, DBUtil.PASSWORD);
-                PreparedStatement st = connection.prepareStatement("INSERT INTO highscore (name, score)" + "VALUES (?, ?)");
+    public void updateTop10() {
+        top10 = new DBUtil().updateHighScore();
+    }
 
-
-                    st.setString(1, enteredName);
-                    st.setInt(2, scoreToEnter);
-
-                    st.execute();
-
-                }
-            catch(Exception e){
-                    System.err.println(e);
-                }
-                System.out.println("Saved to database");
-                showHighScore();
-            }
-
-
-        public static void showHighScore() {
-            System.out.println("Connecting to database...");
-            System.out.println("Current high score:");
-
-                try{
-
-                Connection conn = DriverManager.getConnection(DBUtil.CONNECTION, DBUtil.USERNAME, DBUtil.PASSWORD);
-                String query = "SELECT * FROM highscore" +" ORDER BY score DESC" + " LIMIT 10";
-                Statement st = conn.createStatement();
-                ResultSet rs = st.executeQuery(query);
-
-                    while (rs.next())
-                    {
-                    String name = rs.getString("name");
-                    int score = rs.getInt("score");
-
-
-                    System.out.format("%s, %s\n", name, score);
-                    }
-                }
-                catch (Exception e) {
-                    System.err.println(e);
-                }
+    public static HighScore getHighScore() {
+        if (highScore == null) {
+            highScore = new HighScore();
         }
+        return highScore;
+    }
+
+
+    public HighScoreBean[] getTop10() {
+        return top10;
+    }
+
+    public void saveNewHighscore(String name, int highscore) throws SQLException {
+        new DBUtil().handleHighScore(name, highscore);
+    }
 
 }

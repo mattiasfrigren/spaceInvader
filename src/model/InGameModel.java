@@ -21,8 +21,6 @@ public class InGameModel {
     private boolean isMovingDown = false;
     private boolean saveGameButtonClicked = false;
 
-    private String nameInput;
-
     private double moveinterval = 0;
     private int points = 0;
 
@@ -39,14 +37,11 @@ public class InGameModel {
         return meteorModelList;
     }
 
-    public String getNameInput() {
-        return nameInput;
+    public void setMeteorModelList(ArrayList<Meteor> meteorModelList) {
+        this.meteorModelList = meteorModelList;
     }
 
-    public void setNameInput(String nameInput) {
-        this.nameInput = nameInput;
-        generateHighScoreName();
-    }
+
 
     public int getPoints() {
         return points;
@@ -353,19 +348,6 @@ public class InGameModel {
         return Math.sqrt(Math.pow((firstObjc.getItemCoordX() + (firstObjc.getItemWidth() / 2)) - (secondObjc.getItemCoordX() + (secondObjc.getItemWidth() / 2)), 2) + Math.pow((firstObjc.getItemCoordY() + (firstObjc.getItemHeight() / 2)) - (secondObjc.getItemCoordY() + (secondObjc.getItemHeight() / 2)), 2));
     }
 
-    public void generateHighScoreName() {
-        System.out.println(nameInput);
-        callHighScore();
-    }
 
-    public static void callHighScore() {
-
-        try {
-            HighScore.handleHighScore();
-        } catch (SQLException e) {
-            System.err.println(e);
-        }
-
-    }
 
 }

@@ -1,6 +1,8 @@
 package controller;
 
 import javafx.stage.Stage;
+import model.HighScore;
+import model.HighScoreBean;
 import model.InGameModel;
 import view.SpaceInvaderInGameView;
 import view.ViewManager;
@@ -14,6 +16,7 @@ public class SpaceInvaderController {
 
     private boolean soundOn = true;
     private boolean gamePaused = false;
+
 
     public static SpaceInvaderController getController(Stage stage) {
         if (controller == null) {

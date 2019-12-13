@@ -4,9 +4,13 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import model.HighScore;
+import model.InGameModel;
 import view.SpaceInvaderInGameView;
 import view.SpaceInvaderMenuView;
 import view.ViewManager;
+
+import java.sql.SQLException;
 
 public class SpaceInvaderButtonListener {
 
@@ -31,6 +35,12 @@ public class SpaceInvaderButtonListener {
     public EventHandler<MouseEvent> saveScoreEvent = new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent e) {
+            String name = SpaceInvaderInGameView.getGameView().getEnterNameField().getText();
+            try {
+                HighScore.getHighScore().saveNewHighscore(name, InGameModel.getGameModel().getPoints());
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
             System.out.println("Score saved");
         }
     };
