@@ -1,6 +1,6 @@
 package model;
 
-public class EnemyDroneShip extends Ship {
+public class EnemyDroneShip extends EnemyShip {
 
     public EnemyDroneShip() {
         super(Constants.enemyDroneShipUrl,Constants.enemyDroneShipStartPosX,Constants.enemyDroneShipStartPosY,Constants.enemyDroneShipHeight

@@ -141,7 +141,9 @@ public class SpaceInvaderInGameView implements IViewState {
     private void updateIfSpawnNewEnemies() {
 
         if (spawnNewEnemies==0|| spawnNewEnemies ==600 || spawnNewEnemies == 1200 || spawnNewEnemies == 1600) {
-            model.createDefaultEnemieWave();
+           // model.createDefaultEnemieWave();
+            model.createEnemyDroneShipWave();
+          //  model.createBigBoss();
             initializeEnemies();
         }
         if ((Math.random()*100)<2) {
@@ -368,9 +370,29 @@ private void updateLastMeteor() {
 
     private void initializeEnemies() {
         ArrayList<EnemyShip> enemyModelList = model.getEnemyModelList();
+        String enemyURL;
         for (int i = 0; i < enemyModelList.size(); i++) {
             EnemyShip enemyModel = enemyModelList.get(i);
-            ImageView enemyImage = new ImageView(new Image(Constants.enemyShipURL));
+            if (enemyModel.getImageUrl().equals(Constants.enemyDroneShipUrl)) {
+            enemyURL = Constants.enemyDroneShipUrl;
+            }
+           else if (enemyModel.getImageUrl().equals(Constants.enemyBigBossUrl)){
+                enemyURL = Constants.enemyBigBossUrl;
+                ImageView enemyImage = new ImageView(new Image(enemyURL));
+                enemyImage.setPreserveRatio(true);
+                enemyImage.setFitWidth(Constants.enemyBigBossWidth);
+                enemyImage.setFitHeight(Constants.enemyBigBossHeight);
+                enemyImage.setX(enemyModel.getItemCoordX());
+                enemyImage.setY(enemyModel.getItemCoordY());
+                enemyImage.setRotate(180);
+                addToGamePane(enemyImage);
+                enemiesImageList.add(enemyImage);
+                break;
+            }
+            else {
+                enemyURL = Constants.enemyShipURL;
+            }
+            ImageView enemyImage = new ImageView(new Image(enemyURL));
             enemyImage.setX(enemyModel.getItemCoordX());
             enemyImage.setY(enemyModel.getItemCoordY());
             enemyImage.setRotate(180);

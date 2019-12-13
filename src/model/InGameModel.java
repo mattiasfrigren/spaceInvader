@@ -136,27 +136,33 @@ public class InGameModel {
     //Creates 20 enemies and add them to enemeyModelList
     public void createDefaultEnemieWave() {
         for (int i = 0; i < 10; i++) {
-            EnemyShip enemy = new EnemyShip();
+            EnemyShip enemy = new DefaultEnemy();
             enemy.setItemCoordX(Constants.enemyShipStartPosX + (i * Constants.enemySpawnSpread));
             enemy.setItemCoordY(Constants.enemyShipStartPosY);
             addEnemyModel(enemy);
         }
 
         for (int i = 0; i < 10; i++) {
-            EnemyShip enemy = new EnemyShip();
+            EnemyShip enemy = new DefaultEnemy();
             enemy.setItemCoordX(Constants.enemyShipStartPosX + (i * Constants.enemySpawnSpread));
             enemy.setItemCoordY(Constants.enemyShipStartPosY - 50);
             addEnemyModel(enemy);
         }// will create a new set of EnemyShips
 
-    }/* public void createEnemyDroneShipWave(){
+    } public void createEnemyDroneShipWave(){
          for (int i = 0; i < 10 ; i++) {
-             EnemyDroneShip enemyDrone = new EnemyDroneShip();
+             EnemyShip enemyDrone = new EnemyDroneShip();
              enemyDrone.setItemCoordX(Constants.enemyShipStartPosX + (i *Constants.enemyDroneShipSpawnSpread));
-             enemyDrone.setItemCoordY(Constants.enemyDroneShipStartPosY);
+             enemyDrone.setItemCoordY(Constants.enemyDroneShipStartPosY+50);
              addEnemyModel(enemyDrone);
          }
-     } */
+     }
+     public void createBigBoss() {
+        EnemyShip boss = new EnemyBigBoss();
+        boss.setItemCoordY(Constants.enemyBigBossStartPosY);
+        boss.setItemCoordX(Constants.SCREENWIDTH/2 );
+        addEnemyModel(boss);
+     }
 
     public void createMeteor() {
         Meteor meteor = new Meteor();

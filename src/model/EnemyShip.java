@@ -1,13 +1,9 @@
 package model;
 
 public class EnemyShip extends Ship{
-    public EnemyShip(){
+    public EnemyShip(String imageURL, double itemCoordX, double itemCoordY, double itemHeight, double itemWidth, double movementSpeed, boolean isFacingPlayer, int lifes){
         //Make a enemyShip
-        super(Constants.enemyShipURL,Constants.enemyShipStartPosX,Constants.enemyShipStartPosY,
-                Constants.enemyShipHeight,Constants.enemyShipWidth,Constants.enemyShipMovementSpeed,true, Constants.enemyLifes);
-        //Set the model objects weaponType and shooting interval
-        setWeapons(new LaserGun(true, (int)Constants.enemyLaserGunShootingInterval,this));
+            super(imageURL,itemCoordX, itemCoordY, itemHeight, itemWidth, movementSpeed, isFacingPlayer,lifes);
+
     }
-
-
 }
