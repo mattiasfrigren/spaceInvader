@@ -233,11 +233,12 @@ public class SpaceInvaderInGameView implements IViewState {
     private ArrayList<ImageView> updateMeteorRotation() {
         for (ImageView meteor: meteorImageList) {
             meteor.setRotate(rotation);
+
            if (rotation >= 360) {
                rotation=0;
            }
         }
-        rotation++;
+        rotation+=10;
         return meteorImageList;
     }
 
