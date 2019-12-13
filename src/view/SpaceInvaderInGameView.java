@@ -216,7 +216,7 @@ public class SpaceInvaderInGameView implements IViewState {
         }
 
     }//updates the movement of the meteor and removes it Y>=then the ScreenHeight
-    private ArrayList<ImageView> updateMeteorImages() {
+    private void updateMeteorImages() {
         if (model.getMeteorModelList().isEmpty()&&!meteorImageList.isEmpty()) {
             removeFromGamePane(meteorImageList.get(0));
             meteorImageList.clear(); }
@@ -237,9 +237,9 @@ public class SpaceInvaderInGameView implements IViewState {
                 }
             }
         }
-        return meteorImageList;
+
     }//rotates the meteor
-    private ArrayList<ImageView> updateMeteorRotation() {
+    private void updateMeteorRotation() {
         for (ImageView meteor: meteorImageList) {
             meteor.setRotate(rotation);
 
@@ -248,7 +248,6 @@ public class SpaceInvaderInGameView implements IViewState {
            }
         }
         rotation+=10;
-        return meteorImageList;
     }
 
     private void updateEnemyImages() {

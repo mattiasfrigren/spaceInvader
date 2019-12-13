@@ -170,19 +170,17 @@ public class InGameModel {
         addMeteorModel(meteor);
     }
 
-    public ArrayList<Meteor> moveMeteorModel() {
+    public void moveMeteorModel() {
         for (Meteor meteor : meteorModelList) {
             meteor.moveUp();
                     }
-        return meteorModelList;
     }//removes a meteor from modellist
 
-    public ArrayList<Meteor> removeMeteorFromList(Meteor removeMeteor) {
+    public void removeMeteorFromList(Meteor removeMeteor) {
         meteorModelList.remove(removeMeteor);
         System.out.println("removed : " + removeMeteor + " from MeteorModel");
-        return meteorModelList;
     }
-    public ArrayList<EnemyShip> checkIfEnemyIsmoving() {
+    public void checkIfEnemyIsmoving() {
 
         for (int i = 0; i < enemiesModelList.size() ; i++) {
             moveinterval = enemiesModelList.get(i).getRandomMoveInterval();
@@ -190,7 +188,6 @@ public class InGameModel {
             enemiesModelList.get(i).moveUp();
             }
         }
-        return enemiesModelList;
     }
 
     public ArrayList<IBullet> checkIfEnemyIsShooting() {
@@ -281,7 +278,7 @@ public class InGameModel {
     }
 
     //Checks if meteor connetcs with the playership.
-    public ArrayList<Meteor> checkIfMeteorCollide() {
+    public void checkIfMeteorCollide() {
 
         for (int i = 0; i < meteorModelList.size(); i++) {
             lastRemovedMeteorIndex =i;
@@ -290,7 +287,6 @@ public class InGameModel {
                 removeMeteorFromList(meteorModelList.get(lastRemovedMeteorIndex));
             }
         }
-        return meteorModelList;
     }
 
     // Checking if bullet is out of screen and return the index of the bullets that needs to be removed in our imageview list.
