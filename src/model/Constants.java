@@ -34,6 +34,14 @@ public class Constants {
     public final static int enemyDroneShipLifes =2;
     public final static double enemyDroneShipLaserGunShootingInterval = 200;
 
+    public final static String enemyBigBossUrl = "model/resources/enemy1_5.png";
+    public final static double enemyBigBossHeight = SCREENHEIGHT*0.3;
+    public final static double enemyBigBossWidth = SCREENWIDTH*0.32;
+    public final static double enemyBigBossMovmentSpeed = SCREENHEIGHT*0.032;
+    public final static double enemyBigBossStartPosX = SCREENWIDTH*0.1;
+    public final static double enemyBigBossStartPosY = SCREENHEIGHT -(SCREENHEIGHT+45);
+    public final static int enemyBigBossLifes = 100;
+    public final static double enemyBigBossShootingInterval =50;
 
     public final static String BackGroundImage = "model/resources/Background3.png";
     public final static String meteorImage = "model/resources/meteor.png";
