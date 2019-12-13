@@ -328,7 +328,7 @@ public class SpaceInvaderInGameView implements IViewState {
     }
 
     public void initializeHighscorePointLabel() {
-        String currentHighscore = "0";//HighScore.getTop10[0].getScore;
+        String currentHighscore = Integer.toString(HighScore.getHighScore().getBestHighestScore());
         Label highScoreLabel = new Label("Highscore: " + currentHighscore);
         highScoreLabel.setTextFill(Color.ORANGERED);
         highScoreLabel.setPrefWidth(130); // TODO CHANGE TO CONSTANTS

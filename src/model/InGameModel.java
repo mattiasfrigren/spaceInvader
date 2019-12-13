@@ -300,12 +300,14 @@ public class InGameModel {
             OnScreenItems itemBullet = (OnScreenItems) bulletsModelList.get(i);
             if (checkIfOutOfScreen(itemBullet.getItemCoordX(), itemBullet.getItemCoordY())) {
                 bulletsToRemove.add(bulletsModelList.get(i));
+                continue;
             }
             // checking if bullet collided.
             if (itemBullet.isFacingPlayer()) {
                 if (playerModel.getItemWidth() / 5 + itemBullet.getItemWidth() / 5 > distanceBetween(itemBullet, playerModel)) {
                     playerModel.looseLife(1);
                     bulletsToRemove.add(bulletsModelList.get(i));
+                    continue;
                 }
             } else { // commented out while waiting for enemies.
                 for (EnemyShip enemy : enemiesModelList) {
@@ -313,6 +315,7 @@ public class InGameModel {
                         SoundEffects.getSoundEffects().playPowerUpSound(); //Enemy deadSouncEffect.KM
                         enemy.looseLife(1);
                         bulletsToRemove.add(bulletsModelList.get(i));
+                        break;
                     }
                 }
             }
