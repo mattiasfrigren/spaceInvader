@@ -22,10 +22,10 @@ public class HighScore {
             }*/
 
             try {
-                Class.forName("org.mariadb.jdbc.Driver");
-                Connection connection = DriverManager.getConnection("jdbc:mariadb://service4rs.com.mysql:3306/service4rs_com_pixelusers?user=service4rs_com_pixelusers&password=space123");
+                //Class.forName("org.mariadb.jdbc.Driver");
+                //Connection connection = DriverManager.getConnection("jdbc:mariadb://service4rs.com.mysql:3306/service4rs_com_pixelusers?user=service4rs_com_pixelusers&password=space123");
 
-                //(Connection conn = DriverManager.getConnection(DBUtil.CONNECTION, DBUtil.USERNAME, DBUtil.PASSWORD);
+                Connection connection = DriverManager.getConnection(DBUtil.CONNECTION, DBUtil.USERNAME, DBUtil.PASSWORD);
                 PreparedStatement st = connection.prepareStatement("INSERT INTO highscore (name, score)" + "VALUES (?, ?)");
 
 
