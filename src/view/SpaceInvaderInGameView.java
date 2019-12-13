@@ -1,6 +1,7 @@
 package view;
 
 import controller.SpaceInvaderButtonListener;
+import controller.SpaceInvaderController;
 import controller.SpaceInvaderListener;
 import javafx.animation.AnimationTimer;
 import javafx.geometry.Insets;
@@ -40,6 +41,8 @@ public class SpaceInvaderInGameView implements IViewState {
     private ImageView secondBackGroundImage = new ImageView(Constants.BackGroundImage);
     private ArrayList<ImageView> playerLifeImages;
     private Label pointsLabel;
+
+    private TextField enterNameField;
     private int rotation=0;
 
     private SubScene deathSubScene;
@@ -56,6 +59,10 @@ public class SpaceInvaderInGameView implements IViewState {
             gameView = new SpaceInvaderInGameView();
         }
         return gameView;
+    }
+
+    public TextField getEnterNameField() {
+        return enterNameField;
     }
 
     private SpaceInvaderInGameView() {
@@ -410,7 +417,7 @@ private void updateLastMeteor() {
         yourScoreText.setFont(Font.font("Verdana", 15));
         deathAnchor.getChildren().add(yourScoreText);
 
-        Text highScoreText = new Text("Current Highscore: "); // TODO add highscore in the line
+        Text highScoreText = new Text("Current Highscore: " + HighScore.getHighScore().getTop10()[0].getScore()); // TODO add highscore in the line
         highScoreText.setX(deathAnchor.getWidth() * 0.20);
         highScoreText.setY(deathAnchor.getHeight() * 0.50);
         highScoreText.setFont(Font.font("Verdana", 15));
@@ -422,7 +429,7 @@ private void updateLastMeteor() {
         enterNameText.setFont(Font.font("Verdana", 15));
         deathAnchor.getChildren().add(enterNameText);
 
-        TextField enterNameField = new TextField();
+        enterNameField = new TextField();
         enterNameField.setLayoutX(deathAnchor.getWidth() * 0.25);
         enterNameField.setLayoutY(deathAnchor.getHeight() * 0.70);
         deathAnchor.getChildren().add(enterNameField);
@@ -430,7 +437,7 @@ private void updateLastMeteor() {
         Button saveScoreButton = new Button("Save Score");
         saveScoreButton.setLayoutX(deathAnchor.getWidth() * 0.10);
         saveScoreButton.setLayoutY(deathAnchor.getHeight() * 0.85);
-        saveScoreButton.setOnAction(e->model.setNameInput(enterNameField.getText()));
+        saveScoreButton.addEventFilter(MouseEvent.MOUSE_CLICKED, SpaceInvaderButtonListener.getButtonListener().saveScoreEvent);
         deathAnchor.getChildren().add(saveScoreButton);
 
 

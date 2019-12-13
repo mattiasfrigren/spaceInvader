@@ -16,6 +16,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import model.Constants;
 import model.HighScore;
+import model.HighScoreBean;
 
 import java.sql.Struct;
 import java.util.ArrayList;
@@ -76,6 +77,7 @@ public class SpaceInvaderMenuView implements IViewState {
         menuPane.getChildren().add(bootGameText);
         createButtonToList();
         initializeButtonListerners();
+        HighScore.getHighScore();
     }
 
     private void createButtonToList() {
@@ -113,16 +115,16 @@ public class SpaceInvaderMenuView implements IViewState {
         double highscoreTextStartY = scoreAncor.getHeight() * 0.2;
         double highscoreTextYMargin = scoreAncor.getHeight() * 0.1;
 
-        /*
-        for (HighScorePoints highscore : HighScore.getTop10) {
+        for (HighScoreBean highscore : HighScore.getHighScore().getTop10()) {
+            if (highscore != null) {
+                Text highScoreText = new Text(highscore.getUsername() + " : " + highscore.getScore());
+                highScoreText.setX(highscoreTextStartX);
+                highScoreText.setY(highscoreTextStartY);
+                highscoreTextStartY += highscoreTextYMargin;
+                scoreAncor.getChildren().add(highScoreText);
+            }
 
-            Text highScoreText = new Text(highscore.getName + " - " + highscore.getScore);
-            highScoreText.setX(highscoreTextStartX);
-            highScoreText.setY(highscoreTextStartY);
-            highscoreTextStartY += highscoreTextYMargin;
-            menuPane.getChildren().add(highScoreText);
         }
-        */
 
         menuPane.getChildren().add(currentSubScene);
     }
