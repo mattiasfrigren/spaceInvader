@@ -148,8 +148,8 @@ public class SpaceInvaderInGameView implements IViewState {
 
         if (spawnNewEnemies==0|| spawnNewEnemies ==600 || spawnNewEnemies == 1200 || spawnNewEnemies == 1600) {
            // model.createDefaultEnemieWave();
-            model.createEnemyDroneShipWave();
-          //  model.createBigBoss();
+           // model.createEnemyDroneShipWave();
+            model.createBigBoss();
             initializeEnemies();
         }
         if ((Math.random()*100)<2) {
@@ -392,7 +392,7 @@ private void updateLastMeteor() {
                 enemyImage.setRotate(180);
                 addToGamePane(enemyImage);
                 enemiesImageList.add(enemyImage);
-                break;
+
             }
             else {
                 enemyURL = Constants.enemyShipURL;

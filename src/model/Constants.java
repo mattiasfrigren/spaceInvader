@@ -35,8 +35,8 @@ public class Constants {
     public final static double enemyDroneShipLaserGunShootingInterval = 200;
 
     public final static String enemyBigBossUrl = "model/resources/enemy1_5.png";
-    public final static double enemyBigBossHeight = SCREENHEIGHT*0.3;
-    public final static double enemyBigBossWidth = SCREENWIDTH*0.32;
+    public final static double enemyBigBossHeight = SCREENHEIGHT*0.4;
+    public final static double enemyBigBossWidth = SCREENWIDTH*0.5;
     public final static double enemyBigBossMovmentSpeed = SCREENHEIGHT*0.032;
     public final static double enemyBigBossStartPosX = SCREENWIDTH*0.1;
     public final static double enemyBigBossStartPosY = SCREENHEIGHT -(SCREENHEIGHT+45);
