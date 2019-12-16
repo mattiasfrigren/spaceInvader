@@ -31,6 +31,7 @@ public class SpaceInvaderInGameView implements IViewState {
 
     private static AnchorPane gamePane;
     private static Scene gameScene;
+    private static SpaceInvaderController controller;
 
     private ArrayList<ImageView> enemiesImageList = new ArrayList<>();
     private ArrayList<ImageView> bulletsImageList = new ArrayList<>();
@@ -76,7 +77,7 @@ public class SpaceInvaderInGameView implements IViewState {
         model = InGameModel.getGameModel();
         gamePane = new AnchorPane();
         gameScene = new Scene(gamePane, Constants.SCREENWIDTH, Constants.SCREENHEIGHT);
-
+        controller = SpaceInvaderController.getController();
         initializeLevelToPane();  //adds all images to the pane.
         initializeGameListener(); // add key listener to game
         createGameLoop(); // starts animator.
@@ -110,12 +111,12 @@ public class SpaceInvaderInGameView implements IViewState {
 
     //add all model updates here
     private void updateAllModels() {
-        model.updateBullets();
-        model.updateWeaponsState();
-        model.updatePlayerMovement();
-        model.checkIfEnemyIsmoving();
-        model.moveMeteorModel();
-        model.checkIfMeteorCollide();
+        controller.updateBullets();
+        controller.updateWeaponsState();
+        controller.updatePlayerMovement();
+        controller.checkIfEnemyIsmoving();
+        controller.moveMeteorModel();
+        controller.checkIfMeteorCollide();
 
     }
 
@@ -148,12 +149,12 @@ public class SpaceInvaderInGameView implements IViewState {
 
         if (spawnNewEnemies==0|| spawnNewEnemies ==600 || spawnNewEnemies == 1200 || spawnNewEnemies == 1600) {
            // model.createDefaultEnemieWave();
-            model.createEnemyDroneShipWave();
+            controller.createEnemyDroneShipWave();
           //  model.createBigBoss();
             initializeEnemies();
         }
         if ((Math.random()*100)<2) {
-            model.createMeteor();
+            controller.createMeteor();
             updateLastMeteor();
         }
         if (spawnNewEnemies ==2200) {
@@ -204,7 +205,7 @@ public class SpaceInvaderInGameView implements IViewState {
                 }
             }
         }
-        ArrayList<IBullet> bulletsToRemove = model.getBulletRemoveList(); // adds all bullets who are out of screen and those who collided.
+        ArrayList<IBullet> bulletsToRemove = controller.getBulletRemoveList(); // adds all bullets who are out of screen and those who collided.
         for (IBullet bullet : bulletsToRemove) {
             int bulletIndex = bulletsModelList.indexOf(bullet);  // gets index of the model bullet.
             model.getBulletsModelList().remove(bulletIndex); // removes the model bullet from our list.
@@ -212,7 +213,7 @@ public class SpaceInvaderInGameView implements IViewState {
             bulletsImageList.remove(bulletIndex); // removes bullet image from our bullet image list.
             System.out.println("Bullet removed");
         }
-        ArrayList<IBullet> bulletsToRemoveMeteor = model.checkIfMeteorShoot();
+        ArrayList<IBullet> bulletsToRemoveMeteor = controller.checkIfMeteorShoot();
         for (IBullet bullet: bulletsToRemoveMeteor) {
             int bulletIndexFromMeteor = bulletsModelList.indexOf(bullet);
             model.getBulletsModelList().remove(bulletIndexFromMeteor);
@@ -236,7 +237,7 @@ public class SpaceInvaderInGameView implements IViewState {
                 meteorImageList.get(i).setY(allMetoerModels.get(i).getItemCoordY());
                 meteorImageList.get(i).setX(allMetoerModels.get(i).getItemCoordX());
                 if (meteorImageList.get(i).getY() >= Constants.SCREENHEIGHT+300) {
-                    model.removeMeteorFromList(allMetoerModels.get(i));
+                    model.removeMeteorModel(allMetoerModels.get(i));
                     removeFromGamePane(meteorImageList.get(i));
                     meteorImageList.remove(i);
                     System.out.println("meteor removed at: " + i + " cheers");
@@ -258,7 +259,7 @@ public class SpaceInvaderInGameView implements IViewState {
 
     private void updateEnemyImages() {
         ArrayList<EnemyShip> allEnemyModels = model.getEnemyModelList();
-        ArrayList<EnemyShip> modelEnemiesToRemove = model.getDeadEnemies();
+        ArrayList<EnemyShip> modelEnemiesToRemove = controller.getDeadEnemies();
 
         ArrayList <EnemyShip> enemymove = model.getEnemyModelList();
         for (int i = 0; i < enemymove.size() ; i++) {
@@ -278,14 +279,14 @@ public class SpaceInvaderInGameView implements IViewState {
     }
 
     private void updateIfPlayerIsShooting() {
-        IBullet currentBullet = model.checkIfPlayerIsShooting();
+        IBullet currentBullet = controller.checkIfPlayerIsShooting();
         if (currentBullet != null) {
             createBullet(currentBullet);
         }
     }
 
     private void updateIfEnemyIsShooting() {
-        ArrayList<IBullet> allEnemyModelBullets = model.checkIfEnemyIsShooting();
+        ArrayList<IBullet> allEnemyModelBullets = controller.checkIfEnemyIsShooting();
         for (IBullet enemyModelBullet: allEnemyModelBullets) {
             createBullet(enemyModelBullet);
         }
@@ -327,8 +328,8 @@ public class SpaceInvaderInGameView implements IViewState {
         pointsLabel.setAlignment(Pos.CENTER_LEFT);
         pointsLabel.setPadding(new Insets(10,10,10,10));
         pointsLabel.setFont(Font.font("Verdana", 15));
-        pointsLabel.setLayoutX(Constants.SCREENWIDTH *0.9);
-        pointsLabel.setLayoutY(Constants.SCREENHEIGHT * 0.02);
+        pointsLabel.setLayoutX(0);
+        pointsLabel.setLayoutY(Constants.SCREENHEIGHT * 0.92);
         gamePane.getChildren().add(pointsLabel);
     }
 
@@ -343,8 +344,8 @@ public class SpaceInvaderInGameView implements IViewState {
         highScoreLabel.setAlignment(Pos.CENTER_LEFT);
         highScoreLabel.setPadding(new Insets(10,10,10,10));
         highScoreLabel.setFont(Font.font("Verdana", 15));
-        highScoreLabel.setLayoutX(Constants.SCREENWIDTH *0.5);
-        highScoreLabel.setLayoutY(Constants.SCREENHEIGHT * 0.02);
+        highScoreLabel.setLayoutX((Constants.SCREENWIDTH * 0.5) - (highScoreLabel.getPrefWidth()/2));
+        highScoreLabel.setLayoutY(Constants.SCREENHEIGHT * 0.92);
         gamePane.getChildren().add(highScoreLabel);
     }
 
