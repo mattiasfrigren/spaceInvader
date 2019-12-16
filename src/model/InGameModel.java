@@ -52,7 +52,6 @@ public class InGameModel {
     }
 
     public boolean isShooting() {
-
         return isShooting;
     }
 
