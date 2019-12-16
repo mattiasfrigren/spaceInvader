@@ -61,6 +61,12 @@ public class SpaceInvaderInGameView implements IViewState {
         return gameView;
     }
 
+    public static AnchorPane getGamePane() {
+        return gamePane;
+    }
+
+
+
     public TextField getEnterNameField() {
         return enterNameField;
     }
@@ -133,7 +139,7 @@ public class SpaceInvaderInGameView implements IViewState {
 
     private void updateIfLevelIsDone() {
         if (model.getPlayerModel().getLifes() <=0) {
-            initializeDeathSubScene();
+            initializeDeathSubScene(false);
             inGameTimer.stop();
         }
     }
@@ -172,7 +178,7 @@ public class SpaceInvaderInGameView implements IViewState {
         }
 
         if (playerLifes < 1) {   // TODO Pop up menu when dead
-            initializeDeathSubScene();
+            initializeDeathSubScene(false);
             inGameTimer.stop();
         }
     }
@@ -413,7 +419,7 @@ private void updateLastMeteor() {
         addToGamePane(playerImage);
     }
 
-    private void initializeDeathSubScene() {
+    public void initializeDeathSubScene(boolean saveClicked) {
 
         deathSubScene = new SubScene(new AnchorPane(),Constants.SCREENWIDTH * 0.45, Constants.SCREENHEIGHT * 0.45);
 
@@ -455,11 +461,18 @@ private void updateLastMeteor() {
         enterNameField.setLayoutY(deathAnchor.getHeight() * 0.70);
         deathAnchor.getChildren().add(enterNameField);
 
-        Button saveScoreButton = new Button("Save Score");
+        Button saveScoreButton = new Button("Save score");
         saveScoreButton.setLayoutX(deathAnchor.getWidth() * 0.10);
         saveScoreButton.setLayoutY(deathAnchor.getHeight() * 0.85);
         saveScoreButton.addEventFilter(MouseEvent.MOUSE_CLICKED, SpaceInvaderButtonListener.getButtonListener().saveScoreEvent);
         deathAnchor.getChildren().add(saveScoreButton);
+
+
+        Button backToMenuButton = new Button("Main menu");
+        backToMenuButton.setLayoutX(deathAnchor.getWidth() * 0.40);
+        backToMenuButton.setLayoutY(deathAnchor.getHeight() * 0.85);
+        backToMenuButton.addEventFilter(MouseEvent.MOUSE_CLICKED, SpaceInvaderButtonListener.getButtonListener().enterMenu);
+        deathAnchor.getChildren().add(backToMenuButton);
 
 
         Button playAgainButton = new Button("Play again");
@@ -469,7 +482,12 @@ private void updateLastMeteor() {
         deathAnchor.getChildren().add(playAgainButton);
 
         addToGamePane(deathSubScene);
+        if (saveClicked){
+            saveScoreButton.setDisable(true);
+        }
     }
+
+
 
     // starts the listeners.
     private void initializeGameListener() {
@@ -529,7 +547,7 @@ private void updateLastMeteor() {
         }
     }
 
-    private void addToGamePane(Node node) {
+    public void addToGamePane(Node node) {
         gamePane.getChildren().add(node);
     }
 
