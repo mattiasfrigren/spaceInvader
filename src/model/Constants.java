@@ -10,7 +10,7 @@ public class Constants {
     public final static double playerShipWidth = SCREENWIDTH * 0.08;
     public final static double playerShipMovementSpeed = SCREENHEIGHT * 0.008;
     public final static double playerShipStartPosX = SCREENWIDTH/2;
-    public final static double playerShipStartPosY= SCREENHEIGHT * 0.95;
+    public final static double playerShipStartPosY= (SCREENHEIGHT * 0.92) - playerShipHeight/2;
     public final static int playerLifes = 3;
 
     public final static String enemyShipURL = "model/resources/enemy.png";
