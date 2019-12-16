@@ -1,8 +1,10 @@
 package view;
 
+import controller.SpaceInvaderController;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import model.Constants;
 import model.InGameModel;
 
@@ -64,6 +66,10 @@ public class ViewManager {
         mainStage.setScene(mainScene);
         mainStage.setResizable(false);
         mainStage.sizeToScene();
+        mainStage.addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, e->{
+            e.consume();
+            SpaceInvaderMenuView.getSpaceInvaderMenuView().initializeExitSubScene(false);
+        });
         // }
         stage.show();
 
@@ -86,9 +92,19 @@ public class ViewManager {
         if (isPlaying) {
             gameState = SpaceInvaderInGameView.getGameView();
             mainScene = ((SpaceInvaderInGameView) gameState).getGameScene();
+            mainStage.addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, e->{
+                SpaceInvaderController.getController().pauseGame();
+                e.consume();
+                SpaceInvaderMenuView.getSpaceInvaderMenuView().initializeExitSubScene(true);
+            });
+
         } else {
             gameState = SpaceInvaderMenuView.getSpaceInvaderMenuView();
             mainScene = ((SpaceInvaderMenuView) gameState).getMenuScene();
+            mainStage.addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, e->{
+                e.consume();
+                SpaceInvaderMenuView.getSpaceInvaderMenuView().initializeExitSubScene(false);
+            });
         }
         mainStage.setScene(mainScene);
 
