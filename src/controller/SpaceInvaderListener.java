@@ -12,7 +12,6 @@ package controller;
         import model.LaserGun;
 
 public class SpaceInvaderListener implements EventHandler<KeyEvent> {
-
     private static SpaceInvaderListener listener;
 
     public static SpaceInvaderListener getListener() {
@@ -22,25 +21,26 @@ public class SpaceInvaderListener implements EventHandler<KeyEvent> {
         return listener;
     }
 
-    private SpaceInvaderListener() { }
+    private SpaceInvaderListener() {
+    }
 
     @Override
     public void handle(KeyEvent event) {
         if (event.getEventType().equals(KeyEvent.KEY_PRESSED)) {
             if (event.getCode() == KeyCode.SPACE) {
-                InGameModel.getGameModel().setShooting(true);
+                SpaceInvaderController.getController().setShooting(true);
             }
             if (event.getCode() == KeyCode.A){
-               InGameModel.getGameModel().setMovingLeft(true);
+                SpaceInvaderController.getController().setMovingLeft(true);
             }
             if (event.getCode() == KeyCode.D){
-                InGameModel.getGameModel().setMovingRight(true);
+                SpaceInvaderController.getController().setMovingRight(true);
             }
             if (event.getCode() == KeyCode.W){
-                InGameModel.getGameModel().setMovingUp(true);
+                SpaceInvaderController.getController().setMovingUp(true);
             }
             if (event.getCode() == KeyCode.S){
-                InGameModel.getGameModel().setMovingDown(true);
+                SpaceInvaderController.getController().setMovingDown(true);
             }
             if (event.getCode() ==KeyCode.SHIFT)
                 InGameModel.getGameModel().getPlayerModel().setMovementSpeed(Constants.SCREENHEIGHT*0.016);
@@ -51,19 +51,19 @@ public class SpaceInvaderListener implements EventHandler<KeyEvent> {
         }
         else if (event.getEventType().equals(KeyEvent.KEY_RELEASED)) {
             if (event.getCode() == KeyCode.SPACE) {
-                InGameModel.getGameModel().setShooting(false);
+                SpaceInvaderController.getController().setShooting(false);
             }
             if (event.getCode() == KeyCode.A){
-                InGameModel.getGameModel().setMovingLeft(false);
+                SpaceInvaderController.getController().setMovingLeft(false);
             }
             if (event.getCode() == KeyCode.D){
-                InGameModel.getGameModel().setMovingRight(false);
+                SpaceInvaderController.getController().setMovingRight(false);
             }
             if (event.getCode() == KeyCode.W){
-                InGameModel.getGameModel().setMovingUp(false);
+                SpaceInvaderController.getController().setMovingUp(false);
             }
             if (event.getCode() == KeyCode.S){
-                InGameModel.getGameModel().setMovingDown(false);
+                SpaceInvaderController.getController().setMovingDown(false);
             }
             if (event.getCode() == KeyCode.SHIFT) {
                 InGameModel.getGameModel().getPlayerModel().setMovementSpeed(Constants.playerShipMovementSpeed);
