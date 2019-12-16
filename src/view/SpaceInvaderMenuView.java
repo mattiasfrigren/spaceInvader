@@ -217,7 +217,7 @@ public class SpaceInvaderMenuView implements IViewState {
     }
 
 
-    public void initializeExitSubScene(boolean inGame){
+    /*public void initializeExitSubScene(boolean inGame){
         double subSceneWidth = Constants.SCREENWIDTH * 0.45;
         double subSceneHeight = Constants.SCREENHEIGHT * 0.45;
 
@@ -255,7 +255,7 @@ public class SpaceInvaderMenuView implements IViewState {
         exitAnchor.getChildren().add(noButton);
 
         yesButton.addEventFilter(MouseEvent.MOUSE_CLICKED, SpaceInvaderButtonListener.getButtonListener().reallyExit);
-        noButton.addEventFilter(MouseEvent.MOUSE_CLICKED, SpaceInvaderButtonListener.getButtonListener().exitToMenu);
+        noButton.addEventFilter(MouseEvent.MOUSE_CLICKED, SpaceInvaderButtonListener.getButtonListener().);
 
         if (!inGame) {
             menuPane.getChildren().add(currentSubScene);
@@ -263,7 +263,7 @@ public class SpaceInvaderMenuView implements IViewState {
         else
             SpaceInvaderController.getController().pauseGame();
             SpaceInvaderInGameView.getGameView().addToGamePane(currentSubScene);
-    }
+    }*/
     
     public void closeCurrentSubScene(){
         if (currentSubScene != null) {
