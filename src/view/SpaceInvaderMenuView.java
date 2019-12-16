@@ -69,7 +69,7 @@ public class SpaceInvaderMenuView implements IViewState {
 
         menuPane.setBackground(new Background(bootImage));
 
-        Text bootGameText = new Text("Game menu");
+        Text bootGameText = new Text();
         bootGameText.setX(Constants.SCREENWIDTH / 3);
         bootGameText.setY(Constants.SCREENHEIGHT * 0.07);
         bootGameText.setFont(Font.font("verdana", 40));

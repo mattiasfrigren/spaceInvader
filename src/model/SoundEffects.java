@@ -15,10 +15,6 @@ public class SoundEffects {
         }
         return soundEffects;
     }
-
-
-
-
     private String laser1 = "src\\model\\resources\\Laser1.wav";
     private String laser2 = "src\\model\\resources\\Laser2.wav";
     private String explo = "src\\model\\resources\\Explosion.wav";
