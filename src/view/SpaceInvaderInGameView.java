@@ -90,17 +90,9 @@ public class SpaceInvaderInGameView implements IViewState {
         bulletsImageList.clear();
         meteorImageList.clear();
 
-        //playerImage = null;
-        //firstBackGroundImage = new ImageView(Constants.BackGroundImage);
-        //secondBackGroundImage = new ImageView(Constants.BackGroundImage);
         playerLifeImages.clear();
-        //pointsLabel;
 
-        //enterNameField;
-        //rotation=0;
-
-        //deathSubScene;
-        spawnNewEnemies =0;
+        spawnNewEnemies = 0;
         initializeLevelToPane();
     }
 
