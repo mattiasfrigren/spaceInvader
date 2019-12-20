@@ -27,9 +27,11 @@ public class SpaceInvaderButtonListener {
     public EventHandler<MouseEvent> resetGameEvent = new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent e) {
-            System.out.println("reset game");
-            ViewManager.getViewManager().resetGameScene();
-            ViewManager.getViewManager().changeToInGameScene(true);
+            InGameModel.getGameModel().resetAllModel();
+            SpaceInvaderInGameView.getGameView().setAnimationTimer(false);
+            InGameModel.getGameModel().resetAllModel();
+            SpaceInvaderInGameView.getGameView().resetGame();
+            SpaceInvaderInGameView.getGameView().setAnimationTimer(true);
         }
     };
 
@@ -37,7 +39,9 @@ public class SpaceInvaderButtonListener {
         @Override
         public void handle(MouseEvent e) {
             System.out.println("enter menu");
-            ViewManager.getViewManager().resetGameScene();
+            SpaceInvaderInGameView.getGameView().setAnimationTimer(false);
+            InGameModel.getGameModel().resetAllModel();
+            SpaceInvaderInGameView.getGameView().resetGame();
             ViewManager.getViewManager().changeToInGameScene(false);
         }
     };
@@ -60,6 +64,7 @@ public class SpaceInvaderButtonListener {
         public void handle(MouseEvent e) {
             if (e.getButton().equals(MouseButton.PRIMARY)) {
                 ViewManager.getViewManager().changeToInGameScene(true);
+                SpaceInvaderInGameView.getGameView().setAnimationTimer(true);
             }
             }
         };

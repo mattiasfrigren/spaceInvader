@@ -86,12 +86,6 @@ public class ViewManager {
 
     }
 
-    public void resetGameScene() {
-        SpaceInvaderInGameView.getGameView().resetGame();
-        InGameModel.getGameModel().resetAllModel();
-        //changeToInGameScene(true);
-    }
-
     public void setMainScene(Scene mainScene) {
         this.mainScene = mainScene;
         mainStage.setScene(mainScene);

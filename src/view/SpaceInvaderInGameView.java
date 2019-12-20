@@ -85,8 +85,23 @@ public class SpaceInvaderInGameView implements IViewState {
     }
 
     public void resetGame() {
-        gameView = null;
+        gamePane.getChildren().clear();
+        enemiesImageList.clear();
+        bulletsImageList.clear();
+        meteorImageList.clear();
 
+        //playerImage = null;
+        //firstBackGroundImage = new ImageView(Constants.BackGroundImage);
+        //secondBackGroundImage = new ImageView(Constants.BackGroundImage);
+        playerLifeImages.clear();
+        //pointsLabel;
+
+        //enterNameField;
+        //rotation=0;
+
+        //deathSubScene;
+        spawnNewEnemies =0;
+        initializeLevelToPane();
     }
 
     private void createGameLoop() {
@@ -128,8 +143,8 @@ public class SpaceInvaderInGameView implements IViewState {
         updateEnemyImages();
         updatePointsLabel();
         updatePlayerLifeImages();
-        updateMeteorImages();
-        updateMeteorRotation();
+        //updateMeteorImages();
+       // updateMeteorRotation();
     }
 
     private void updatePointsLabel() {
@@ -223,7 +238,7 @@ public class SpaceInvaderInGameView implements IViewState {
         }
 
     }//updates the movement of the meteor and removes it Y>=then the ScreenHeight
-    private void updateMeteorImages() {
+    /*private void updateMeteorImages() {
         if (model.getMeteorModelList().isEmpty()&&!meteorImageList.isEmpty()) {
             removeFromGamePane(meteorImageList.get(0));
             meteorImageList.clear(); }
@@ -245,7 +260,7 @@ public class SpaceInvaderInGameView implements IViewState {
             }
         }
 
-    }//rotates the meteor
+    }*///rotates the meteor
     private void updateMeteorRotation() {
         for (ImageView meteor: meteorImageList) {
             meteor.setRotate(rotation);
@@ -351,6 +366,7 @@ public class SpaceInvaderInGameView implements IViewState {
 
     private void initializeBackground() {
         secondBackGroundImage.setY(-3600);
+        firstBackGroundImage.setY(0);
         addToGamePane(firstBackGroundImage);
         addToGamePane(secondBackGroundImage);
     }
