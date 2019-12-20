@@ -213,7 +213,7 @@ public class SpaceInvaderController {
     public IBullet checkIfPlayerIsShooting() {
         if (isShooting) {
             IBullet currentBullet = gameModel.getPlayerModel().performShootingAction();
-            SoundEffects.getSoundEffects().playLaser2Sound(); //PlayerShoot soundEffect.KM
+            new SoundEffects().playSound(Constants.LASERSOUNDURL1);//PlayerShoot soundEffect.KM
             if (currentBullet != null) {
                 gameModel.addBullets(currentBullet);
                 System.out.println("bullet added to list");
@@ -312,10 +312,9 @@ public class SpaceInvaderController {
                     bulletsToRemove.add(gameModel.getBulletsModelList().get(i));
                     continue;
                 }
-            } else { // commented out while waiting for enemies.
+            } else {
                 for (EnemyShip enemy : gameModel.getEnemyModelList()) {
                     if (enemy.getItemWidth() / 5 + itemBullet.getItemWidth() / 5 > distanceBetween(itemBullet, enemy)) {
-                        SoundEffects.getSoundEffects().playPowerUpSound(); //Enemy deadSouncEffect.KM
                         enemy.looseLife(1);
                         bulletsToRemove.add(gameModel.getBulletsModelList().get(i));
                         break;
@@ -336,6 +335,7 @@ public class SpaceInvaderController {
             if (enemy.getLifes() < 1) {
                 deadEnemyList.add(enemy);
                 gameModel.addPoints(1);
+                new SoundEffects().playSound(Constants.POWERUPSOUNDURL); //Enemy deadSouncEffect.KM
             }
         }
         return deadEnemyList;

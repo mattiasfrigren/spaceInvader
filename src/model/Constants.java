@@ -71,4 +71,12 @@ public class Constants {
     public static final double menuButtonWidth = SCREENWIDTH * 0.15;
     public static final double menuButtonStartingXPos = SCREENWIDTH * 0.1;
     public static final double menuButtonStartingYPos = SCREENHEIGHT * 0.7;
+
+
+    public static final String LASERSOUNDURL1 = "src\\model\\resources\\Laser1.wav";
+    public static final String LASERSOUNDURL2 = "src\\model\\resources\\Laser2.wav";
+    public static final String EXPLOSIONSOUNDURL1 = "src\\model\\resources\\Explosion.wav";
+    public static final String EXPLOSIONSOUNDURL2 = "src\\model\\resources\\Explosion2.wav";
+    public static final String POWERUPSOUNDURL = "src\\model\\resources\\Powerup.wav";
+    public static final String PLASMASOUNDURL = "src\\model\\resources\\Sci-Fi Plasma.mp3";
 }
