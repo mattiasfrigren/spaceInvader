@@ -29,6 +29,7 @@ public class SpaceInvaderButtonListener {
         public void handle(MouseEvent e) {
             InGameModel.getGameModel().resetAllModel();
             SpaceInvaderInGameView.getGameView().setAnimationTimer(false);
+            SpaceInvaderController.getController().resetController();
             InGameModel.getGameModel().resetAllModel();
             SpaceInvaderInGameView.getGameView().resetGame();
             SpaceInvaderInGameView.getGameView().setAnimationTimer(true);
@@ -40,6 +41,7 @@ public class SpaceInvaderButtonListener {
         public void handle(MouseEvent e) {
             System.out.println("enter menu");
             SpaceInvaderInGameView.getGameView().setAnimationTimer(false);
+            SpaceInvaderController.getController().resetController();
             InGameModel.getGameModel().resetAllModel();
             SpaceInvaderInGameView.getGameView().resetGame();
             ViewManager.getViewManager().changeToInGameScene(false);

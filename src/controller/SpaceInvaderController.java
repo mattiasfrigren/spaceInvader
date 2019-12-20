@@ -16,6 +16,7 @@ public class SpaceInvaderController {
     private static InGameModel gameModel;
 
     private boolean soundOn = true;
+
     private boolean gamePaused = false;
 
     private boolean isShooting = false;
@@ -23,7 +24,8 @@ public class SpaceInvaderController {
     private boolean isMovingRight = false;
     private boolean isMovingUp = false;
     private boolean isMovingDown = false;
-    private boolean saveGameButtonClicked = false;
+
+    private int lastSpawnedAt = -1;
 
 
     public static SpaceInvaderController getController(Stage stage) {
@@ -43,6 +45,10 @@ public class SpaceInvaderController {
 
     public void setSoundOn(boolean soundOn) {
         this.soundOn = soundOn;
+    }
+
+    public boolean isGamePaused() {
+        return gamePaused;
     }
 
     public boolean isShooting() {
@@ -91,6 +97,15 @@ public class SpaceInvaderController {
         listener = SpaceInvaderListener.getListener();
     }
 
+    public void resetController() {
+        isShooting = false;
+        isMovingLeft = false;
+        isMovingRight = false;
+        isMovingUp = false;
+        isMovingDown = false;
+        lastSpawnedAt = -1;
+
+    }
 
     public void pauseGame() {
         gamePaused = gamePaused ? false : true;
@@ -98,13 +113,26 @@ public class SpaceInvaderController {
     }
 
     public ArrayList<EnemyShip> checkWhatToSpawn() {
-        if (gameModel.getPoints() == 0) {
+        if (shouldSpawnAtPoint(0)) {
+            lastSpawnedAt = 0;
             return spawnEnemies(3, "default");
+        }
+        else if (shouldSpawnAtPoint(3)) {
+            lastSpawnedAt = 3;
+            return spawnEnemies(5, "default");
+        }
+       else if (shouldSpawnAtPoint(8)) {
+            lastSpawnedAt = 8;
+            return spawnEnemies(15, "default");
         }
         return null;
     }
 
-    public ArrayList<EnemyShip> spawnEnemies(int amount, String enemy) {
+    private boolean shouldSpawnAtPoint(int points) {
+        return gameModel.getPoints() == points && lastSpawnedAt != points;
+    }
+
+    private ArrayList<EnemyShip> spawnEnemies(int amount, String enemy) {
         ArrayList<EnemyShip> enemyModelsToView = new ArrayList<>();
         EnemyShip enemyShip = null;
 
@@ -112,33 +140,44 @@ public class SpaceInvaderController {
             enemyShip = new DefaultEnemy();
         }
 
-        double currentYPos = -50;
-        boolean toRight = true;
-        double middleXPos = Constants.SCREENWIDTH/2 - (enemyShip.getItemWidth()/2);
-        double currentXPos = middleXPos;
-        double addToX = 0;
-        for (int i = 0; i < amount; i++) {
-            enemyModelsToView.add(enemyShip);
-            enemyShip.setItemCoordX(currentXPos);
-            enemyShip.setItemCoordY(currentYPos);
 
-            if (toRight) {
-                addToX += Constants.enemySpawnSpread;
-                currentXPos = middleXPos + addToX;
-                toRight = false;
+        double startXPos = Constants.SCREENWIDTH/2 - (enemyShip.getItemWidth()/2);
+        boolean toRight = true;
+        double currentYPos = -50;
+        double currentXPos = startXPos;
+        double currentDistanceFromCenter = 0;
+
+        for (int i = 0; i < amount; i++) {
+
+            if (enemy.equals("default")) {
+                enemyShip = new DefaultEnemy();
             }
-            else {
-                currentXPos = middleXPos - addToX;
+
+            if (i%10 == 0) {
+                currentDistanceFromCenter = 0;
+                currentXPos = startXPos;
+                currentYPos -= 100;
                 toRight = true;
             }
-            if (i%10 == 0) {
-                currentYPos -= 50;
+            else {
+                if (toRight) {
+                    currentDistanceFromCenter += Constants.enemySpawnSpread;
+                    currentXPos = startXPos + currentDistanceFromCenter;
+                    toRight = false;
+                }
+                else {
+                    currentXPos = startXPos - currentDistanceFromCenter;
+                    toRight = true;
+                }
             }
+            enemyShip.setItemCoordX(currentXPos + (new Random().nextInt(20)));
+            enemyShip.setItemCoordY(currentYPos + (new Random().nextInt(20)));
 
-
+            enemyModelsToView.add(enemyShip);
+            gameModel.addEnemyModel(enemyShip);
         }
 
-        return null;
+        return enemyModelsToView;
     }
 
 
@@ -190,8 +229,8 @@ public class SpaceInvaderController {
     public void checkIfEnemyIsmoving() {
         ArrayList<EnemyShip> enemyShips = gameModel.getEnemyModelList();
         for (int i = 0; i < enemyShips.size() ; i++) {
-            double moveinterval = enemyShips.get(i).getRandomMoveInterval();
-            if (moveinterval >= Constants.enemyShipMovmentInterval && enemyShips.get(i).getItemCoordY() <= Constants.SCREENHEIGHT / 2){
+            //double moveinterval = enemyShips.get(i).getRandomMoveInterval();
+            if (enemyShips.get(i).getItemCoordY() <= Constants.SCREENHEIGHT / 2){
                 enemyShips.get(i).moveUp();
             }
         }
@@ -266,6 +305,11 @@ public class SpaceInvaderController {
     private boolean checkIfOutOfScreen(double x, double y) {
         return y > Constants.SCREENHEIGHT + 50 || x > Constants.SCREENWIDTH + 50 || y < -50 || x < -50;
     }
+
+    private boolean checkIfOutOfScreen(double x, double y, double width) {
+        return y > Constants.SCREENHEIGHT + width || x > Constants.SCREENWIDTH + width || y < -width || x < -width;
+    }
+
     public ArrayList<IBullet> checkIfMeteorShoot() {
         ArrayList<IBullet> bulletsToRemove = new ArrayList<>();
         if (!gameModel.getBulletsModelList().isEmpty()) {
@@ -359,6 +403,7 @@ public class SpaceInvaderController {
     }
 
 
-    }
+
+}
 
 

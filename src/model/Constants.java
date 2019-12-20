@@ -14,9 +14,9 @@ public class Constants {
     public final static int playerLifes = 3;
 
     public final static String enemyShipURL = "model/resources/enemy.png";
-    public final static double enemyShipHeight = SCREENHEIGHT * 0.12;
-    public final static double enemyShipWidth = SCREENWIDTH * 0.08;
-    public final static double enemyShipMovementSpeed = SCREENHEIGHT * 0.008;
+    public final static double enemyShipHeight = SCREENHEIGHT * 0.08;
+    public final static double enemyShipWidth = SCREENWIDTH * 0.06;
+    public final static double enemyShipMovementSpeed = SCREENHEIGHT * 0.002;
     public final static double enemyShipStartPosX = SCREENWIDTH * 0.1;
     public final static double enemyShipStartPosY = SCREENHEIGHT -(SCREENHEIGHT+45);
     public final static double enemySpawnSpread = SCREENWIDTH * 0.08;

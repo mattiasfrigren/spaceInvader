@@ -101,7 +101,6 @@ public class SpaceInvaderInGameView implements IViewState {
             @Override
             public void handle(long now) {
                 // checks and update movement of images
-                updateIfSpawnNewEnemies();
                 updateIfPlayerIsShooting();
                 updateIfEnemyIsShooting();
                 updateAllModels(); // update all models before checks.
@@ -129,6 +128,7 @@ public class SpaceInvaderInGameView implements IViewState {
 
     //add all imagesviews here
     private void updateAllImageviews() {
+        updateIfSpawnNewEnemies();
         updateBackGround();
         updateBulletsImage();
         updatePlayerImage();
@@ -153,19 +153,18 @@ public class SpaceInvaderInGameView implements IViewState {
     }
     //Spawns Enemys at an interval.
     private void updateIfSpawnNewEnemies() {
-
-        if (spawnNewEnemies==0|| spawnNewEnemies ==600 || spawnNewEnemies == 1200 || spawnNewEnemies == 1600) {
-           // model.createDefaultEnemieWave();
-            controller.createEnemyDroneShipWave();
-          //  model.createBigBoss();
-            initializeEnemies();
-        }
-        if ((Math.random()*100)<2) {
-            controller.createMeteor();
-            updateLastMeteor();
-        }
-        if (spawnNewEnemies ==2200) {
-            spawnNewEnemies =0;
+        ArrayList<EnemyShip> modelEnemies = controller.checkWhatToSpawn();
+        if (modelEnemies != null) {
+            for (EnemyShip modelEnemy: modelEnemies) {
+                ImageView enemyImage = new ImageView(modelEnemy.getImageUrl());
+                enemyImage.setY(modelEnemy.getItemCoordY());
+                enemyImage.setX(modelEnemy.getItemCoordX());
+                enemyImage.setPreserveRatio(true);
+                enemyImage.setFitHeight(modelEnemy.getItemHeight());
+                enemyImage.setFitWidth(modelEnemy.getItemWidth());
+                enemiesImageList.add(enemyImage);
+                addToGamePane(enemyImage);
+            }
         }
     }
 
@@ -185,7 +184,7 @@ public class SpaceInvaderInGameView implements IViewState {
             }
         }
 
-        if (playerLifes < 1) {   // TODO Pop up menu when dead
+        if (playerLifes < 1) {
             initializeDeathSubScene(false);
             inGameTimer.stop();
         }
@@ -268,10 +267,9 @@ public class SpaceInvaderInGameView implements IViewState {
         ArrayList<EnemyShip> allEnemyModels = model.getEnemyModelList();
         ArrayList<EnemyShip> modelEnemiesToRemove = controller.getDeadEnemies();
 
-        ArrayList <EnemyShip> enemymove = model.getEnemyModelList();
-        for (int i = 0; i < enemymove.size() ; i++) {
-            enemiesImageList.get(i).setY(enemymove.get(i).getItemCoordY());
-            enemiesImageList.get(i).setX(enemymove.get(i).getItemCoordX());
+        for (int i = 0; i < allEnemyModels.size() ; i++) {
+            enemiesImageList.get(i).setY(allEnemyModels.get(i).getItemCoordY());
+            enemiesImageList.get(i).setX(allEnemyModels.get(i).getItemCoordX());
         }
 
       if (!modelEnemiesToRemove.isEmpty()) {
