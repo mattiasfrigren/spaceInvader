@@ -61,15 +61,7 @@ public class ViewManager {
 
     private ViewManager(Stage stage) {
 
-       /* if (changeGameState) {
-            gameState = SpaceInvaderMenuView.getSpaceInvaderMenuView();
-            mainScene = ((SpaceInvaderMenuView) gameState).getMenuScene();
-            mainStage = stage;
-            mainStage.setScene(mainScene);
-        }*/
-        //else {
         gameState = SpaceInvaderMenuView.getSpaceInvaderMenuView();
-        // gameState = SpaceInvaderInGameView.getGameView();
         mainScene = ((SpaceInvaderMenuView) gameState).getMenuScene();
         mainStage = stage;
         mainStage.setTitle("SpaceInvader");
@@ -80,7 +72,7 @@ public class ViewManager {
             e.consume();
             initializeExitSubScene();
         });
-        // }
+
         stage.show();
 
 
@@ -89,7 +81,6 @@ public class ViewManager {
     public void resetGameScene() {
         SpaceInvaderInGameView.getGameView().resetGame();
         InGameModel.getGameModel().resetAllModel();
-        //changeToInGameScene(true);
     }
 
     public void setMainScene(Scene mainScene) {

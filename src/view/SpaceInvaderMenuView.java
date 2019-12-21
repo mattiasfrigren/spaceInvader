@@ -17,20 +17,15 @@ import javafx.scene.text.Text;
 import model.Constants;
 import model.HighScore;
 import model.HighScoreBean;
-
-import java.sql.Struct;
 import java.util.ArrayList;
 
 public class SpaceInvaderMenuView implements IViewState {
     private ArrayList<Button> buttonArrayList = new ArrayList<>();
     private Button button;
     private static SubScene currentSubScene;
-    private Button yesButton;
-    private Button noButton;
-
-
     private SubScene exitSubScene;
     private AnchorPane exitSubAnchorPane;
+
     BackgroundImage buttonOncklickeImg = new BackgroundImage(new Image(Constants.buttonBgClickedURL), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
     Background buttonOnOnclickBackground = new Background(buttonOncklickeImg);
     BackgroundImage buttonOnReleasedImage = new BackgroundImage(new Image(Constants.buttonBgURL), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
@@ -69,12 +64,6 @@ public class SpaceInvaderMenuView implements IViewState {
 
         menuPane.setBackground(new Background(bootImage));
 
-        Text bootGameText = new Text("Game menu");
-        bootGameText.setX(Constants.SCREENWIDTH / 3);
-        bootGameText.setY(Constants.SCREENHEIGHT * 0.07);
-        bootGameText.setFont(Font.font("verdana", 40));
-        bootGameText.setFill(Color.color(0.75, 0.9, 0.9));
-        menuPane.getChildren().add(bootGameText);
         createButtonToList();
         initializeButtonListerners();
         HighScore.getHighScore();
@@ -90,14 +79,12 @@ public class SpaceInvaderMenuView implements IViewState {
 
     public void initializeHighScoreSubScene() {
 
-
-
         closeCurrentSubScene();
 
         AnchorPane scoreAncor = new AnchorPane();
-        currentSubScene = new SubScene(scoreAncor, Constants.SCREENWIDTH * 0.45, Constants.SCREENHEIGHT * 0.45);
+        currentSubScene = new SubScene(scoreAncor, Constants.SCREENWIDTH * 0.6, Constants.SCREENHEIGHT * 0.6);
 
-        BackgroundImage image = new BackgroundImage(new Image(Constants.gameOverSubSceneBackground, Constants.SCREENWIDTH * 0.45, Constants.SCREENHEIGHT * 0.45, false, true),
+        BackgroundImage image = new BackgroundImage(new Image(Constants.gameOverSubSceneBackground, Constants.SCREENWIDTH * 0.6, Constants.SCREENHEIGHT * 0.6, false, true),
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, null);
 
         scoreAncor.setBackground(new Background(image));
@@ -106,14 +93,14 @@ public class SpaceInvaderMenuView implements IViewState {
         currentSubScene.setLayoutY(Constants.SCREENHEIGHT / 3);
 
         Text text = new Text("Highscore"); //TODO COLOR SET on text in the subscene
-        text.setX(scoreAncor.getWidth() /2);
+        text.setX(scoreAncor.getWidth() /2.2);
         text.setY(scoreAncor.getHeight() * 0.1);
         // text.setFill(Color.ORANGERED);
         scoreAncor.getChildren().add(text);
 
-        double highscoreTextStartX = scoreAncor.getWidth() /2;
+        double highscoreTextStartX = scoreAncor.getWidth() /2.2;
         double highscoreTextStartY = scoreAncor.getHeight() * 0.2;
-        double highscoreTextYMargin = scoreAncor.getHeight() * 0.1;
+        double highscoreTextYMargin = scoreAncor.getHeight() * 0.08;
 
         for (HighScoreBean highscore : HighScore.getHighScore().getTop10()) {
             if (highscore != null) {
@@ -216,55 +203,6 @@ public class SpaceInvaderMenuView implements IViewState {
         menuPane.getChildren().add(currentSubScene);
     }
 
-
-    /*public void initializeExitSubScene(boolean inGame){
-        double subSceneWidth = Constants.SCREENWIDTH * 0.45;
-        double subSceneHeight = Constants.SCREENHEIGHT * 0.45;
-
-        closeCurrentSubScene();
-
-        AnchorPane exitAnchor = new AnchorPane();
-        currentSubScene = new SubScene(exitAnchor, subSceneWidth, subSceneHeight);
-
-        BackgroundImage image = new BackgroundImage(new Image(Constants.gameOverSubSceneBackground, Constants.SCREENWIDTH * 0.45, Constants.SCREENHEIGHT * 0.45, false, true),
-                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, null);
-
-        exitAnchor.setBackground(new Background(image));
-
-        currentSubScene.setLayoutX(Constants.SCREENWIDTH / 3);
-        currentSubScene.setLayoutY(Constants.SCREENHEIGHT / 3);
-
-        Text exitText = new Text("Are you sure you want to quit?");
-        exitText.setX(subSceneWidth/8);
-        exitText.setY(subSceneHeight/3);
-        exitText.setFont(Font.font("Verdana", 20));
-        exitAnchor.getChildren().add(exitText);
-
-        yesButton = new Button("yes");
-        yesButton.setLayoutX(subSceneWidth/5);
-        yesButton.setLayoutY(subSceneHeight/2);
-        yesButton.setFont(Font.font("Verdana", 20));
-        yesButton.setPrefWidth(Constants.menuButtonWidth*0.7);
-        exitAnchor.getChildren().add(yesButton);
-
-        noButton = new Button("no");
-        noButton.setLayoutX(subSceneWidth/2);
-        noButton.setLayoutY(subSceneHeight/2);
-        noButton.setFont(Font.font("Verdana", 20));
-        noButton.setPrefWidth(Constants.menuButtonWidth*0.7);
-        exitAnchor.getChildren().add(noButton);
-
-        yesButton.addEventFilter(MouseEvent.MOUSE_CLICKED, SpaceInvaderButtonListener.getButtonListener().reallyExit);
-        noButton.addEventFilter(MouseEvent.MOUSE_CLICKED, SpaceInvaderButtonListener.getButtonListener().);
-
-        if (!inGame) {
-            menuPane.getChildren().add(currentSubScene);
-        }
-        else
-            SpaceInvaderController.getController().pauseGame();
-            SpaceInvaderInGameView.getGameView().addToGamePane(currentSubScene);
-    }*/
-    
     public void closeCurrentSubScene(){
         if (currentSubScene != null) {
             menuPane.getChildren().remove(currentSubScene);

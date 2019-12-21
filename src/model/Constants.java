@@ -59,7 +59,7 @@ public class Constants {
     public final static double heartHeight = SCREENHEIGHT * 0.04;
     public final static double heartWidth = SCREENWIDTH * 0.04;
 
-    public final static String gameOverSubSceneBackground = "model/resources/subScenBG.png";
+    public final static String gameOverSubSceneBackground = "model/resources/highscore@2x.jpg";
     public final static String gameBootSceneBackGround ="model/resources/backgroundBootMenu.png";
     public final static String pointLabelBackGround ="model/resources/pointLabel.png";
 
