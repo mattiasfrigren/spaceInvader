@@ -14,18 +14,10 @@ public class InGameModel {
     private ArrayList<EnemyShip> enemiesModelList = new ArrayList<>();
     private ArrayList<Meteor> meteorModelList = new ArrayList<>();
 
-
-    private double moveinterval = 0;
     private int points = 0;
-
-    private int lastRemovedMeteorIndex;
-    private int moveTimes = 0;
 
     /////////************** Getter and setters ***********************
 
-    public int getLastRemovedMeteorIndex() {
-        return lastRemovedMeteorIndex;
-    }
 
     public ArrayList<Meteor> getMeteorModelList() {
         return meteorModelList;
@@ -105,7 +97,11 @@ public class InGameModel {
     ///// ******************* END OF GETTERS AND SETTERS  ******************************
 
     public void resetAllModel() {
-        gameModel = null;
+        playerModel = new PlayerShip();
+        bulletsModelList.clear();
+        enemiesModelList.clear();
+        meteorModelList.clear();
+        points = 0;
     }
 
 
