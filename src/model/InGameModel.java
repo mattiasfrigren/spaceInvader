@@ -12,22 +12,19 @@ public class InGameModel {
     private PlayerShip playerModel;
     private ArrayList<IBullet> bulletsModelList = new ArrayList<>();
     private ArrayList<EnemyShip> enemiesModelList = new ArrayList<>();
-    private ArrayList<Meteor> meteorModelList = new ArrayList<>();
 
+    private Meteor modelMeteor;
     private int points = 0;
 
     /////////************** Getter and setters ***********************
 
 
-    public ArrayList<Meteor> getMeteorModelList() {
-        return meteorModelList;
+    public Meteor getModelMeteor() {
+        return modelMeteor;
     }
-
-    public void setMeteorModelList(ArrayList<Meteor> meteorModelList) {
-        this.meteorModelList = meteorModelList;
+    public void setModelMeteor(Meteor modelMeteor) {
+        this.modelMeteor = modelMeteor;
     }
-
-
 
     public int getPoints() {
         return points;
@@ -86,13 +83,6 @@ public class InGameModel {
     }
 
     //adds meteor to meteorModelList
-    public void addMeteorModel(Meteor meteor) {
-        meteorModelList.add(meteor);
-    }
-
-    public void removeMeteorModel(Meteor meteor) {
-        meteorModelList.remove(meteor);
-    }
 
     ///// ******************* END OF GETTERS AND SETTERS  ******************************
 
@@ -100,7 +90,7 @@ public class InGameModel {
         playerModel = new PlayerShip();
         bulletsModelList.clear();
         enemiesModelList.clear();
-        meteorModelList.clear();
+        modelMeteor = null;
         points = 0;
     }
 
