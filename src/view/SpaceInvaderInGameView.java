@@ -85,8 +85,15 @@ public class SpaceInvaderInGameView implements IViewState {
     }
 
     public void resetGame() {
-        gameView = null;
+        gamePane.getChildren().clear();
+        enemiesImageList.clear();
+        bulletsImageList.clear();
+        meteorImageList.clear();
 
+        playerLifeImages.clear();
+
+        spawnNewEnemies = 0;
+        initializeLevelToPane();
     }
 
     private void createGameLoop() {
@@ -122,6 +129,7 @@ public class SpaceInvaderInGameView implements IViewState {
 
     //add all imagesviews here
     private void updateAllImageviews() {
+        updateIfSpawnNewEnemies();
         updateBackGround();
         updateBulletsImage();
         updatePlayerImage();
@@ -146,16 +154,18 @@ public class SpaceInvaderInGameView implements IViewState {
     }
     //Spawns Enemys at an interval.
     private void updateIfSpawnNewEnemies() {
-
-        if (spawnNewEnemies==0|| spawnNewEnemies ==600 || spawnNewEnemies == 1200 || spawnNewEnemies == 1600) {
-           // model.createDefaultEnemieWave();
-            controller.createEnemyDroneShipWave();
-          //  model.createBigBoss();
-            initializeEnemies();
-        }
-        if ((Math.random()*100)<2) {
-            controller.createMeteor();
-            updateLastMeteor();
+        ArrayList<EnemyShip> modelEnemies = controller.checkWhatToSpawn();
+        if (modelEnemies != null) {
+            for (EnemyShip modelEnemy: modelEnemies) {
+                ImageView enemyImage = new ImageView(modelEnemy.getImageUrl());
+                enemyImage.setY(modelEnemy.getItemCoordY());
+                enemyImage.setX(modelEnemy.getItemCoordX());
+                enemyImage.setPreserveRatio(true);
+                enemyImage.setFitHeight(modelEnemy.getItemHeight());
+                enemyImage.setFitWidth(modelEnemy.getItemWidth());
+                enemiesImageList.add(enemyImage);
+                addToGamePane(enemyImage);
+            }
         }
         if (spawnNewEnemies ==2200) {
             spawnNewEnemies =0;
@@ -223,7 +233,7 @@ public class SpaceInvaderInGameView implements IViewState {
         }
 
     }//updates the movement of the meteor and removes it Y>=then the ScreenHeight
-    private void updateMeteorImages() {
+    /*private void updateMeteorImages() {
         if (model.getMeteorModelList().isEmpty()&&!meteorImageList.isEmpty()) {
             removeFromGamePane(meteorImageList.get(0));
             meteorImageList.clear(); }
@@ -245,7 +255,7 @@ public class SpaceInvaderInGameView implements IViewState {
             }
         }
 
-    }//rotates the meteor
+    }*///rotates the meteor
     private void updateMeteorRotation() {
         for (ImageView meteor: meteorImageList) {
             meteor.setRotate(rotation);
@@ -261,10 +271,9 @@ public class SpaceInvaderInGameView implements IViewState {
         ArrayList<EnemyShip> allEnemyModels = model.getEnemyModelList();
         ArrayList<EnemyShip> modelEnemiesToRemove = controller.getDeadEnemies();
 
-        ArrayList <EnemyShip> enemymove = model.getEnemyModelList();
-        for (int i = 0; i < enemymove.size() ; i++) {
-            enemiesImageList.get(i).setY(enemymove.get(i).getItemCoordY());
-            enemiesImageList.get(i).setX(enemymove.get(i).getItemCoordX());
+        for (int i = 0; i < allEnemyModels.size() ; i++) {
+            enemiesImageList.get(i).setY(allEnemyModels.get(i).getItemCoordY());
+            enemiesImageList.get(i).setX(allEnemyModels.get(i).getItemCoordX());
         }
 
       if (!modelEnemiesToRemove.isEmpty()) {
@@ -293,13 +302,13 @@ public class SpaceInvaderInGameView implements IViewState {
     }
 
     private void updateBackGround() {
-        firstBackGroundImage.setY(firstBackGroundImage.getY() + 2);
-        secondBackGroundImage.setY(secondBackGroundImage.getY() + 2);
+        firstBackGroundImage.setY(firstBackGroundImage.getY() + 5);
+        secondBackGroundImage.setY(secondBackGroundImage.getY() + 5);
         if (firstBackGroundImage.getY() >= Constants.SCREENHEIGHT) {
-            firstBackGroundImage.setY(Constants.SCREENHEIGHT-(7200*2));
+            firstBackGroundImage.setY(-3600);
         }
-        if (secondBackGroundImage.getY() >Constants.SCREENHEIGHT) {
-            secondBackGroundImage.setY(Constants.SCREENHEIGHT-(7200*2));
+        if (secondBackGroundImage.getY() >= Constants.SCREENHEIGHT) {
+            secondBackGroundImage.setY(-3600);
         }
     }
 
@@ -350,8 +359,8 @@ public class SpaceInvaderInGameView implements IViewState {
     }
 
     private void initializeBackground() {
-        secondBackGroundImage.setY((Constants.SCREENHEIGHT)-(7200*2));
-        firstBackGroundImage.setY(Constants.SCREENHEIGHT-7200);
+        secondBackGroundImage.setY(-3600);
+        firstBackGroundImage.setY(0);
         addToGamePane(firstBackGroundImage);
         addToGamePane(secondBackGroundImage);
     }

@@ -29,6 +29,7 @@ public class SpaceInvaderListener implements EventHandler<KeyEvent> {
         if (event.getEventType().equals(KeyEvent.KEY_PRESSED)) {
             if (event.getCode() == KeyCode.SPACE) {
                 SpaceInvaderController.getController().setShooting(true);
+                System.out.println("pressed space");
             }
             if (event.getCode() == KeyCode.A){
                 SpaceInvaderController.getController().setMovingLeft(true);
