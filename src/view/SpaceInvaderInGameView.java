@@ -35,7 +35,7 @@ public class SpaceInvaderInGameView implements IViewState {
 
     private ArrayList<ImageView> enemiesImageList = new ArrayList<>();
     private ArrayList<ImageView> bulletsImageList = new ArrayList<>();
-    private ArrayList<ImageView> meteorImageList = new ArrayList<>();
+    private ImageView meteorImage;
 
     private ImageView playerImage;
     private ImageView firstBackGroundImage = new ImageView(Constants.BackGroundImage);
@@ -47,7 +47,6 @@ public class SpaceInvaderInGameView implements IViewState {
     private int rotation=0;
 
     private SubScene deathSubScene;
-    private long spawnNewEnemies =0;
 
     private AnimationTimer inGameTimer;
 
@@ -88,11 +87,8 @@ public class SpaceInvaderInGameView implements IViewState {
         gamePane.getChildren().clear();
         enemiesImageList.clear();
         bulletsImageList.clear();
-        meteorImageList.clear();
-
         playerLifeImages.clear();
-
-        spawnNewEnemies = 0;
+        meteorImage = null;
         initializeLevelToPane();
     }
 
@@ -106,7 +102,6 @@ public class SpaceInvaderInGameView implements IViewState {
                 updateAllModels(); // update all models before checks.
                 updateAllImageviews();
                 updateIfLevelIsDone();
-                spawnNewEnemies++;
             }
         };
 
@@ -135,8 +130,8 @@ public class SpaceInvaderInGameView implements IViewState {
         updateEnemyImages();
         updatePointsLabel();
         updatePlayerLifeImages();
-        //updateMeteorImages();
-       // updateMeteorRotation();
+        updateMeteorImages();
+        updateMeteorRotation();
     }
 
     private void updatePointsLabel() {
@@ -162,6 +157,7 @@ public class SpaceInvaderInGameView implements IViewState {
                 enemyImage.setPreserveRatio(true);
                 enemyImage.setFitHeight(modelEnemy.getItemHeight());
                 enemyImage.setFitWidth(modelEnemy.getItemWidth());
+                enemyImage.setRotate(180);
                 enemiesImageList.add(enemyImage);
                 addToGamePane(enemyImage);
             }
@@ -183,7 +179,6 @@ public class SpaceInvaderInGameView implements IViewState {
                 }
             }
         }
-
         if (playerLifes < 1) {
             initializeDeathSubScene(false);
             inGameTimer.stop();
@@ -220,41 +215,31 @@ public class SpaceInvaderInGameView implements IViewState {
             System.out.println("Bullet removed");
         }
         ArrayList<IBullet> bulletsToRemoveMeteor = controller.checkIfMeteorShoot();
-        for (IBullet bullet: bulletsToRemoveMeteor) {
-            int bulletIndexFromMeteor = bulletsModelList.indexOf(bullet);
-            model.getBulletsModelList().remove(bulletIndexFromMeteor);
-            removeFromGamePane(bulletsImageList.get(bulletIndexFromMeteor));
-            bulletsImageList.remove(bulletIndexFromMeteor);
-            System.out.println("remove bullet from meteorshoot");
-        }
-
-    }//updates the movement of the meteor and removes it Y>=then the ScreenHeight
-    /*private void updateMeteorImages() {
-        if (model.getMeteorModelList().isEmpty()&&!meteorImageList.isEmpty()) {
-            removeFromGamePane(meteorImageList.get(0));
-            meteorImageList.clear(); }
-        if (model.getMeteorModelList() !=null) {
-            ArrayList<Meteor> allMetoerModels = model.getMeteorModelList();
-            for (int i = 0; i < allMetoerModels.size(); i++) {
-                if (allMetoerModels.size() != meteorImageList.size()) {
-                    removeFromGamePane(meteorImageList.get(model.getLastRemovedMeteorIndex()));
-                    meteorImageList.remove(model.getLastRemovedMeteorIndex());
-                }
-                meteorImageList.get(i).setY(allMetoerModels.get(i).getItemCoordY());
-                meteorImageList.get(i).setX(allMetoerModels.get(i).getItemCoordX());
-                if (meteorImageList.get(i).getY() >= Constants.SCREENHEIGHT+300) {
-                    model.removeMeteorModel(allMetoerModels.get(i));
-                    removeFromGamePane(meteorImageList.get(i));
-                    meteorImageList.remove(i);
-                    System.out.println("meteor removed at: " + i + " cheers");
-                }
+        if (bulletsToRemoveMeteor != null) {
+            for (IBullet bullet : bulletsToRemoveMeteor) {
+                int bulletIndexFromMeteor = bulletsModelList.indexOf(bullet);
+                model.getBulletsModelList().remove(bulletIndexFromMeteor);
+                removeFromGamePane(bulletsImageList.get(bulletIndexFromMeteor));
+                bulletsImageList.remove(bulletIndexFromMeteor);
+                System.out.println("remove bullet from meteorshoot");
             }
         }
 
-    }*///rotates the meteor
+    }//updates the movement of the meteor and removes it Y>=then the ScreenHeight
+    private void updateMeteorImages() {
+        if (model.getModelMeteor() ==null && meteorImage !=null) {
+            removeFromGamePane(meteorImage);
+             }
+        if (model.getModelMeteor() !=null) {
+                meteorImage.setY(model.getModelMeteor().getItemCoordY());
+                meteorImage.setX(model.getModelMeteor().getItemCoordX());
+            }
+
+
+    }//rotates the meteor
     private void updateMeteorRotation() {
-        for (ImageView meteor: meteorImageList) {
-            meteor.setRotate(rotation);
+        if (meteorImage !=null){
+            meteorImage.setRotate(rotation);
 
            if (rotation >= 360) {
                rotation=0;
@@ -367,16 +352,13 @@ public class SpaceInvaderInGameView implements IViewState {
             createPlayerLifeImage(i);
         }
     }
-private void updateLastMeteor() {
-        if (model.getMeteorModelList() !=null) {
-        ArrayList<Meteor> meteorsModelList = model.getMeteorModelList();
-            // Meteor meteorModel = new Meteor();
-            ImageView meteorImage = new ImageView((new Image(Constants.meteorImage)));
-            meteorImage.setX(meteorsModelList.get(meteorsModelList.size()-1).getItemCoordX());
-            meteorImage.setY(meteorsModelList.get(meteorsModelList.size()-1).getItemCoordY());
+    public void initializeMeteor() {
+        if (model.getModelMeteor() !=null) {
+          // Meteor meteorModel = new Meteor();
+            meteorImage = new ImageView((new Image(Constants.meteorImage)));
+            meteorImage.setX(model.getModelMeteor().getItemCoordX());
+            meteorImage.setY(model.getModelMeteor().getItemCoordY());
             addToGamePane(meteorImage);
-            meteorImageList.add(meteorImage);
-
         }
     }
 

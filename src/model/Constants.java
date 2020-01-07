@@ -27,7 +27,7 @@ public class Constants {
     public final static String enemyDroneShipUrl = "model/resources/enemy1_4.png";
     public final static double enemyDroneShipHeight = SCREENHEIGHT*0.12;
     public final static double enemyDroneShipWidth = SCREENWIDTH*0.08;
-    public final static double enemyDroneShipMovmentSpeed = SCREENHEIGHT*0.016;
+    public final static double enemyDroneShipMovmentSpeed = SCREENHEIGHT*0.001;
     public final static double enemyDroneShipStartPosX = SCREENWIDTH*0.1;
     public final static double enemyDroneShipStartPosY = SCREENHEIGHT -(SCREENHEIGHT +45);
     public final static double enemyDroneShipSpawnSpread = SCREENWIDTH*0.08;
