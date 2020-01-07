@@ -293,13 +293,13 @@ public class SpaceInvaderInGameView implements IViewState {
     }
 
     private void updateBackGround() {
-        firstBackGroundImage.setY(firstBackGroundImage.getY() + 5);
-        secondBackGroundImage.setY(secondBackGroundImage.getY() + 5);
+        firstBackGroundImage.setY(firstBackGroundImage.getY() + 2);
+        secondBackGroundImage.setY(secondBackGroundImage.getY() + 2);
         if (firstBackGroundImage.getY() >= Constants.SCREENHEIGHT) {
-            firstBackGroundImage.setY(-3600);
+            firstBackGroundImage.setY(Constants.SCREENHEIGHT-(7200*2));
         }
-        if (secondBackGroundImage.getY() >= Constants.SCREENHEIGHT) {
-            secondBackGroundImage.setY(-3600);
+        if (secondBackGroundImage.getY() >Constants.SCREENHEIGHT) {
+            secondBackGroundImage.setY(Constants.SCREENHEIGHT-(7200*2));
         }
     }
 
@@ -350,7 +350,8 @@ public class SpaceInvaderInGameView implements IViewState {
     }
 
     private void initializeBackground() {
-        secondBackGroundImage.setY(-3600);
+        secondBackGroundImage.setY((Constants.SCREENHEIGHT)-(7200*2));
+        firstBackGroundImage.setY(Constants.SCREENHEIGHT-7200);
         addToGamePane(firstBackGroundImage);
         addToGamePane(secondBackGroundImage);
     }
