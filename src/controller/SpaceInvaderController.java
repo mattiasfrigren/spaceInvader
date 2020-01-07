@@ -162,10 +162,10 @@ public class SpaceInvaderController {
         return null;
     }
     private boolean shouldSpawnMeteorAtPoint(int points) {
-        if (points == 0 || points == 10 || points == 20 || points == 80 || points == 100 || points == 120 || points == 140) {
+        if (points == 20 || points == 40 || points == 60 || points == 80 || points == 100 || points == 120 || points == 140) {
        return spawnMeteor;
         }
-        else if (points == 1 || points == 11 || points == 21 || points == 81 || points == 101 || points == 121 || points == 141) {
+        else if (points == 21 || points == 41 || points == 61 || points == 81 || points == 101 || points == 121 || points == 141) {
             spawnMeteor = true;
         }
         return false;
