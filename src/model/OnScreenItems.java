@@ -53,6 +53,8 @@ public class OnScreenItems {
         itemCoordY += moveY;
     }
 
+    /////////************** Getter and setters ***********************
+
     public boolean isFacingPlayer() {
         return isFacingPlayer;
     }
@@ -105,5 +107,6 @@ public class OnScreenItems {
         this.movementSpeed = movementSpeed;
     }
 
+    /////////**************End of Getter and setters ***********************
 
 }

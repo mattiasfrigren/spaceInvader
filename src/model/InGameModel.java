@@ -4,7 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Random;
 
-// All info in the game.
+// All info from Model to the game.
 public class InGameModel {
 
     private static InGameModel gameModel;

@@ -50,6 +50,8 @@ public class SpaceInvaderInGameView implements IViewState {
 
     private AnimationTimer inGameTimer;
 
+    /////////************** Getter and setters ***********************
+
     public static Scene getGameScene() {
         return gameScene;
     }
@@ -65,11 +67,11 @@ public class SpaceInvaderInGameView implements IViewState {
         return gamePane;
     }
 
-
-
     public TextField getEnterNameField() {
         return enterNameField;
     }
+
+    /////////************** End of Getter and setters ***********************
 
     private SpaceInvaderInGameView() {
 
@@ -225,7 +227,7 @@ public class SpaceInvaderInGameView implements IViewState {
             }
         }
 
-    }//updates the movement of the meteor and removes it Y>=then the ScreenHeight
+    }//updates the movement of the meteor
     private void updateMeteorImages() {
         if (model.getModelMeteor() ==null && meteorImage !=null) {
             removeFromGamePane(meteorImage);
@@ -286,10 +288,10 @@ public class SpaceInvaderInGameView implements IViewState {
         firstBackGroundImage.setY(firstBackGroundImage.getY() + 5);
         secondBackGroundImage.setY(secondBackGroundImage.getY() + 5);
         if (firstBackGroundImage.getY() >= Constants.SCREENHEIGHT) {
-            firstBackGroundImage.setY(-3600);
+            firstBackGroundImage.setY(-13740);
         }
         if (secondBackGroundImage.getY() >= Constants.SCREENHEIGHT) {
-            secondBackGroundImage.setY(-3600);
+            secondBackGroundImage.setY(-13740);
         }
     }
 
@@ -340,8 +342,8 @@ public class SpaceInvaderInGameView implements IViewState {
     }
 
     private void initializeBackground() {
-        secondBackGroundImage.setY(-3600);
-        firstBackGroundImage.setY(0);
+        secondBackGroundImage.setY(-13740);
+        firstBackGroundImage.setY(-6570);
         addToGamePane(firstBackGroundImage);
         addToGamePane(secondBackGroundImage);
     }
@@ -476,8 +478,6 @@ public class SpaceInvaderInGameView implements IViewState {
         }
     }
 
-
-
     // starts the listeners.
     private void initializeGameListener() {
         gameScene.setOnKeyPressed(SpaceInvaderListener.getListener());
@@ -512,7 +512,6 @@ public class SpaceInvaderInGameView implements IViewState {
         imageBullet.setPreserveRatio(true);
         imageBullet.setFitHeight(itemBullet.getItemHeight());
         imageBullet.setFitWidth(itemBullet.getItemWidth());
-        //imageBullet.resize(itemBullet.getItemWidth(), itemBullet.getItemHeight());
 
         if (itemBullet.isFacingPlayer()) {
             imageBullet.setRotate(180);

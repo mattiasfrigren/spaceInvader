@@ -41,6 +41,8 @@ public class SpaceInvaderMenuView implements IViewState {
 
     private static SpaceInvaderMenuView spaceInvaderMenuView;
 
+    /////////************** Getter and setters ***********************
+
     public static Scene getMenuScene() {
         return menuScene;
     }
@@ -59,6 +61,8 @@ public class SpaceInvaderMenuView implements IViewState {
         }
         return spaceInvaderMenuView;
     }
+
+    /////////************** End of Getter and setters ***********************
 
     private SpaceInvaderMenuView() {
         menuPane = new AnchorPane();
@@ -101,7 +105,7 @@ public class SpaceInvaderMenuView implements IViewState {
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, null);
 
         scoreAncor.setBackground(new Background(image));
-
+        currentSubScene.setId("highScoreScene");
         currentSubScene.setLayoutX(Constants.SCREENWIDTH / 3);
         currentSubScene.setLayoutY(Constants.SCREENHEIGHT / 3);
 
@@ -140,7 +144,7 @@ public class SpaceInvaderMenuView implements IViewState {
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, null);
 
         creditAncor.setBackground(new Background(image));
-
+        currentSubScene.setId("creditScene");
         currentSubScene.setLayoutX(Constants.SCREENWIDTH / 3);
         currentSubScene.setLayoutY(Constants.SCREENHEIGHT / 3);
 
@@ -171,7 +175,7 @@ public class SpaceInvaderMenuView implements IViewState {
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, null);
 
         scoreAncor.setBackground(new Background(image));
-
+        currentSubScene.setId("settingScene");
         currentSubScene.setLayoutX(Constants.SCREENWIDTH / 3);
         currentSubScene.setLayoutY(Constants.SCREENHEIGHT / 3);
 
@@ -205,7 +209,7 @@ public class SpaceInvaderMenuView implements IViewState {
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, null);
 
         scoreAncor.setBackground(new Background(image));
-
+        currentSubScene.setId("helpScene");
         currentSubScene.setLayoutX(Constants.SCREENWIDTH / 3);
         currentSubScene.setLayoutY(Constants.SCREENHEIGHT / 3);
 
@@ -269,6 +273,12 @@ public class SpaceInvaderMenuView implements IViewState {
         if (currentSubScene != null) {
             menuPane.getChildren().remove(currentSubScene);
         }
+    }
+    public void cleanCurrentSubScene() {
+       if (currentSubScene.equals(currentSubScene)) {
+           closeCurrentSubScene();
+           currentSubScene = null;
+       }
     }
 
     private void createButton(String buttonText, double x, double y) {

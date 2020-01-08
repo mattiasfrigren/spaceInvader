@@ -7,7 +7,7 @@ import view.ViewManager;
 
 import java.util.ArrayList;
 import java.util.Random;
-
+// Controller that talks with View and Model and changing the state of the game.
 public class SpaceInvaderController {
 
     private static SpaceInvaderController controller;
@@ -27,6 +27,7 @@ public class SpaceInvaderController {
     private boolean spawnMeteor = true;
     private int lastSpawnedAt = -1;
 
+    /////////************** Getter and setters ***********************
 
     public static SpaceInvaderController getController(Stage stage) {
         if (controller == null) {
@@ -90,6 +91,8 @@ public class SpaceInvaderController {
     public void setMovingDown(boolean movingDown) {
         isMovingDown = movingDown;
     }
+
+    /////////************** End of Getter and setters ***********************
 
     private SpaceInvaderController(Stage stage) {
         this.gameModel = InGameModel.getGameModel();
@@ -184,7 +187,9 @@ public class SpaceInvaderController {
         if (enemy.equals("drone")) {
             enemyShip = new EnemyDroneShip();
         }
-
+        if (enemy.equals("boss")) {
+            enemyShip = new EnemyBigBoss();
+        }
 
         double startXPos = Constants.SCREENWIDTH/2 - (enemyShip.getItemWidth()/2);
         boolean toRight = true;
@@ -199,6 +204,9 @@ public class SpaceInvaderController {
             }
             if (enemy.equals("drone")) {
                 enemyShip = new EnemyDroneShip();
+            }
+            if (enemy.equals("boss")){
+                enemyShip = new EnemyBigBoss();
             }
 
             if (i%10 == 0) {
@@ -243,22 +251,34 @@ public class SpaceInvaderController {
                 System.out.println("meteor removed");
             }
         }
-    }//removes a meteor from modellist
+    }
 
     public void checkIfEnemyIsmoving() {
         ArrayList<EnemyShip> enemyShips = gameModel.getEnemyModelList();
         for (int i = 0; i < enemyShips.size() ; i++) {
-            //double moveinterval = enemyShips.get(i).getRandomMoveInterval();
-            if (enemyShips.get(i).getItemCoordY() <= Constants.SCREENHEIGHT / 2 && enemyShips.get(i).isMoveState()==true){
+
+            if (enemyShips.get(i).getItemCoordY() <= Constants.SCREENHEIGHT / 2 && enemyShips.get(i).isMoveStateUpDown()==true){
                 enemyShips.get(i).moveUp();
                 if (enemyShips.get(i).getItemCoordY() >= Constants.SCREENHEIGHT/2) {
-                    enemyShips.get(i).setMoveState(false);
+                    enemyShips.get(i).setMoveStateUpDown(false);
                 }
             }
-            if (enemyShips.get(i).getItemCoordY() < Constants.SCREENHEIGHT && enemyShips.get(i).isMoveState() ==false) {
+            if (enemyShips.get(i).getItemCoordY() < Constants.SCREENHEIGHT && enemyShips.get(i).isMoveStateUpDown() ==false) {
                 enemyShips.get(i).moveDown();
                 if (enemyShips.get(i).getItemCoordY() <= 0) {
-                    enemyShips.get(i).setMoveState(true);
+                    enemyShips.get(i).setMoveStateUpDown(true);
+                }
+            }
+            if (enemyShips.get(i).getItemCoordX() <= (Constants.SCREENWIDTH-30) && enemyShips.get(i).isMoveStateRightLeft()==true){
+                enemyShips.get(i).moveLeft();
+                if (enemyShips.get(i).getItemCoordX() >= Constants.SCREENWIDTH-30) {
+                    enemyShips.get(i).setMoveStateRightLeft(false);
+                }
+            }
+            if (enemyShips.get(i).getItemCoordX() < Constants.SCREENWIDTH  && enemyShips.get(i).isMoveStateRightLeft()==false){
+                enemyShips.get(i).moveRight();
+                if (enemyShips.get(i).getItemCoordX() <=0) {
+                    enemyShips.get(i).setMoveStateRightLeft(true);
                 }
             }
         }
@@ -303,7 +323,7 @@ public class SpaceInvaderController {
     }
 
     private void checkIfPlayerIsMovingUp() {
-        if (isMovingUp && gameModel.getPlayerModel().getItemCoordY() > Constants.SCREENHEIGHT / 2) {
+        if (isMovingUp && gameModel.getPlayerModel().getItemCoordY() > (Constants.SCREENHEIGHT / 2)+(gameModel.getPlayerModel().getItemHeight()/2)) {
             gameModel.getPlayerModel().moveUp();
         }
     }
