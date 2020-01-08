@@ -2,6 +2,7 @@ package controller;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.SubScene;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import model.HighScore;
@@ -74,7 +75,11 @@ public class SpaceInvaderButtonListener {
         @Override
         public void handle(MouseEvent e) {
             if (e.getButton().equals(MouseButton.PRIMARY)) {
-                SpaceInvaderMenuView.getSpaceInvaderMenuView().initializeHighScoreSubScene();
+                if (SpaceInvaderMenuView.getSpaceInvaderMenuView().getCurrentSubScene()!=null) {
+                    if (SpaceInvaderMenuView.getSpaceInvaderMenuView().getCurrentSubScene().getId().equals("highScoreScene")) {
+                        SpaceInvaderMenuView.getSpaceInvaderMenuView().cleanCurrentSubScene(); }
+                    else { SpaceInvaderMenuView.getSpaceInvaderMenuView().initializeHighScoreSubScene(); } }
+                else { SpaceInvaderMenuView.getSpaceInvaderMenuView().initializeHighScoreSubScene(); }
             }
         }
     };
@@ -83,7 +88,11 @@ public class SpaceInvaderButtonListener {
         @Override
         public void handle(MouseEvent e) {
             if (e.getButton().equals(MouseButton.PRIMARY)) {
-                SpaceInvaderMenuView.getSpaceInvaderMenuView().initializeSettingsSubScene();
+                if (SpaceInvaderMenuView.getSpaceInvaderMenuView().getCurrentSubScene()!=null) {
+                    if (SpaceInvaderMenuView.getSpaceInvaderMenuView().getCurrentSubScene().getId().equals("settingScene")) {
+                        SpaceInvaderMenuView.getSpaceInvaderMenuView().cleanCurrentSubScene(); }
+                    else { SpaceInvaderMenuView.getSpaceInvaderMenuView().initializeSettingsSubScene(); } }
+                else { SpaceInvaderMenuView.getSpaceInvaderMenuView().initializeSettingsSubScene(); }
             }
         }
     };
@@ -92,7 +101,11 @@ public class SpaceInvaderButtonListener {
         @Override
         public void handle(MouseEvent e) {
             if (e.getButton().equals(MouseButton.PRIMARY)) {
-                SpaceInvaderMenuView.getSpaceInvaderMenuView().initializeHelpSubScene();
+                if (SpaceInvaderMenuView.getSpaceInvaderMenuView().getCurrentSubScene()!=null) {
+                    if (SpaceInvaderMenuView.getSpaceInvaderMenuView().getCurrentSubScene().getId().equals("helpScene")) {
+                        SpaceInvaderMenuView.getSpaceInvaderMenuView().cleanCurrentSubScene(); }
+                    else { SpaceInvaderMenuView.getSpaceInvaderMenuView().initializeHelpSubScene(); } }
+                else { SpaceInvaderMenuView.getSpaceInvaderMenuView().initializeHelpSubScene(); }
             }
         }
     };
@@ -101,7 +114,11 @@ public class SpaceInvaderButtonListener {
         @Override
         public void handle(MouseEvent e) {
             if (e.getButton().equals(MouseButton.PRIMARY)) {
-                SpaceInvaderMenuView.getSpaceInvaderMenuView().initializeCreditsSubScene();
+                if (SpaceInvaderMenuView.getSpaceInvaderMenuView().getCurrentSubScene()!=null) {
+                    if (SpaceInvaderMenuView.getSpaceInvaderMenuView().getCurrentSubScene().getId().equals("creditScene")) {
+                        SpaceInvaderMenuView.getSpaceInvaderMenuView().cleanCurrentSubScene(); }
+                    else { SpaceInvaderMenuView.getSpaceInvaderMenuView().initializeCreditsSubScene(); } }
+                else { SpaceInvaderMenuView.getSpaceInvaderMenuView().initializeCreditsSubScene(); }
             }
         }
     };

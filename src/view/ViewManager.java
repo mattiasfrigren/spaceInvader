@@ -31,6 +31,8 @@ public class ViewManager {
     private SubScene exitScene;
     private boolean changeGameState = true;
 
+    /////////************** Getter and setters ***********************
+
     public boolean isChangeGameState() {
         return changeGameState;
     }
@@ -59,6 +61,7 @@ public class ViewManager {
         return view;
     }
 
+    /////////**************End of Getter and setters ***********************
 
     private ViewManager(Stage stage) {
 

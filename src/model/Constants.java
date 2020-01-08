@@ -1,5 +1,5 @@
 package model;
-
+// Class that has all the final static variables.
 public class Constants {
 
     public final static double SCREENHEIGHT = 600;
@@ -27,7 +27,7 @@ public class Constants {
     public final static String enemyDroneShipUrl = "model/resources/enemy1_4.png";
     public final static double enemyDroneShipHeight = SCREENHEIGHT*0.12;
     public final static double enemyDroneShipWidth = SCREENWIDTH*0.08;
-    public final static double enemyDroneShipMovmentSpeed = SCREENHEIGHT*0.001;
+    public final static double enemyDroneShipMovmentSpeed = SCREENHEIGHT*0.004;
     public final static double enemyDroneShipStartPosX = SCREENWIDTH*0.1;
     public final static double enemyDroneShipStartPosY = SCREENHEIGHT -(SCREENHEIGHT +45);
     public final static double enemyDroneShipSpawnSpread = SCREENWIDTH*0.08;
@@ -35,15 +35,15 @@ public class Constants {
     public final static double enemyDroneShipLaserGunShootingInterval = 200;
 
     public final static String enemyBigBossUrl = "model/resources/enemy1_5.png";
-    public final static double enemyBigBossHeight = SCREENHEIGHT*0.4;
-    public final static double enemyBigBossWidth = SCREENWIDTH*0.5;
-    public final static double enemyBigBossMovmentSpeed = SCREENHEIGHT*0.032;
+    public final static double enemyBigBossHeight = SCREENHEIGHT*0.12;
+    public final static double enemyBigBossWidth = SCREENWIDTH*0.08;
+    public final static double enemyBigBossMovmentSpeed = SCREENHEIGHT*0.002;
     public final static double enemyBigBossStartPosX = SCREENWIDTH*0.1;
     public final static double enemyBigBossStartPosY = SCREENHEIGHT -(SCREENHEIGHT+45);
     public final static int enemyBigBossLifes = 100;
     public final static double enemyBigBossShootingInterval =50;
 
-    public final static String BackGroundImage = "model/resources/Background3.png";
+    public final static String BackGroundImage = "model/resources/inGameBackground.png";
     public final static String meteorImage = "model/resources/meteor.png";
 
 
@@ -59,8 +59,8 @@ public class Constants {
     public final static double heartHeight = SCREENHEIGHT * 0.04;
     public final static double heartWidth = SCREENWIDTH * 0.04;
 
-    public final static String gameOverSubSceneBackground = "model/resources/subscene.png";
-    public final static String gameBootSceneBackGround ="model/resources/backgroundBootMenu.png";
+    public final static String gameOverSubSceneBackground = "model/resources/subScenBG.png";
+    public final static String gameBootSceneBackGround ="model/resources/menuBackGroundBluePrint.png";
     public final static String pointLabelBackGround ="model/resources/pointLabel.png";
 
     public final static double spawnPointMeteor = Math.random()*SCREENWIDTH;
