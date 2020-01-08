@@ -91,7 +91,7 @@ public class SpaceInvaderMenuView implements IViewState {
         BackgroundImage image = new BackgroundImage(new Image(Constants.gameOverSubSceneBackground, Constants.SCREENWIDTH * 0.6, Constants.SCREENHEIGHT * 0.6, false, true),
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, null);
 
-        scoreAncor.setBackground(new Background(image));
+        scoreAnchor.setBackground(new Background(image));
         currentSubScene.setId("highScoreScene");
         currentSubScene.setLayoutX(Constants.SCREENWIDTH / 3);
         currentSubScene.setLayoutY(Constants.SCREENHEIGHT / 3);
@@ -113,7 +113,7 @@ public class SpaceInvaderMenuView implements IViewState {
                 highScoreText.setX(highScoreTextStartX);
                 highScoreText.setY(highScoreTextStartY);
                 highScoreTextStartY += highScoreTextYMargin;
-                highScoreText.setFill(Color.ALICEBLUE);
+                highScoreText.setFill(Color.BLACK);
                 scoreAnchor.getChildren().add(highScoreText);
             }
 
@@ -132,7 +132,7 @@ public class SpaceInvaderMenuView implements IViewState {
         BackgroundImage image = new BackgroundImage(new Image(Constants.gameOverSubSceneBackground, Constants.SCREENWIDTH * 0.45, Constants.SCREENHEIGHT * 0.45, false, true),
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, null);
 
-        creditAncor.setBackground(new Background(image));
+        creditAnchor.setBackground(new Background(image));
         currentSubScene.setId("creditScene");
         currentSubScene.setLayoutX(Constants.SCREENWIDTH / 3);
         currentSubScene.setLayoutY(Constants.SCREENHEIGHT / 3);
@@ -149,7 +149,7 @@ public class SpaceInvaderMenuView implements IViewState {
             Text nameText = new Text(creditsTo[i]);
             nameText.setX(creditAnchor.getWidth()/2.5);
             nameText.setY(creditAnchor.getHeight() * 0.35 + (creditAnchor.getHeight() * 0.1 * i));
-            nameText.setFill(Color.ALICEBLUE);
+            nameText.setFill(Color.BLACK);
             creditAnchor.getChildren().add(nameText);
         }
 
@@ -166,7 +166,7 @@ public class SpaceInvaderMenuView implements IViewState {
         BackgroundImage image = new BackgroundImage(new Image(Constants.gameOverSubSceneBackground, Constants.SCREENWIDTH * 0.45, Constants.SCREENHEIGHT * 0.45, false, true),
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, null);
 
-        scoreAncor.setBackground(new Background(image));
+        settingsAnchor.setBackground(new Background(image));
         currentSubScene.setId("settingScene");
         currentSubScene.setLayoutX(Constants.SCREENWIDTH / 3);
         currentSubScene.setLayoutY(Constants.SCREENHEIGHT / 3);
@@ -201,7 +201,7 @@ public class SpaceInvaderMenuView implements IViewState {
         BackgroundImage image = new BackgroundImage(new Image(Constants.gameOverSubSceneBackground, Constants.SCREENWIDTH * 0.45, Constants.SCREENHEIGHT * 0.45, false, true),
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, null);
 
-        scoreAncor.setBackground(new Background(image));
+        helpAnchor.setBackground(new Background(image));
         currentSubScene.setId("helpScene");
         currentSubScene.setLayoutX(Constants.SCREENWIDTH / 3);
         currentSubScene.setLayoutY(Constants.SCREENHEIGHT / 3);
