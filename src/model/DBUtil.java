@@ -13,6 +13,7 @@ public class DBUtil {
     public static final String PASSWORD = "root";
     public static final String CONNECTION = "jdbc:mysql://localhost:3316/highscoredb?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 
+    /** This is a javadoc comment **/
     public void handleHighScore(String name, int score) throws SQLException {
         System.out.println("Connecting to database...");
 
