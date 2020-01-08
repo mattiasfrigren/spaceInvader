@@ -275,10 +275,9 @@ public class SpaceInvaderMenuView implements IViewState {
         }
     }
     public void cleanCurrentSubScene() {
-       if (currentSubScene.equals(currentSubScene)) {
            closeCurrentSubScene();
            currentSubScene = null;
-       }
+
     }
 
     private void createButton(String buttonText, double x, double y) {
