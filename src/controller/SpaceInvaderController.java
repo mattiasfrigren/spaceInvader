@@ -7,7 +7,7 @@ import view.ViewManager;
 
 import java.util.ArrayList;
 import java.util.Random;
-
+// Controller that talks with View and Model and changing the state of the game.
 public class SpaceInvaderController {
 
     private static SpaceInvaderController controller;
@@ -24,9 +24,10 @@ public class SpaceInvaderController {
     private boolean isMovingRight = false;
     private boolean isMovingUp = false;
     private boolean isMovingDown = false;
-
+    private boolean spawnMeteor = true;
     private int lastSpawnedAt = -1;
 
+    /////////************** Getter and setters ***********************
 
     public static SpaceInvaderController getController(Stage stage) {
         if (controller == null) {
@@ -91,6 +92,8 @@ public class SpaceInvaderController {
         isMovingDown = movingDown;
     }
 
+    /////////************** End of Getter and setters ***********************
+
     private SpaceInvaderController(Stage stage) {
         this.gameModel = InGameModel.getGameModel();
         this.view = ViewManager.getViewManager(stage);
@@ -115,19 +118,61 @@ public class SpaceInvaderController {
     public ArrayList<EnemyShip> checkWhatToSpawn() {
         if (shouldSpawnAtPoint(0)) {
             lastSpawnedAt = 0;
-            return spawnEnemies(3, "default");
-        }
-        else if (shouldSpawnAtPoint(3)) {
-            lastSpawnedAt = 3;
             return spawnEnemies(5, "default");
         }
-       else if (shouldSpawnAtPoint(8)) {
-            lastSpawnedAt = 8;
-            return spawnEnemies(15, "default");
+        else if (shouldSpawnAtPoint(5)) {
+            lastSpawnedAt = 5;
+            return spawnEnemies(10, "default");
+        }
+       else if (shouldSpawnAtPoint(15)) {
+            lastSpawnedAt = 15;
+            return spawnEnemies(20, "default");
+        }
+       else if (shouldSpawnAtPoint(35)) {
+           lastSpawnedAt = 35;
+           return  spawnEnemies(10,"default");
+        }
+       else if (shouldSpawnAtPoint(36)) {
+           lastSpawnedAt = 36;
+            return spawnEnemies(10,"drone");
+        }
+       else if (shouldSpawnAtPoint(55)) {
+           lastSpawnedAt = 55;
+           return  spawnEnemies(20,"drone");
+        }
+       else if (shouldSpawnAtPoint(75)) {
+           lastSpawnedAt = 75;
+           return spawnEnemies(20,"default");
+        }
+       else if (shouldSpawnAtPoint(76)) {
+           lastSpawnedAt =76;
+           return spawnEnemies(20,"drone");
+        }
+       else if (shouldSpawnAtPoint(115)) {
+            lastSpawnedAt = 115;
+            return spawnEnemies(40,"drone");
+        }
+       else if (shouldSpawnAtPoint(155)) {
+           lastSpawnedAt = 155;
+           return spawnEnemies(60,"drone");
+        }
+       if (shouldSpawnMeteorAtPoint(gameModel.getPoints())) {
+              gameModel.setModelMeteor(new Meteor());
+                gameModel.getModelMeteor().setItemCoordX(Math.random() * Constants.SCREENWIDTH);
+                SpaceInvaderInGameView.getGameView().initializeMeteor();
+                spawnMeteor = false;
         }
         return null;
     }
-
+    private boolean shouldSpawnMeteorAtPoint(int points) {
+        if (points == 20 || points == 40 || points == 60 || points == 80 || points == 100 || points == 120 || points == 140) {
+       return spawnMeteor;
+        }
+        else if (points == 21 || points == 41 || points == 61 || points == 81 || points == 101 || points == 121 || points == 141) {
+            spawnMeteor = true;
+        }
+        return false;
+    }
     private boolean shouldSpawnAtPoint(int points) {
         return gameModel.getPoints() == points && lastSpawnedAt != points;
     }
@@ -139,7 +184,12 @@ public class SpaceInvaderController {
         if (enemy.equals("default")) {
             enemyShip = new DefaultEnemy();
         }
-
+        if (enemy.equals("drone")) {
+            enemyShip = new EnemyDroneShip();
+        }
+        if (enemy.equals("boss")) {
+            enemyShip = new EnemyBigBoss();
+        }
 
         double startXPos = Constants.SCREENWIDTH/2 - (enemyShip.getItemWidth()/2);
         boolean toRight = true;
@@ -151,6 +201,12 @@ public class SpaceInvaderController {
 
             if (enemy.equals("default")) {
                 enemyShip = new DefaultEnemy();
+            }
+            if (enemy.equals("drone")) {
+                enemyShip = new EnemyDroneShip();
+            }
+            if (enemy.equals("boss")){
+                enemyShip = new EnemyBigBoss();
             }
 
             if (i%10 == 0) {
@@ -180,31 +236,6 @@ public class SpaceInvaderController {
         return enemyModelsToView;
     }
 
-
-    //Creates 20 enemies and add them to enemeyModelList
-    public void createDefaultEnemieWave() {
-        for (int i = 0; i < 10; i++) {
-            EnemyShip enemy = new DefaultEnemy();
-            enemy.setItemCoordX(Constants.enemyShipStartPosX + (i * Constants.enemySpawnSpread));
-            enemy.setItemCoordY(Constants.enemyShipStartPosY);
-            gameModel.addEnemyModel(enemy);
-        }
-
-        for (int i = 0; i < 10; i++) {
-            EnemyShip enemy = new DefaultEnemy();
-            enemy.setItemCoordX(Constants.enemyShipStartPosX + (i * Constants.enemySpawnSpread));
-            enemy.setItemCoordY(Constants.enemyShipStartPosY - 50);
-            gameModel.addEnemyModel(enemy);
-        }// will create a new set of EnemyShips
-
-    } public void createEnemyDroneShipWave(){
-        for (int i = 0; i < 10 ; i++) {
-            EnemyShip enemyDrone = new EnemyDroneShip();
-            enemyDrone.setItemCoordX(Constants.enemyShipStartPosX + (i *Constants.enemyDroneShipSpawnSpread));
-            enemyDrone.setItemCoordY(Constants.enemyDroneShipStartPosY+50);
-            gameModel.addEnemyModel(enemyDrone);
-        }
-    }
     public void createBigBoss() {
         EnemyShip boss = new EnemyBigBoss();
         boss.setItemCoordY(Constants.enemyBigBossStartPosY);
@@ -212,26 +243,43 @@ public class SpaceInvaderController {
         gameModel.addEnemyModel(boss);
     }
 
-    public void createMeteor() {
-        Meteor meteor = new Meteor();
-        meteor.setItemCoordX(Math.random() * 600);
-        gameModel.addMeteorModel(meteor);
-    }
-
     public void moveMeteorModel() {
-        for (Meteor meteor : gameModel.getMeteorModelList()) {
-            meteor.moveUp();
+        if (gameModel.getModelMeteor() !=null) {
+            gameModel.getModelMeteor().moveUp();
+            if (gameModel.getModelMeteor().getItemCoordY() >= Constants.SCREENHEIGHT+300) {
+                gameModel.setModelMeteor(null);
+                System.out.println("meteor removed");
+            }
         }
-    }//removes a meteor from modellist
-
-
+    }
 
     public void checkIfEnemyIsmoving() {
         ArrayList<EnemyShip> enemyShips = gameModel.getEnemyModelList();
         for (int i = 0; i < enemyShips.size() ; i++) {
-            //double moveinterval = enemyShips.get(i).getRandomMoveInterval();
-            if (enemyShips.get(i).getItemCoordY() <= Constants.SCREENHEIGHT / 2){
+
+            if (enemyShips.get(i).getItemCoordY() <= Constants.SCREENHEIGHT / 2 && enemyShips.get(i).isMoveStateUpDown()==true){
                 enemyShips.get(i).moveUp();
+                if (enemyShips.get(i).getItemCoordY() >= Constants.SCREENHEIGHT/2) {
+                    enemyShips.get(i).setMoveStateUpDown(false);
+                }
+            }
+            if (enemyShips.get(i).getItemCoordY() < Constants.SCREENHEIGHT && enemyShips.get(i).isMoveStateUpDown() ==false) {
+                enemyShips.get(i).moveDown();
+                if (enemyShips.get(i).getItemCoordY() <= 0) {
+                    enemyShips.get(i).setMoveStateUpDown(true);
+                }
+            }
+            if (enemyShips.get(i).getItemCoordX() <= (Constants.SCREENWIDTH-30) && enemyShips.get(i).isMoveStateRightLeft()==true){
+                enemyShips.get(i).moveLeft();
+                if (enemyShips.get(i).getItemCoordX() >= Constants.SCREENWIDTH-30) {
+                    enemyShips.get(i).setMoveStateRightLeft(false);
+                }
+            }
+            if (enemyShips.get(i).getItemCoordX() < Constants.SCREENWIDTH  && enemyShips.get(i).isMoveStateRightLeft()==false){
+                enemyShips.get(i).moveRight();
+                if (enemyShips.get(i).getItemCoordX() <=0) {
+                    enemyShips.get(i).setMoveStateRightLeft(true);
+                }
             }
         }
     }
@@ -275,7 +323,7 @@ public class SpaceInvaderController {
     }
 
     private void checkIfPlayerIsMovingUp() {
-        if (isMovingUp && gameModel.getPlayerModel().getItemCoordY() > Constants.SCREENHEIGHT / 2) {
+        if (isMovingUp && gameModel.getPlayerModel().getItemCoordY() > (Constants.SCREENHEIGHT / 2)+(gameModel.getPlayerModel().getItemHeight()/2)) {
             gameModel.getPlayerModel().moveUp();
         }
     }
@@ -311,31 +359,31 @@ public class SpaceInvaderController {
     }
 
     public ArrayList<IBullet> checkIfMeteorShoot() {
-        ArrayList<IBullet> bulletsToRemove = new ArrayList<>();
-        if (!gameModel.getBulletsModelList().isEmpty()) {
-            for (int j = 0; j < gameModel.getBulletsModelList().size(); j++) {
-                OnScreenItems bulletsToRemoveNow = (OnScreenItems) gameModel.getBulletsModelList().get(j);
-                if (!bulletsToRemoveNow.isFacingPlayer()) {
-                    for (int i = 0; i < gameModel.getMeteorModelList().size(); i++) {
-                        if (gameModel.getMeteorModelList().get(i).getItemWidth() / 5 + bulletsToRemoveNow.getItemWidth() / 5 > distanceBetween(bulletsToRemoveNow, gameModel.getMeteorModelList().get(i))) {
-                            gameModel.removeMeteorModel(gameModel.getMeteorModelList().get(i));
+        if (gameModel.getModelMeteor()!=null) {
+            ArrayList<IBullet> bulletsToRemove = new ArrayList<>();
+            if (!gameModel.getBulletsModelList().isEmpty()) {
+                for (int j = 0; j < gameModel.getBulletsModelList().size(); j++) {
+                    OnScreenItems bulletsToRemoveNow = (OnScreenItems) gameModel.getBulletsModelList().get(j);
+                    if (!bulletsToRemoveNow.isFacingPlayer()) {
+                        if (gameModel.getModelMeteor().getItemWidth() / 5 + bulletsToRemoveNow.getItemWidth() / 5 > distanceBetween(bulletsToRemoveNow, gameModel.getModelMeteor())) {
+                            gameModel.setModelMeteor(null);
                             bulletsToRemove.add((IBullet) bulletsToRemoveNow);
+                            gameModel.getPlayerModel().setLifes(gameModel.getPlayerModel().getLifes()+1);
                         }
                     }
                 }
             }
+            return bulletsToRemove;
         }
-        return bulletsToRemove;
+        return null;
     }
 
     //Checks if meteor connetcs with the playership.
     public void checkIfMeteorCollide() {
-
-        for (int i = 0; i < gameModel.getMeteorModelList().size(); i++) {
-            int lastRemovedMeteorIndex =i;
-            if (gameModel.getPlayerModel().getItemWidth() / 5 + gameModel.getMeteorModelList().get(i).getItemWidth() / 5 > distanceBetween(gameModel.getMeteorModelList().get(i), gameModel.getPlayerModel())) {
+        if (gameModel.getModelMeteor()!=null) {
+            if (gameModel.getPlayerModel().getItemWidth() / 5 + gameModel.getModelMeteor().getItemWidth() / 5 > distanceBetween(gameModel.getModelMeteor(), gameModel.getPlayerModel())) {
                 gameModel.getPlayerModel().looseLife(1);
-                gameModel.removeMeteorModel(gameModel.getMeteorModelList().get(lastRemovedMeteorIndex));
+                gameModel.setModelMeteor(null);
             }
         }
     }

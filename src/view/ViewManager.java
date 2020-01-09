@@ -10,6 +10,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -29,6 +30,8 @@ public class ViewManager {
     private IViewState gameState;
     private SubScene exitScene;
     private boolean changeGameState = true;
+
+    /////////************** Getter and setters ***********************
 
     public boolean isChangeGameState() {
         return changeGameState;
@@ -58,6 +61,7 @@ public class ViewManager {
         return view;
     }
 
+    /////////**************End of Getter and setters ***********************
 
     private ViewManager(Stage stage) {
 
@@ -127,6 +131,7 @@ public class ViewManager {
         exitText.setX(subSceneWidth/8);
         exitText.setY(subSceneHeight/3);
         exitText.setFont(Font.font("Verdana", 20));
+        exitText.setFill(Color.ALICEBLUE);
         exitAnchor.getChildren().add(exitText);
 
         Button yesButton = new Button("yes");
