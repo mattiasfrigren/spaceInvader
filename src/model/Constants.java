@@ -43,10 +43,14 @@ public class Constants {
     public final static int enemyBigBossLifes = 100;
     public final static double enemyBigBossShootingInterval =50;
 
-    public final static String BackGroundImage = "model/resources/inGameBackground.png";
+    public final static String BackGroundImage = "model/resources/inGameBckground.png";
+
     public final static String meteorImage = "model/resources/meteor.png";
+    public final static double meteorHeight = SCREENHEIGHT * 0.12;
+    public final static double meteorWidth = SCREENWIDTH * 0.08;
+    public final static double meteorMovementSpeed = SCREENHEIGHT * 0.006;
 
-
+    public final static String enemyBulletUrl = "model/resources/enemyLaserBullet.png";
     public final static String laserBulletURL = "model/resources/bulletShot.png";
     public final static double laserBulletHeight = SCREENHEIGHT * 0.04;
     public final static double laserBulletWidth = SCREENWIDTH * 0.025;
@@ -58,6 +62,7 @@ public class Constants {
     public final static double heartStartY = SCREENHEIGHT * 0.95;
     public final static double heartHeight = SCREENHEIGHT * 0.04;
     public final static double heartWidth = SCREENWIDTH * 0.04;
+    public final static double heartMovementSpeed = SCREENHEIGHT * 0.004;
 
     public final static String gameOverSubSceneBackground = "model/resources/bg.png";
     public final static String gameBootSceneBackGround ="model/resources/menuBackGroundBluePrint.png";

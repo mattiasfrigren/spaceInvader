@@ -36,6 +36,7 @@ public class SpaceInvaderInGameView implements IViewState {
     private ArrayList<ImageView> enemiesImageList = new ArrayList<>();
     private ArrayList<ImageView> bulletsImageList = new ArrayList<>();
     private ImageView meteorImage;
+    private ImageView hpUpHeart;
 
     private ImageView playerImage;
     private ImageView firstBackGroundImage = new ImageView(Constants.BackGroundImage);
@@ -120,6 +121,7 @@ public class SpaceInvaderInGameView implements IViewState {
         controller.checkIfEnemyIsmoving();
         controller.moveMeteorModel();
         controller.checkIfMeteorCollide();
+        controller.moveHpUpHeart();
 
     }
 
@@ -134,6 +136,7 @@ public class SpaceInvaderInGameView implements IViewState {
         updatePlayerLifeImages();
         updateMeteorImages();
         updateMeteorRotation();
+        updateHpUpHeart();
     }
 
     private void updatePointsLabel() {
@@ -228,6 +231,17 @@ public class SpaceInvaderInGameView implements IViewState {
         }
 
     }//updates the movement of the meteor
+
+    private void updateHpUpHeart() {
+        if (model.getHeartHpUp()==null && hpUpHeart!=null) {
+            removeFromGamePane(hpUpHeart);
+        }
+        if (model.getHeartHpUp()!=null) {
+            hpUpHeart.setY(model.getHeartHpUp().getItemCoordY());
+            hpUpHeart.setX(model.getHeartHpUp().getItemCoordX());
+        }
+    }
+
     private void updateMeteorImages() {
         if (model.getModelMeteor() ==null && meteorImage !=null) {
             removeFromGamePane(meteorImage);
@@ -236,9 +250,8 @@ public class SpaceInvaderInGameView implements IViewState {
                 meteorImage.setY(model.getModelMeteor().getItemCoordY());
                 meteorImage.setX(model.getModelMeteor().getItemCoordX());
             }
-
-
     }//rotates the meteor
+
     private void updateMeteorRotation() {
         if (meteorImage !=null){
             meteorImage.setRotate(rotation);
@@ -362,6 +375,15 @@ public class SpaceInvaderInGameView implements IViewState {
             meteorImage.setY(model.getModelMeteor().getItemCoordY());
             addToGamePane(meteorImage);
         }
+    }
+    public void initializeHpUpHeart() {
+        hpUpHeart = new ImageView(new Image(Constants.heartURL));
+        hpUpHeart.setX(model.getHeartHpUp().getItemCoordX());
+        hpUpHeart.setY(model.getHeartHpUp().getItemCoordY());
+        hpUpHeart.setPreserveRatio(true);
+        hpUpHeart.setFitHeight(Constants.heartHeight);
+        hpUpHeart.setFitWidth(Constants.heartWidth);
+        addToGamePane(hpUpHeart);
     }
 
     private void initializeEnemies() {
@@ -509,17 +531,20 @@ public class SpaceInvaderInGameView implements IViewState {
     // sets the imageView based on the model Ibullet.
     private void createBullet(IBullet bullet) {
         OnScreenItems itemBullet = (OnScreenItems) bullet;
+        ImageView imageBullet;
         System.out.println("bullet image created at x: " + itemBullet.getItemCoordX() + " y: " + itemBullet.getItemCoordY());
-        ImageView imageBullet = new ImageView(itemBullet.getImageUrl());
+        if (itemBullet.isFacingPlayer()) {
+            imageBullet = new ImageView(Constants.enemyBulletUrl);
+            imageBullet.setRotate(180);
+        }
+        else {
+            imageBullet = new ImageView(itemBullet.getImageUrl());
+        }
         imageBullet.setX(itemBullet.getItemCoordX());
         imageBullet.setY(itemBullet.getItemCoordY());
         imageBullet.setPreserveRatio(true);
         imageBullet.setFitHeight(itemBullet.getItemHeight());
         imageBullet.setFitWidth(itemBullet.getItemWidth());
-
-        if (itemBullet.isFacingPlayer()) {
-            imageBullet.setRotate(180);
-        }
 
         bulletsImageList.add(imageBullet);
         addToGamePane(imageBullet);

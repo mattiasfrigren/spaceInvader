@@ -13,11 +13,19 @@ public class InGameModel {
     private ArrayList<IBullet> bulletsModelList = new ArrayList<>();
     private ArrayList<EnemyShip> enemiesModelList = new ArrayList<>();
 
+    private HpUp heartHpUp;
     private Meteor modelMeteor;
     private int points = 0;
 
     /////////************** Getter and setters ***********************
 
+    public HpUp getHeartHpUp() {
+        return heartHpUp;
+    }
+
+    public void setHeartHpUp(HpUp heartHpUp) {
+        this.heartHpUp = heartHpUp;
+    }
 
     public Meteor getModelMeteor() {
         return modelMeteor;
