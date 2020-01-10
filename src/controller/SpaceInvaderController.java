@@ -220,10 +220,12 @@ public class SpaceInvaderController {
                     currentDistanceFromCenter += Constants.enemySpawnSpread;
                     currentXPos = startXPos + currentDistanceFromCenter;
                     toRight = false;
+                    enemyShip.setMoveStateRightLeft(false);
                 }
                 else {
                     currentXPos = startXPos - currentDistanceFromCenter;
                     toRight = true;
+                    enemyShip.setMoveStateRightLeft(true);
                 }
             }
             enemyShip.setItemCoordX(currentXPos + (new Random().nextInt(20)));
@@ -236,11 +238,24 @@ public class SpaceInvaderController {
         return enemyModelsToView;
     }
 
-    public void createBigBoss() {
-        EnemyShip boss = new EnemyBigBoss();
-        boss.setItemCoordY(Constants.enemyBigBossStartPosY);
-        boss.setItemCoordX(Constants.SCREENWIDTH/2 );
-        gameModel.addEnemyModel(boss);
+    public void createHpUpHeart() {
+        gameModel.setHeartHpUp(new HpUp());
+        gameModel.getHeartHpUp().setItemCoordY(gameModel.getModelMeteor().getItemCoordY());
+        gameModel.getHeartHpUp().setItemCoordX(gameModel.getModelMeteor().getItemCoordX());
+        SpaceInvaderInGameView.getGameView().initializeHpUpHeart();
+    }
+    public void moveHpUpHeart() {
+        if (gameModel.getHeartHpUp()!=null) {
+            gameModel.getHeartHpUp().moveUp();
+        if (gameModel.getHeartHpUp().getItemCoordY()>= Constants.SCREENHEIGHT+300) {
+            gameModel.setHeartHpUp(null);
+            System.out.println("HpUpHeart removed");
+        }
+            if (gameModel.getPlayerModel().getItemWidth() / 5 + gameModel.getHeartHpUp().getItemWidth() / 5 > distanceBetween(gameModel.getHeartHpUp(), gameModel.getPlayerModel())) {
+                gameModel.getPlayerModel().setLifes(gameModel.getPlayerModel().getLifes()+1);
+                gameModel.setHeartHpUp(null);
+            }
+        }
     }
 
     public void moveMeteorModel() {
@@ -281,6 +296,7 @@ public class SpaceInvaderController {
                     enemyShips.get(i).setMoveStateRightLeft(true);
                 }
             }
+
         }
     }
 
@@ -366,9 +382,9 @@ public class SpaceInvaderController {
                     OnScreenItems bulletsToRemoveNow = (OnScreenItems) gameModel.getBulletsModelList().get(j);
                     if (!bulletsToRemoveNow.isFacingPlayer()) {
                         if (gameModel.getModelMeteor().getItemWidth() / 5 + bulletsToRemoveNow.getItemWidth() / 5 > distanceBetween(bulletsToRemoveNow, gameModel.getModelMeteor())) {
+                            createHpUpHeart();
                             gameModel.setModelMeteor(null);
                             bulletsToRemove.add((IBullet) bulletsToRemoveNow);
-                            gameModel.getPlayerModel().setLifes(gameModel.getPlayerModel().getLifes()+1);
                         }
                     }
                 }
