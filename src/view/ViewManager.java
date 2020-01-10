@@ -131,7 +131,7 @@ public class ViewManager {
         exitText.setX(subSceneWidth/8);
         exitText.setY(subSceneHeight/3);
         exitText.setFont(Font.font("Verdana", 20));
-        exitText.setFill(Color.ALICEBLUE);
+        exitText.setFill(Color.color(0.75, 0.9, 0.9));
         exitAnchor.getChildren().add(exitText);
 
         Button yesButton = new Button("yes");

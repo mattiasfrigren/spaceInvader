@@ -99,7 +99,7 @@ public class SpaceInvaderMenuView implements IViewState {
         Text text = new Text("High Score"); //TODO COLOR SET on text in the subscene
         text.setX(scoreAnchor.getWidth() /2.5);
         text.setY(scoreAnchor.getHeight() * 0.1);
-        text.setFill(Color.ALICEBLUE);
+        text.setFill(Color.color(0.75, 0.9, 0.9));
         text.setStyle("-fx-font: 24 sergoe;");
         scoreAnchor.getChildren().add(text);
 
@@ -113,9 +113,10 @@ public class SpaceInvaderMenuView implements IViewState {
                 highScoreText.setX(highScoreTextStartX);
                 highScoreText.setY(highScoreTextStartY);
                 highScoreTextStartY += highScoreTextYMargin;
-                highScoreText.setFill(Color.BLACK);
+                highScoreText.setFill(Color.color(0.75, 0.9, 0.9));
                 scoreAnchor.getChildren().add(highScoreText);
             }
+
 
         }
 
@@ -140,7 +141,7 @@ public class SpaceInvaderMenuView implements IViewState {
         Text text = new Text("Credits"); //TODO se highScore
         text.setX(creditAnchor.getWidth() /2.5);
         text.setY(creditAnchor.getHeight() * 0.2);
-        text.setFill(Color.ALICEBLUE);
+        text.setFill(Color.color(0.75, 0.9, 0.9));
         text.setStyle("-fx-font: 24 sergoe;");
         creditAnchor.getChildren().add(text);
 
@@ -149,7 +150,7 @@ public class SpaceInvaderMenuView implements IViewState {
             Text nameText = new Text(creditsTo[i]);
             nameText.setX(creditAnchor.getWidth()/2.5);
             nameText.setY(creditAnchor.getHeight() * 0.35 + (creditAnchor.getHeight() * 0.1 * i));
-            nameText.setFill(Color.BLACK);
+            nameText.setFill(Color.color(0.75, 0.9, 0.9));
             creditAnchor.getChildren().add(nameText);
         }
 
@@ -175,12 +176,13 @@ public class SpaceInvaderMenuView implements IViewState {
         text.setX(settingsAnchor.getWidth() / 2.5);
         text.setY(settingsAnchor.getHeight() * 0.2);
         settingsAnchor.getChildren().add(text);
-        text.setFill(Color.ALICEBLUE);
+        text.setFill(Color.color(0.75, 0.9, 0.9));
         text.setStyle("-fx-font: 24 sergoe;");
         CheckBox soundOn = new CheckBox("Sound");
         soundOn.setSelected(true);
         soundOn.setLayoutX(settingsAnchor.getWidth() / 3);
         soundOn.setLayoutY(settingsAnchor.getHeight() * 0.4);
+        soundOn.setTextFill(Color.color(0.75, 0.9, 0.9));
         soundOn.setOnMouseClicked(e -> {
             if (e.getButton().equals(MouseButton.PRIMARY)) {
                 SpaceInvaderController.getController().setSoundOn(soundOn.isSelected());
@@ -209,7 +211,7 @@ public class SpaceInvaderMenuView implements IViewState {
         Text text = new Text("Help"); //TODO COLOR SET
         text.setX(helpAnchor.getWidth() / 2.5);
         text.setY(helpAnchor.getHeight() * 0.2);
-        text.setFill(Color.ALICEBLUE);
+        text.setFill(Color.color(0.75, 0.9, 0.9));
         text.setStyle("-fx-font: 24 sergoe;");
         helpAnchor.getChildren().add(text);
         menuPane.getChildren().add(currentSubScene);

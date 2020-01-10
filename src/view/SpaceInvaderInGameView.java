@@ -427,28 +427,28 @@ public class SpaceInvaderInGameView implements IViewState {
         playerDeadText.setX(deathAnchor.getWidth() * 0.20);
         playerDeadText.setY(deathAnchor.getHeight() * 0.20);
         playerDeadText.setFont(Font.font("Verdana", 30));
-        playerDeadText.setFill(Color.ALICEBLUE);
+        playerDeadText.setFill(Color.color(0.75, 0.9, 0.9));
         deathAnchor.getChildren().add(playerDeadText);
 
         Text yourScoreText = new Text("Your score: " + model.getPoints());
         yourScoreText.setX(deathAnchor.getWidth() * 0.20);
         yourScoreText.setY(deathAnchor.getHeight() * 0.35);
         yourScoreText.setFont(Font.font("Verdana", 15));
-        yourScoreText.setFill(Color.ALICEBLUE);
+        yourScoreText.setFill(Color.color(0.75, 0.9, 0.9));
         deathAnchor.getChildren().add(yourScoreText);
 
         Text highScoreText = new Text("Current Highscore: " + HighScore.getHighScore().getTop10()[0].getScore()); // TODO add highscore in the line
         highScoreText.setX(deathAnchor.getWidth() * 0.20);
         highScoreText.setY(deathAnchor.getHeight() * 0.50);
         highScoreText.setFont(Font.font("Verdana", 15));
-        highScoreText.setFill(Color.ALICEBLUE);
+        highScoreText.setFill(Color.color(0.75, 0.9, 0.9));
         deathAnchor.getChildren().add(highScoreText);
 
         Text enterNameText = new Text("Enter your username: ");
         enterNameText.setX(deathAnchor.getWidth() * 0.20);
         enterNameText.setY(deathAnchor.getHeight() * 0.65);
         enterNameText.setFont(Font.font("Verdana", 15));
-        enterNameText.setFill(Color.ALICEBLUE);
+        enterNameText.setFill(Color.color(0.75, 0.9, 0.9));
         deathAnchor.getChildren().add(enterNameText);
 
         enterNameField = new TextField();
