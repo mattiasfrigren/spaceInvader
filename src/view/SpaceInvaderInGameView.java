@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.SubScene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -41,11 +42,15 @@ public class SpaceInvaderInGameView implements IViewState {
     private ImageView playerImage;
     private ImageView firstBackGroundImage = new ImageView(Constants.BackGroundImage);
     private ImageView secondBackGroundImage = new ImageView(Constants.BackGroundImage);
+    private ImageView ultImage = new ImageView(Constants.UltImageUrl);
     private ArrayList<ImageView> playerLifeImages;
     private Label pointsLabel;
 
     private TextField enterNameField;
     private int rotation=0;
+
+    private int ultTimer;
+    ProgressBar ultbar = new ProgressBar(0);
 
     private SubScene deathSubScene;
 
@@ -92,6 +97,7 @@ public class SpaceInvaderInGameView implements IViewState {
         bulletsImageList.clear();
         playerLifeImages.clear();
         meteorImage = null;
+        hpUpHeart = null;
         initializeLevelToPane();
     }
 
@@ -137,6 +143,30 @@ public class SpaceInvaderInGameView implements IViewState {
         updateMeteorImages();
         updateMeteorRotation();
         updateHpUpHeart();
+        updateUltImage();
+        updateUltbar();
+    }
+
+    private void updateUltbar() {
+
+        if (model.getPlayerModel().IsUltReady()) {
+            ultbar.setProgress(1);
+        }
+        else {
+            double percentsOfUlt = (double) model.getPlayerModel().getUltCounter()/Constants.ultReadyAt;
+            ultbar.setProgress(percentsOfUlt);
+        }
+
+    }
+
+    private void updateUltImage() {
+        ultTimer++;
+        if (controller.checkIfPlayerIsUlting()){
+            initializeUlt();
+        }
+        if (ultTimer >= Constants.maxFramesToShowUlt){
+            removeUlt();
+        }
     }
 
     private void updatePointsLabel() {
@@ -316,6 +346,7 @@ public class SpaceInvaderInGameView implements IViewState {
 
         initializeBackground();
         initializePointLabel();
+        initializeProgressBar();
         initializeHighscorePointLabel();
         initializePlayerLifes();
         initializePlayer();
@@ -384,6 +415,22 @@ public class SpaceInvaderInGameView implements IViewState {
         hpUpHeart.setFitHeight(Constants.heartHeight);
         hpUpHeart.setFitWidth(Constants.heartWidth);
         addToGamePane(hpUpHeart);
+    }
+
+    private void initializeProgressBar() {
+        ultbar.setLayoutX(Constants.SCREENWIDTH * 0.72);
+        ultbar.setLayoutY(Constants.SCREENHEIGHT * 0.96);
+
+        addToGamePane(ultbar);
+    }
+
+    private void initializeUlt() {
+        ultTimer = 0;
+        addToGamePane(ultImage);
+    }
+
+    private void removeUlt() {
+        removeFromGamePane(ultImage);
     }
 
     private void initializeEnemies() {

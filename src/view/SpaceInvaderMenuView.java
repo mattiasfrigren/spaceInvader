@@ -2,21 +2,23 @@ package view;
 
 import controller.SpaceInvaderButtonListener;
 import controller.SpaceInvaderController;
+import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.SubScene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import model.Constants;
-import model.HighScore;
-import model.HighScoreBean;
+import model.*;
+
 import java.util.ArrayList;
 
 public class SpaceInvaderMenuView implements IViewState {
@@ -33,6 +35,9 @@ public class SpaceInvaderMenuView implements IViewState {
 
     private static Scene menuScene;
     private static AnchorPane menuPane;
+
+    private ArrayList<VBox> shipList;
+    private ArrayList<CheckBox> pickBoxes = new ArrayList<>();
 
     private static SpaceInvaderMenuView spaceInvaderMenuView;
 
@@ -121,6 +126,8 @@ public class SpaceInvaderMenuView implements IViewState {
 
         menuPane.getChildren().add(currentSubScene);
     }
+
+
 
     public void initializeCreditsSubScene() {
 
@@ -215,6 +222,33 @@ public class SpaceInvaderMenuView implements IViewState {
         menuPane.getChildren().add(currentSubScene);
     }
 
+    public void initializeChooseShipSubScene() {
+
+        closeCurrentSubScene();
+
+        AnchorPane helpAnchor = new AnchorPane();
+        currentSubScene = new SubScene(helpAnchor, Constants.SCREENWIDTH * 0.45, Constants.SCREENHEIGHT * 0.45);
+
+        BackgroundImage image = new BackgroundImage(new Image(Constants.gameOverSubSceneBackground, Constants.SCREENWIDTH * 0.45, Constants.SCREENHEIGHT * 0.45, false, true),
+                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, null);
+
+        helpAnchor.setBackground(new Background(image));
+        currentSubScene.setId("shipChoose");
+        currentSubScene.setLayoutX(Constants.SCREENWIDTH / 3);
+        currentSubScene.setLayoutY(Constants.SCREENHEIGHT / 3);
+
+        Button startGame = new Button("Start");
+        startGame.setPrefWidth(Constants.SCREENWIDTH * 0.1);
+
+        startGame.setLayoutY(currentSubScene.getHeight() * 0.8);
+        startGame.setLayoutX((currentSubScene.getWidth() * 0.5) - Constants.SCREENWIDTH * 0.05);
+        startGame.addEventFilter(MouseEvent.MOUSE_CLICKED, SpaceInvaderButtonListener.getButtonListener().startGame);
+
+        helpAnchor.getChildren().add(createShipsToChoose());
+        helpAnchor.getChildren().add(startGame);
+        menuPane.getChildren().add(currentSubScene);
+    }
+
     public void closeCurrentSubScene(){
         if (currentSubScene != null) {
             menuPane.getChildren().remove(currentSubScene);
@@ -237,8 +271,41 @@ public class SpaceInvaderMenuView implements IViewState {
         buttonArrayList.add(button);
     }
 
+    private HBox createShipsToChoose() {
+        HBox box = new HBox();
+        box.setSpacing(20);
+        shipList = new ArrayList<>();
+        for (SHIPCHOOSER ship : SHIPCHOOSER.values()) {
+            VBox shipToPick = new VBox();
+            CheckBox pickBox = new CheckBox();
+            ImageView shipImage = new ImageView(ship.getURL());
+
+            shipToPick.setAlignment(Pos.CENTER);
+            shipToPick.setSpacing(20);
+            shipToPick.getChildren().add(shipImage);
+            shipToPick.getChildren().add(pickBox);
+            pickBoxes.add(pickBox);
+
+            box.getChildren().add(shipToPick);
+            pickBox.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    for (CheckBox shipBox : pickBoxes) {
+                        if (!shipBox.equals(pickBox)){
+                            shipBox.setSelected(false);
+                        }
+                    }
+                    InGameModel.getGameModel().setPlayerModelImage(ship.getURL());
+                }
+            });
+        }
+        box.setLayoutX(300 - (118*2));
+        box.setLayoutY(100);
+        return box;
+    }
+
     private void initializeButtonListeners() {
-        buttonArrayList.get(0).addEventFilter(MouseEvent.MOUSE_CLICKED, SpaceInvaderButtonListener.getButtonListener().startGame);
+        buttonArrayList.get(0).addEventFilter(MouseEvent.MOUSE_CLICKED, SpaceInvaderButtonListener.getButtonListener().chooseShip);
         buttonArrayList.get(1).addEventFilter(MouseEvent.MOUSE_CLICKED, SpaceInvaderButtonListener.getButtonListener().showHighScore);
         buttonArrayList.get(2).addEventFilter(MouseEvent.MOUSE_CLICKED, SpaceInvaderButtonListener.getButtonListener().showSettings);
         buttonArrayList.get(3).addEventFilter(MouseEvent.MOUSE_CLICKED, SpaceInvaderButtonListener.getButtonListener().showHelp);

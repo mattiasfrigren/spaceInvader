@@ -12,6 +12,10 @@ public class Constants {
     public final static double playerShipStartPosX = SCREENWIDTH/2;
     public final static double playerShipStartPosY= (SCREENHEIGHT * 0.92) - playerShipHeight/2;
     public final static int playerLifes = 3;
+    public final static int ultReadyAt = 20;
+    public final static int ultiDamage = 2;
+    public final static String UltImageUrl = "model/resources/ult.png";
+    public final static int maxFramesToShowUlt = 20;
 
     public final static String enemyShipURL = "model/resources/enemy.png";
     public final static double enemyShipHeight = SCREENHEIGHT * 0.08;
@@ -44,6 +48,7 @@ public class Constants {
     public final static double enemyBigBossShootingInterval =50;
 
     public final static String BackGroundImage = "model/resources/inGameBckground.png";
+
 
     public final static String meteorImage = "model/resources/meteor.png";
     public final static double meteorHeight = SCREENHEIGHT * 0.12;
