@@ -19,7 +19,7 @@ public class SoundEffects {
      * Checks if sound is on, and plays if true.
      * @param soundPath link to where the sound file is stored
      */
-    public void playSound(String soundPath) {
+    public static void playSound(String soundPath) {
         if (SpaceInvaderController.getController().isSoundOn()) {
             new AudioClip(new File(soundPath).toURI().toString()).play();
         }

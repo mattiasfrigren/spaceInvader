@@ -16,9 +16,9 @@ public class PlayerShip extends Ship {
      * speed, direction and initial life count from the Constants class.
      * Creates a Laser gun and gets direction and interval.
      */
-    public PlayerShip() {
+    public PlayerShip(String playerShipURL) {
 
-        super(Constants.playerShipURL, Constants.playerShipStartPosX, Constants.playerShipStartPosY, Constants.playerShipHeight, Constants.playerShipWidth, Constants.playerShipMovementSpeed, false, Constants.playerLifes);
+        super(playerShipURL, Constants.playerShipStartPosX, Constants.playerShipStartPosY, Constants.playerShipHeight, Constants.playerShipWidth, Constants.playerShipMovementSpeed, false, Constants.playerLifes);
 
         setWeapons(new LaserGun(false, (int)Constants.laserBulletShootInterval, this));
     }
