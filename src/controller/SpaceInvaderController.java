@@ -30,7 +30,7 @@ public class SpaceInvaderController {
     private boolean isMovingUp = false;
     private boolean isMovingDown = false;
     private boolean ultIsPressed = false;
-    int spawnWave = 0;
+    private int spawnWave = 0;
 
     /////////************** Getter and setters ***********************
 
