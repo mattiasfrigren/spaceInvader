@@ -43,6 +43,8 @@ public class SpaceInvaderInGameView implements IViewState {
     private ImageView firstBackGroundImage = new ImageView(Constants.BackGroundImage);
     private ImageView secondBackGroundImage = new ImageView(Constants.BackGroundImage);
     private ImageView ultImage = new ImageView(Constants.UltImageUrl);
+    private ImageView firstBackGroundImage = new ImageView(Constants.inGameBackGroundImage);
+    private ImageView secondBackGroundImage = new ImageView(Constants.inGameBackGroundImage);
     private ArrayList<ImageView> playerLifeImages;
     private Label pointsLabel;
 
@@ -328,13 +330,13 @@ public class SpaceInvaderInGameView implements IViewState {
     }
 
     private void updateBackGround() {
-        firstBackGroundImage.setY(firstBackGroundImage.getY() + 5);
-        secondBackGroundImage.setY(secondBackGroundImage.getY() + 5);
+        firstBackGroundImage.setY(firstBackGroundImage.getY() + 6);
+        secondBackGroundImage.setY(secondBackGroundImage.getY() + 6);
         if (firstBackGroundImage.getY() >= Constants.SCREENHEIGHT) {
-            firstBackGroundImage.setY(-13740);
+            firstBackGroundImage.setY(-34780);
         }
         if (secondBackGroundImage.getY() >= Constants.SCREENHEIGHT) {
-            secondBackGroundImage.setY(-13740);
+            secondBackGroundImage.setY(-34780);
         }
     }
 
@@ -386,8 +388,8 @@ public class SpaceInvaderInGameView implements IViewState {
     }
 
     private void initializeBackground() {
-        secondBackGroundImage.setY(-13740);
-        firstBackGroundImage.setY(-6570);
+        secondBackGroundImage.setY(-34780);
+        firstBackGroundImage.setY(-17380);
         addToGamePane(firstBackGroundImage);
         addToGamePane(secondBackGroundImage);
     }
