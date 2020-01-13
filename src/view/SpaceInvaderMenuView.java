@@ -140,7 +140,6 @@ public class SpaceInvaderMenuView implements IViewState {
 
                 int i = 0;
                 for (HighScoreBean highScore : HighScore.getHighScore().getTop10()) {
-                    while (i < 10){
                     if (highScore != null) {
 
                         if (i < 5) {
@@ -162,13 +161,11 @@ public class SpaceInvaderMenuView implements IViewState {
                             highScoreText.setStyle("-fx-font: 18 sergoe;");
                             scoreAnchor.getChildren().add(highScoreText);
                             i++;
-                            break;
                         }
 
 
                     }
 
-                }
             }
 
         menuPane.getChildren().add(currentSubScene);
