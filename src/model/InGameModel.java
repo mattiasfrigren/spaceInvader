@@ -8,7 +8,6 @@ import java.util.Random;
 public class InGameModel {
 
     private static InGameModel gameModel;
-
     private PlayerShip playerModel;
     private ArrayList<IBullet> bulletsModelList = new ArrayList<>();
     private ArrayList<EnemyShip> enemiesModelList = new ArrayList<>();
@@ -16,6 +15,7 @@ public class InGameModel {
     private HpUp heartHpUp;
     private Meteor modelMeteor;
     private int points = 0;
+    private int level = 1;
 
     /////////************** Getter and setters ***********************
 
@@ -25,6 +25,18 @@ public class InGameModel {
 
     public void setHeartHpUp(HpUp heartHpUp) {
         this.heartHpUp = heartHpUp;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void addLevel() {
+        this.level++;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
     }
 
     public Meteor getModelMeteor() {
@@ -53,7 +65,7 @@ public class InGameModel {
     }
 
     private InGameModel() {
-        playerModel = new PlayerShip();
+        playerModel = new PlayerShip(Constants.playerShipURL);
     }
 
     public PlayerShip getPlayerModel() {
@@ -62,6 +74,10 @@ public class InGameModel {
 
     public void setPlayerModel(PlayerShip playerModel) {
         this.playerModel = playerModel;
+    }
+
+    public void setPlayerModelImage(String url) {
+        playerModel = new PlayerShip(url);
     }
 
     public void setBulletsModelList(ArrayList<IBullet> bulletsModelList) {
@@ -95,11 +111,13 @@ public class InGameModel {
     ///// ******************* END OF GETTERS AND SETTERS  ******************************
 
     public void resetAllModel() {
-        playerModel = new PlayerShip();
+        playerModel = new PlayerShip(Constants.playerShipURL);
         bulletsModelList.clear();
         enemiesModelList.clear();
         modelMeteor = null;
         points = 0;
+        heartHpUp = null;
+        level = 1;
     }
 
 
