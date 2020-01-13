@@ -146,7 +146,7 @@ public class SpaceInvaderController {
                     spawnWave++;
                     spawnMeteor();
                     combinedEnemies = spawnEnemies(10 * currentLvl, "default");
-                    combinedEnemies.addAll(spawnEnemies(10 * currentLvl, "drone"));
+                    combinedEnemies.addAll(spawnEnemies(5 * currentLvl, "drone"));
                     return combinedEnemies;
                 case 4:
                     spawnWave++;
@@ -164,8 +164,10 @@ public class SpaceInvaderController {
                     return spawnEnemies(40 * currentLvl, "drone");
                 case 7:
                     spawnWave++;
+                    combinedEnemies = spawnEnemies(60 * currentLvl, "drone");
+                    combinedEnemies.addAll(spawnEnemies(30 * currentLvl, "default"));
                     spawnMeteor();
-                    return spawnEnemies(60 * currentLvl, "drone");
+                    return combinedEnemies;
                 case 8:
                     spawnWave = 0;
                     gameModel.addLevel();
@@ -260,7 +262,9 @@ public class SpaceInvaderController {
 
              }
             else if (gameModel.getPlayerModel().getItemWidth() / 5 + gameModel.getHeartHpUp().getItemWidth() / 5 > distanceBetween(gameModel.getHeartHpUp(), gameModel.getPlayerModel())) {
-                gameModel.getPlayerModel().setLifes(gameModel.getPlayerModel().getLifes()+1);
+                if (gameModel.getPlayerModel().getLifes() < 3) {
+                    gameModel.getPlayerModel().setLifes(gameModel.getPlayerModel().getLifes() + 1);
+                }
                 gameModel.setHeartHpUp(null);
             }
         }
@@ -397,10 +401,12 @@ public class SpaceInvaderController {
                 for (int j = 0; j < gameModel.getBulletsModelList().size(); j++) {
                     OnScreenItems bulletsToRemoveNow = (OnScreenItems) gameModel.getBulletsModelList().get(j);
                     if (!bulletsToRemoveNow.isFacingPlayer()) {
-                        if (gameModel.getModelMeteor().getItemWidth() / 5 + bulletsToRemoveNow.getItemWidth() / 5 > distanceBetween(bulletsToRemoveNow, gameModel.getModelMeteor())) {
-                            createHpUpHeart();
-                            gameModel.setModelMeteor(null);
-                            bulletsToRemove.add((IBullet) bulletsToRemoveNow);
+                        if (gameModel.getModelMeteor() != null) {
+                            if (gameModel.getModelMeteor().getItemWidth() / 5 + bulletsToRemoveNow.getItemWidth() / 5 > distanceBetween(bulletsToRemoveNow, gameModel.getModelMeteor())) {
+                                createHpUpHeart();
+                                gameModel.setModelMeteor(null);
+                                bulletsToRemove.add((IBullet) bulletsToRemoveNow);
+                            }
                         }
                     }
                 }
@@ -459,7 +465,9 @@ public class SpaceInvaderController {
             if (enemy.getLifes() < 1) {
                 deadEnemyList.add(enemy);
                 gameModel.addPoints(1);
-                gameModel.getPlayerModel().addToUltCounter();
+                if (!ultIsPressed) {
+                    gameModel.getPlayerModel().addToUltCounter();
+                }
                 new SoundEffects().playSound(Constants.POWERUPSOUNDURL); //Enemy deadSouncEffect.KM
             }
         }
