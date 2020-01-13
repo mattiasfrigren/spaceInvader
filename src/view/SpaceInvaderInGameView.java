@@ -39,8 +39,8 @@ public class SpaceInvaderInGameView implements IViewState {
     private ImageView hpUpHeart;
 
     private ImageView playerImage;
-    private ImageView firstBackGroundImage = new ImageView(Constants.BackGroundImage);
-    private ImageView secondBackGroundImage = new ImageView(Constants.BackGroundImage);
+    private ImageView firstBackGroundImage = new ImageView(Constants.inGameBackGroundImage);
+    private ImageView secondBackGroundImage = new ImageView(Constants.inGameBackGroundImage);
     private ArrayList<ImageView> playerLifeImages;
     private Label pointsLabel;
 
@@ -298,13 +298,13 @@ public class SpaceInvaderInGameView implements IViewState {
     }
 
     private void updateBackGround() {
-        firstBackGroundImage.setY(firstBackGroundImage.getY() + 5);
-        secondBackGroundImage.setY(secondBackGroundImage.getY() + 5);
+        firstBackGroundImage.setY(firstBackGroundImage.getY() + 6);
+        secondBackGroundImage.setY(secondBackGroundImage.getY() + 6);
         if (firstBackGroundImage.getY() >= Constants.SCREENHEIGHT) {
-            firstBackGroundImage.setY(-13740);
+            firstBackGroundImage.setY(-34780);
         }
         if (secondBackGroundImage.getY() >= Constants.SCREENHEIGHT) {
-            secondBackGroundImage.setY(-13740);
+            secondBackGroundImage.setY(-34780);
         }
     }
 
@@ -355,8 +355,8 @@ public class SpaceInvaderInGameView implements IViewState {
     }
 
     private void initializeBackground() {
-        secondBackGroundImage.setY(-13740);
-        firstBackGroundImage.setY(-6570);
+        secondBackGroundImage.setY(-34780);
+        firstBackGroundImage.setY(-17380);
         addToGamePane(firstBackGroundImage);
         addToGamePane(secondBackGroundImage);
     }
@@ -533,7 +533,11 @@ public class SpaceInvaderInGameView implements IViewState {
         OnScreenItems itemBullet = (OnScreenItems) bullet;
         ImageView imageBullet;
         System.out.println("bullet image created at x: " + itemBullet.getItemCoordX() + " y: " + itemBullet.getItemCoordY());
-        if (itemBullet.isFacingPlayer()) {
+
+        if(itemBullet.isFacingPlayer() && itemBullet.getImageUrl().equals("model/resources/meteor.png")) {
+            imageBullet = new ImageView(Constants.meteorImage);
+        }
+       else if (itemBullet.isFacingPlayer()) {
             imageBullet = new ImageView(Constants.enemyBulletUrl);
             imageBullet.setRotate(180);
         }
