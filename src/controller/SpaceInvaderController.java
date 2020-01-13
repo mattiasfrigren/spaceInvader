@@ -29,8 +29,8 @@ public class SpaceInvaderController {
     private boolean isMovingRight = false;
     private boolean isMovingUp = false;
     private boolean isMovingDown = false;
-    private boolean spawnMeteor = true;
-    private int lastSpawnedAt = -1;
+    private boolean ultIsPressed = false;
+    int spawnWave = 0;
 
     /////////************** Getter and setters ***********************
 
@@ -97,6 +97,14 @@ public class SpaceInvaderController {
         isMovingDown = movingDown;
     }
 
+    public boolean isUltIsPressed() {
+        return ultIsPressed;
+    }
+
+    public void setUltIsPressed(boolean ultIsPressed) {
+        this.ultIsPressed = ultIsPressed;
+    }
+
     /////////************** End of Getter and setters ***********************
 
     /**
@@ -115,8 +123,8 @@ public class SpaceInvaderController {
         isMovingRight = false;
         isMovingUp = false;
         isMovingDown = false;
-        lastSpawnedAt = -1;
-
+        ultIsPressed = false;
+        spawnWave = 0;
     }
 
     public void pauseGame() {
@@ -125,65 +133,65 @@ public class SpaceInvaderController {
     }
 
     public ArrayList<EnemyShip> checkWhatToSpawn() {
-        if (shouldSpawnAtPoint(0)) {
-            lastSpawnedAt = 0;
-            return spawnEnemies(5, "default");
-        }
-        else if (shouldSpawnAtPoint(5)) {
-            lastSpawnedAt = 5;
-            return spawnEnemies(10, "default");
-        }
-       else if (shouldSpawnAtPoint(15)) {
-            lastSpawnedAt = 15;
-            return spawnEnemies(20, "default");
-        }
-       else if (shouldSpawnAtPoint(35)) {
-           lastSpawnedAt = 35;
-           return  spawnEnemies(10,"default");
-        }
-       else if (shouldSpawnAtPoint(36)) {
-           lastSpawnedAt = 36;
-            return spawnEnemies(10,"drone");
-        }
-       else if (shouldSpawnAtPoint(55)) {
-           lastSpawnedAt = 55;
-           return  spawnEnemies(20,"drone");
-        }
-       else if (shouldSpawnAtPoint(75)) {
-           lastSpawnedAt = 75;
-           return spawnEnemies(20,"default");
-        }
-       else if (shouldSpawnAtPoint(76)) {
-           lastSpawnedAt =76;
-           return spawnEnemies(20,"drone");
-        }
-       else if (shouldSpawnAtPoint(115)) {
-            lastSpawnedAt = 115;
-            return spawnEnemies(40,"drone");
-        }
-       else if (shouldSpawnAtPoint(155)) {
-           lastSpawnedAt = 155;
-           return spawnEnemies(60,"drone");
-        }
-       if (shouldSpawnMeteorAtPoint(gameModel.getPoints())) {
-              gameModel.setModelMeteor(new Meteor());
-                gameModel.getModelMeteor().setItemCoordX(Math.random() * Constants.SCREENWIDTH);
-                SpaceInvaderInGameView.getGameView().initializeMeteor();
-                spawnMeteor = false;
+
+        ArrayList<EnemyShip> combinedEnemies;
+        //int[] spawnPoints = {1, 6, 16, 36, 37, 56, 76, 77, 116, 156, 216};
+        int currentLvl = gameModel.getLevel();
+
+        if (gameModel.getEnemyModelList().isEmpty()) {
+            switch (spawnWave) {
+                case 0:
+                    spawnWave++;
+                    return spawnEnemies(5 * currentLvl, "default");
+                case 1:
+                    spawnWave++;
+                    spawnMeteor();
+                    return spawnEnemies(10 * currentLvl, "default");
+                case 2:
+                    spawnWave++;
+                    spawnMeteor();
+                    return spawnEnemies(20 * currentLvl, "default");
+                case 3:
+                    spawnWave++;
+                    spawnMeteor();
+                    combinedEnemies = spawnEnemies(10 * currentLvl, "default");
+                    combinedEnemies.addAll(spawnEnemies(5 * currentLvl, "drone"));
+                    return combinedEnemies;
+                case 4:
+                    spawnWave++;
+                    spawnMeteor();
+                    return spawnEnemies(20 * currentLvl, "drone");
+                case 5:
+                    spawnWave++;
+                    spawnMeteor();
+                    combinedEnemies = spawnEnemies(20 * currentLvl, "drone");
+                    combinedEnemies.addAll(spawnEnemies(20 * currentLvl, "default"));
+                    return combinedEnemies;
+                case 6:
+                    spawnWave++;
+                    spawnMeteor();
+                    return spawnEnemies(40 * currentLvl, "drone");
+                case 7:
+                    spawnWave++;
+                    combinedEnemies = spawnEnemies(60 * currentLvl, "drone");
+                    combinedEnemies.addAll(spawnEnemies(30 * currentLvl, "default"));
+                    spawnMeteor();
+                    return combinedEnemies;
+                case 8:
+                    spawnWave = 0;
+                    gameModel.addLevel();
+                    return spawnEnemies(1 * currentLvl, "boss");
+            }
         }
         return null;
     }
-    private boolean shouldSpawnMeteorAtPoint(int points) {
-        if (points == 20 || points == 40 || points == 60 || points == 80 || points == 100 || points == 120 || points == 140) {
-       return spawnMeteor;
-        }
-        else if (points == 21 || points == 41 || points == 61 || points == 81 || points == 101 || points == 121 || points == 141) {
-            spawnMeteor = true;
-        }
-        return false;
-    }
-    private boolean shouldSpawnAtPoint(int points) {
-        return gameModel.getPoints() == points && lastSpawnedAt != points;
+
+
+    private void spawnMeteor() {
+        gameModel.setModelMeteor(new Meteor());
+        gameModel.getModelMeteor().setItemCoordX((Math.random() * (Constants.SCREENWIDTH - 150)) + 50 );
+        gameModel.getModelMeteor().setItemCoordY((Math.random() * -600) - 200);
+        SpaceInvaderInGameView.getGameView().initializeMeteor();
     }
 
     private ArrayList<EnemyShip> spawnEnemies(int amount, String enemy) {
@@ -248,6 +256,7 @@ public class SpaceInvaderController {
     }
 
     public void createHpUpHeart() {
+        SoundEffects.playSound(Constants.POWERUPSOUNDURL);
         gameModel.setHeartHpUp(new HpUp());
         gameModel.getHeartHpUp().setItemCoordY(gameModel.getModelMeteor().getItemCoordY());
         gameModel.getHeartHpUp().setItemCoordX(gameModel.getModelMeteor().getItemCoordX());
@@ -256,12 +265,15 @@ public class SpaceInvaderController {
     public void moveHpUpHeart() {
         if (gameModel.getHeartHpUp()!=null) {
             gameModel.getHeartHpUp().moveUp();
-        if (gameModel.getHeartHpUp().getItemCoordY()>= Constants.SCREENHEIGHT+300) {
-            gameModel.setHeartHpUp(null);
-            System.out.println("HpUpHeart removed");
-        }
-            if (gameModel.getPlayerModel().getItemWidth() / 5 + gameModel.getHeartHpUp().getItemWidth() / 5 > distanceBetween(gameModel.getHeartHpUp(), gameModel.getPlayerModel())) {
-                gameModel.getPlayerModel().setLifes(gameModel.getPlayerModel().getLifes()+1);
+
+            if (checkIfOutOfScreen(gameModel.getHeartHpUp().getItemCoordX(), gameModel.getHeartHpUp().getItemCoordY())) {
+                gameModel.setHeartHpUp(null);
+             }
+            else if (gameModel.getPlayerModel().getItemWidth() / 5 + gameModel.getHeartHpUp().getItemWidth() / 5 > distanceBetween(gameModel.getHeartHpUp(), gameModel.getPlayerModel())) {
+                if (gameModel.getPlayerModel().getLifes() < 3) {
+                    SoundEffects.playSound(Constants.POWERUPSOUNDURL);
+                    gameModel.getPlayerModel().setLifes(gameModel.getPlayerModel().getLifes() + 1);
+                }
                 gameModel.setHeartHpUp(null);
             }
         }
@@ -338,6 +350,15 @@ public class SpaceInvaderController {
         return null;
     }
 
+
+    public boolean checkIfPlayerIsUlting() {
+        if (ultIsPressed && gameModel.getPlayerModel().IsUltReady()) {
+            ultActivated();
+            new SoundEffects().playSound(Constants.ultSoundUrl);
+            return true;
+        }
+        return false;
+    }
     private void checkIfPlayerIsMovingLeft() {
         if (isMovingLeft && gameModel.getPlayerModel().getItemCoordX() > 0) {
             gameModel.getPlayerModel().moveLeft();
@@ -400,10 +421,12 @@ public class SpaceInvaderController {
                 for (int j = 0; j < gameModel.getBulletsModelList().size(); j++) {
                     OnScreenItems bulletsToRemoveNow = (OnScreenItems) gameModel.getBulletsModelList().get(j);
                     if (!bulletsToRemoveNow.isFacingPlayer()) {
-                        if (gameModel.getModelMeteor().getItemWidth() / 5 + bulletsToRemoveNow.getItemWidth() / 5 > distanceBetween(bulletsToRemoveNow, gameModel.getModelMeteor())) {
-                            createHpUpHeart();
-                            gameModel.setModelMeteor(null);
-                            bulletsToRemove.add((IBullet) bulletsToRemoveNow);
+                        if (gameModel.getModelMeteor() != null) {
+                            if (gameModel.getModelMeteor().getItemWidth() / 5 + bulletsToRemoveNow.getItemWidth() / 5 > distanceBetween(bulletsToRemoveNow, gameModel.getModelMeteor())) {
+                                createHpUpHeart();
+                                gameModel.setModelMeteor(null);
+                                bulletsToRemove.add((IBullet) bulletsToRemoveNow);
+                            }
                         }
                     }
                 }
@@ -467,7 +490,10 @@ public class SpaceInvaderController {
             if (enemy.getLifes() < 1) {
                 deadEnemyList.add(enemy);
                 gameModel.addPoints(1);
-                new SoundEffects().playSound(Constants.POWERUPSOUNDURL); //Enemy deadSouncEffect.KM
+                if (!ultIsPressed) {
+                    gameModel.getPlayerModel().addToUltCounter();
+                }
+                new SoundEffects().playSound(Constants.enemyExplosion); //Enemy deadSouncEffect.KM
             }
         }
         return deadEnemyList;
@@ -481,6 +507,13 @@ public class SpaceInvaderController {
         for (EnemyShip enemyShip : gameModel.getEnemyModelList()) {
             enemyShip.getWeapon().addToReadyToShoot();
         }
+    }
+
+    private void ultActivated() {
+        for (EnemyShip enemyShip : gameModel.getEnemyModelList()) {
+            enemyShip.looseLife(Constants.ultiDamage);
+        }
+        gameModel.getPlayerModel().resetUltCounter();
     }
 
     //Doing pythagoras rate to check distance between positions together with height and width of the objects..

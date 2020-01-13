@@ -108,6 +108,20 @@ public class SpaceInvaderButtonListener {
     /**
      * Closes settings sub scene if active, opens it if not.
      */
+    public EventHandler<MouseEvent>chooseShip=new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent e) {
+            if (e.getButton().equals(MouseButton.PRIMARY)) {
+                if (SpaceInvaderMenuView.getSpaceInvaderMenuView().getCurrentSubScene()!=null) {
+                    if (SpaceInvaderMenuView.getSpaceInvaderMenuView().getCurrentSubScene().getId().equals("shipChoose")) {
+                        SpaceInvaderMenuView.getSpaceInvaderMenuView().cleanCurrentSubScene(); }
+                    else
+                        { SpaceInvaderMenuView.getSpaceInvaderMenuView().initializeChooseShipSubScene(); } }
+                else { SpaceInvaderMenuView.getSpaceInvaderMenuView().initializeChooseShipSubScene(); }
+            }
+        }
+    };
+
     public EventHandler<MouseEvent>showSettings=new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent e) {

@@ -18,6 +18,10 @@ public class Constants {
     public final static double playerShipStartPosX = SCREENWIDTH/2;
     public final static double playerShipStartPosY= (SCREENHEIGHT * 0.92) - playerShipHeight/2;
     public final static int playerLifes = 3;
+    public final static int ultReadyAt = 20;
+    public final static int ultiDamage = 2;
+    public final static String ultImageUrl = "model/resources/ult.png";
+    public final static int maxFramesToShowUlt = 20;
 
     public final static String enemyShipURL = "model/resources/enemy.png";
     public final static double enemyShipHeight = SCREENHEIGHT * 0.08;
@@ -40,16 +44,17 @@ public class Constants {
     public final static int enemyDroneShipLifes =2;
     public final static double enemyDroneShipLaserGunShootingInterval = 200;
 
-    public final static String enemyBigBossUrl = "model/resources/enemy1_5.png";
-    public final static double enemyBigBossHeight = SCREENHEIGHT*0.12;
-    public final static double enemyBigBossWidth = SCREENWIDTH*0.08;
-    public final static double enemyBigBossMovmentSpeed = SCREENHEIGHT*0.002;
+    public final static String enemyBigBossUrl = "model/resources/player.png";
+    public final static double enemyBigBossHeight = SCREENHEIGHT*0.18;
+    public final static double enemyBigBossWidth = SCREENWIDTH*0.12;
+    public final static double enemyBigBossMovmentSpeed = SCREENHEIGHT*0.006;
     public final static double enemyBigBossStartPosX = SCREENWIDTH*0.1;
     public final static double enemyBigBossStartPosY = SCREENHEIGHT -(SCREENHEIGHT+45);
     public final static int enemyBigBossLifes = 100;
-    public final static double enemyBigBossShootingInterval =50;
+    public final static double enemyBigBossShootingInterval =20;
 
-    public final static String BackGroundImage = "model/resources/inGameBckground.png";
+    public final static String inGameBackGroundImage = "model/resources/inGameBackground.png";
+
 
     public final static String meteorImage = "model/resources/meteor.png";
     public final static double meteorHeight = SCREENHEIGHT * 0.12;
@@ -88,8 +93,8 @@ public class Constants {
 
     public static final String LASERSOUNDURL1 = "src\\model\\resources\\Laser1.wav";
     public static final String LASERSOUNDURL2 = "src\\model\\resources\\Laser2.wav";
-    public static final String EXPLOSIONSOUNDURL1 = "src\\model\\resources\\Explosion.wav";
-    public static final String EXPLOSIONSOUNDURL2 = "src\\model\\resources\\Explosion2.wav";
+    public static final String enemyExplosion = "src\\model\\resources\\Explosion.wav";
+    public static final String ultSoundUrl = "src\\model\\resources\\Explosion2.wav";
     public static final String POWERUPSOUNDURL = "src\\model\\resources\\Powerup.wav";
     public static final String PLASMASOUNDURL = "src\\model\\resources\\Sci-Fi Plasma.mp3";
 }
