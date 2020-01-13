@@ -516,6 +516,7 @@ public class SpaceInvaderController {
         for (EnemyShip enemyShip : gameModel.getEnemyModelList()) {
             enemyShip.looseLife(Constants.ultiDamage);
         }
+        gameModel.setModelMeteor(null);
         gameModel.getPlayerModel().resetUltCounter();
     }
 
