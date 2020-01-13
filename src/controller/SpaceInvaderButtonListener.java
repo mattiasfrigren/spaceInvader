@@ -1,8 +1,6 @@
 package controller;
 
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.SubScene;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import model.HighScore;
@@ -10,9 +8,16 @@ import model.InGameModel;
 import view.SpaceInvaderInGameView;
 import view.SpaceInvaderMenuView;
 import view.ViewManager;
-
 import java.sql.SQLException;
 
+/**
+ * This class takes care of the first scene of the game, a menu with the options to start playing, view the high score,
+ * learn how to play, read credits or quit the program.
+ * It implements IViewState.
+ *
+ * @author Isabelle Romhagen, Ludvig Lundin, Mattias Frigren, Jasmine Söderberg, Khazar Mehraban
+ * @version 1.2
+ */
 public class SpaceInvaderButtonListener {
 
     private static SpaceInvaderButtonListener buttonListener;
@@ -24,7 +29,9 @@ public class SpaceInvaderButtonListener {
         return buttonListener;
     }
 
-
+    /**
+     * Resets to the initial game state.
+     */
     public EventHandler<MouseEvent> resetGameEvent = new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent e) {
@@ -37,6 +44,9 @@ public class SpaceInvaderButtonListener {
         }
     };
 
+    /**
+     * Sets state to menu view.
+     */
     public EventHandler<MouseEvent> enterMenu = new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent e) {
@@ -49,6 +59,9 @@ public class SpaceInvaderButtonListener {
         }
     };
 
+    /**
+     * Passes on player alias and score to the high score class and disables the save button.
+     */
     public EventHandler<MouseEvent> saveScoreEvent = new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent e) {
@@ -62,6 +75,10 @@ public class SpaceInvaderButtonListener {
             SpaceInvaderInGameView.getGameView().initializeDeathSubScene(true);
         }
     };
+
+    /**
+     * Starts the game.
+     */
     public EventHandler<MouseEvent>startGame=new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent e) {
@@ -71,6 +88,10 @@ public class SpaceInvaderButtonListener {
             }
             }
         };
+
+    /**
+     * Closes high score sub scene if active, opens it if not.
+     */
     public EventHandler<MouseEvent>showHighScore=new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent e) {
@@ -84,6 +105,9 @@ public class SpaceInvaderButtonListener {
         }
     };
 
+    /**
+     * Closes settings sub scene if active, opens it if not.
+     */
     public EventHandler<MouseEvent>showSettings=new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent e) {
@@ -97,6 +121,9 @@ public class SpaceInvaderButtonListener {
         }
     };
 
+    /**
+     * Closes help sub scene if active, opens it if not.
+     */
     public EventHandler<MouseEvent>showHelp=new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent e) {
@@ -110,6 +137,9 @@ public class SpaceInvaderButtonListener {
         }
     };
 
+    /**
+     * Closes credits sub scene if active, opens it if not.
+     */
     public EventHandler<MouseEvent>showCredits=new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent e) {
@@ -123,6 +153,9 @@ public class SpaceInvaderButtonListener {
         }
     };
 
+    /**
+     * Opens the exit sub scene.
+     */
     public EventHandler<MouseEvent>exit=new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent e) {
@@ -132,6 +165,9 @@ public class SpaceInvaderButtonListener {
         }
     };
 
+    /**
+     * Exits program if yes button was pressed.
+     */
     public EventHandler<MouseEvent>reallyExit=new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent e) {

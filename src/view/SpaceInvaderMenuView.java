@@ -19,6 +19,17 @@ import model.HighScore;
 import model.HighScoreBean;
 import java.util.ArrayList;
 
+
+/**
+ * This class takes care of the first scene of the game, a menu with the options to start playing, view the high score,
+ * learn how to play, read credits or quit the program.
+ * It implements IViewState.
+ *
+ * @author Isabelle Romhagen, Ludvig Lundin, Mattias Frigren, Jasmine Söderberg, Khazar Mehraban
+ * @version 1.2
+ */
+
+
 public class SpaceInvaderMenuView implements IViewState {
     private ArrayList<Button> buttonArrayList = new ArrayList<>();
     private Button button;
@@ -59,6 +70,10 @@ public class SpaceInvaderMenuView implements IViewState {
 
     /////////************** End of Getter and setters ***********************
 
+    /**
+     * The constructor initializes the pane, scene and background image for the menu.
+     * It also calls the methods to create the buttons, initialize the button listeners and get high score from the database.
+     */
     private SpaceInvaderMenuView() {
         menuPane = new AnchorPane();
         menuScene = new Scene(menuPane, Constants.SCREENWIDTH, Constants.SCREENHEIGHT);
@@ -73,6 +88,9 @@ public class SpaceInvaderMenuView implements IViewState {
         HighScore.getHighScore();
     }
 
+    /**
+     * Creates an array of buttons, defines their names and positions and adds them to the menuPane.
+     */
     private void createButtonToList() {
         String[] buttonList = {"Play", "HighScore", "Settings", "Help", "Credits", "Exit"};
         for (int i = 1; i < buttonList.length + 1; i++) {
@@ -81,6 +99,12 @@ public class SpaceInvaderMenuView implements IViewState {
         menuPane.getChildren().addAll(buttonArrayList);
     }
 
+    /**
+     * Calls the method to close any active sub scene.
+     * Creates a sub scene, defines its width and height, background image.
+     * Gets high score from the HighScore class and displays it.
+     * Adds it to the menuPane.
+     */
     public void initializeHighScoreSubScene() {
 
         closeCurrentSubScene();
@@ -97,32 +121,60 @@ public class SpaceInvaderMenuView implements IViewState {
         currentSubScene.setLayoutY(Constants.SCREENHEIGHT / 3);
 
         Text text = new Text("High Score"); //TODO COLOR SET on text in the subscene
-        text.setX(scoreAnchor.getWidth() /2.5);
-        text.setY(scoreAnchor.getHeight() * 0.1);
+        text.setX(scoreAnchor.getWidth() /2.8);
+        text.setY(scoreAnchor.getHeight() * 0.2);
         text.setFill(Color.color(0.75, 0.9, 0.9));
         text.setStyle("-fx-font: 24 sergoe;");
         scoreAnchor.getChildren().add(text);
 
-        double highScoreTextStartX = scoreAnchor.getWidth() /2.2;
-        double highScoreTextStartY = scoreAnchor.getHeight() * 0.2;
+        double highScoreTextLeftX = scoreAnchor.getWidth() * 0.2;
+        double highScoreTextRightX = highScoreTextLeftX * 3;
+        double highScoreTextLeftY = scoreAnchor.getHeight() * 0.4;
+        double highScoreTextRightY = scoreAnchor.getHeight() * 0.4;
         double highScoreTextYMargin = scoreAnchor.getHeight() * 0.08;
 
-        for (HighScoreBean highScore : HighScore.getHighScore().getTop10()) {
-            if (highScore != null) {
-                Text highScoreText = new Text(highScore.getUsername() + " : " + highScore.getScore());
-                highScoreText.setX(highScoreTextStartX);
-                highScoreText.setY(highScoreTextStartY);
-                highScoreTextStartY += highScoreTextYMargin;
-                highScoreText.setFill(Color.color(0.75, 0.9, 0.9));
-                scoreAnchor.getChildren().add(highScoreText);
+                int i = 0;
+                for (HighScoreBean highScore : HighScore.getHighScore().getTop10()) {
+                    while (i < 10){
+                    if (highScore != null) {
+
+                        if (i < 5) {
+                            Text highScoreText = new Text(highScore.getUsername() + " : " + highScore.getScore());
+                            highScoreText.setX(highScoreTextLeftX);
+                            highScoreText.setY(highScoreTextLeftY);
+                            highScoreTextLeftY += highScoreTextYMargin;
+                            highScoreText.setFill(Color.color(0.75, 0.9, 0.9));
+                            highScoreText.setStyle("-fx-font: 18 sergoe;");
+                            scoreAnchor.getChildren().add(highScoreText);
+                            i++;
+                        }
+                        else {
+                            Text highScoreText = new Text(highScore.getUsername() + " : " + highScore.getScore());
+                            highScoreText.setX(highScoreTextRightX);
+                            highScoreText.setY(highScoreTextRightY);
+                            highScoreTextRightY += highScoreTextYMargin;
+                            highScoreText.setFill(Color.color(0.75, 0.9, 0.9));
+                            highScoreText.setStyle("-fx-font: 18 sergoe;");
+                            scoreAnchor.getChildren().add(highScoreText);
+                            i++;
+                            break;
+                        }
+
+
+                    }
+
+                }
             }
-
-
-        }
 
         menuPane.getChildren().add(currentSubScene);
     }
 
+    /**
+     * Calls the method to close any active sub scene.
+     * Creates a sub scene, defines its width and height, background image.
+     * Creates a string array of contributors and displays it.
+     * Adds it to the menuPane.
+     */
     public void initializeCreditsSubScene() {
 
         closeCurrentSubScene();
@@ -148,15 +200,22 @@ public class SpaceInvaderMenuView implements IViewState {
         String[] creditsTo = {"Isabelle Romhagen","Jasmine Söderberg", "Khazar Mehraban", "Mattias Frigren", "Ludvig Lundin"};
         for (int i = 0; i < creditsTo.length; i++) {
             Text nameText = new Text(creditsTo[i]);
-            nameText.setX(creditAnchor.getWidth()/2.5);
+            nameText.setX(creditAnchor.getWidth()/2.8);
             nameText.setY(creditAnchor.getHeight() * 0.35 + (creditAnchor.getHeight() * 0.1 * i));
             nameText.setFill(Color.color(0.75, 0.9, 0.9));
+            nameText.setStyle("-fx-font: 15 sergoe;");
             creditAnchor.getChildren().add(nameText);
         }
 
         menuPane.getChildren().add(currentSubScene);
     }
 
+    /**
+     * Calls the method to close any active sub scene.
+     * Creates a sub scene, defines its width and height, background image.
+     * Creates an option for the user to turn sound on/off.
+     * Adds it to the menuPane.
+     */
     public void initializeSettingsSubScene() {
 
         closeCurrentSubScene();
@@ -193,6 +252,11 @@ public class SpaceInvaderMenuView implements IViewState {
         menuPane.getChildren().add(currentSubScene);
     }
 
+    /**
+     * Calls the method to close any active sub scene.
+     * Creates a sub scene, defines its width and height, background image.
+     * Adds it to the menuPane.
+     */
     public void initializeHelpSubScene() {
 
         closeCurrentSubScene();
@@ -200,7 +264,7 @@ public class SpaceInvaderMenuView implements IViewState {
         AnchorPane helpAnchor = new AnchorPane();
         currentSubScene = new SubScene(helpAnchor, Constants.SCREENWIDTH * 0.45, Constants.SCREENHEIGHT * 0.45);
 
-        BackgroundImage image = new BackgroundImage(new Image(Constants.gameOverSubSceneBackground, Constants.SCREENWIDTH * 0.45, Constants.SCREENHEIGHT * 0.45, false, true),
+        BackgroundImage image = new BackgroundImage(new Image(Constants.helpBackGround, Constants.SCREENWIDTH * 0.45, Constants.SCREENHEIGHT * 0.45, false, true),
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, null);
 
         helpAnchor.setBackground(new Background(image));
@@ -217,17 +281,30 @@ public class SpaceInvaderMenuView implements IViewState {
         menuPane.getChildren().add(currentSubScene);
     }
 
-    public void closeCurrentSubScene(){
+    /**
+     * Removes any active sub scene.
+     */
+    private void closeCurrentSubScene(){
         if (currentSubScene != null) {
             menuPane.getChildren().remove(currentSubScene);
         }
     }
+
+    /**
+     * Sets current sub scene to null so that it will close next time the user clicks a button.
+     */
     public void cleanCurrentSubScene() {
            closeCurrentSubScene();
            currentSubScene = null;
 
     }
 
+    /**
+     * Takes below arguments, creates a button and adds it to the array of buttons created in createButtonList.
+     * @param buttonText button name
+     * @param x x position
+     * @param y y position
+     */
     private void createButton(String buttonText, double x, double y) {
         button = new Button(buttonText);
         button.setLayoutX(x);
@@ -239,6 +316,10 @@ public class SpaceInvaderMenuView implements IViewState {
         buttonArrayList.add(button);
     }
 
+    /**
+     * Adds mouse events to all menu buttons.
+     * Sets their background font, position and effect when clicked.
+     */
     private void initializeButtonListeners() {
         buttonArrayList.get(0).addEventFilter(MouseEvent.MOUSE_CLICKED, SpaceInvaderButtonListener.getButtonListener().startGame);
         buttonArrayList.get(1).addEventFilter(MouseEvent.MOUSE_CLICKED, SpaceInvaderButtonListener.getButtonListener().showHighScore);

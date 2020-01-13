@@ -4,10 +4,15 @@ import javafx.stage.Stage;
 import model.*;
 import view.SpaceInvaderInGameView;
 import view.ViewManager;
-
 import java.util.ArrayList;
 import java.util.Random;
-// Controller that talks with View and Model and changing the state of the game.
+
+/**
+ * Controller that talks with View and Model, changes the state of the game.
+ *
+ * @author Isabelle Romhagen, Ludvig Lundin, Mattias Frigren, Jasmine Söderberg, Khazar Mehraban
+ * @version 1.2
+ */
 public class SpaceInvaderController {
 
     private static SpaceInvaderController controller;
@@ -94,6 +99,10 @@ public class SpaceInvaderController {
 
     /////////************** End of Getter and setters ***********************
 
+    /**
+     *
+     * @param stage
+     */
     private SpaceInvaderController(Stage stage) {
         this.gameModel = InGameModel.getGameModel();
         this.view = ViewManager.getViewManager(stage);
@@ -312,7 +321,10 @@ public class SpaceInvaderController {
         return enemyModelBullets;
     }
 
-    // when space is down check if you weapon manage to shoot.
+    /**
+     * When space is down check, if the weapon manages to shoot.
+     * @return current bullet
+     */
     public IBullet checkIfPlayerIsShooting() {
         if (isShooting) {
             IBullet currentBullet = gameModel.getPlayerModel().performShootingAction();
@@ -357,7 +369,9 @@ public class SpaceInvaderController {
         checkIfPlayIsMovingDown();
     }
 
-    // Moving all bullets forward
+    /**
+     * Moving all bullets forward
+     */
     public void updateBullets() {
         for (IBullet bullet : gameModel.getBulletsModelList()) {
             OnScreenItems itemBullet = (OnScreenItems) bullet;
@@ -365,7 +379,12 @@ public class SpaceInvaderController {
         }
     }
 
-    // check if something is out of screen
+    /**
+     * check if something is out of screen
+     * @param x x position
+     * @param y y position
+     * @return y
+     */
     private boolean checkIfOutOfScreen(double x, double y) {
         return y > Constants.SCREENHEIGHT + 50 || x > Constants.SCREENWIDTH + 50 || y < -50 || x < -50;
     }
@@ -394,7 +413,9 @@ public class SpaceInvaderController {
         return null;
     }
 
-    //Checks if meteor connetcs with the playership.
+    /**
+     * Checks if meteor connects with the player ship.
+     */
     public void checkIfMeteorCollide() {
         if (gameModel.getModelMeteor()!=null) {
             if (gameModel.getPlayerModel().getItemWidth() / 5 + gameModel.getModelMeteor().getItemWidth() / 5 > distanceBetween(gameModel.getModelMeteor(), gameModel.getPlayerModel())) {
@@ -404,7 +425,10 @@ public class SpaceInvaderController {
         }
     }
 
-    // Checking if bullet is out of screen and return the index of the bullets that needs to be removed in our imageview list.
+    /**
+     *  Checking if bullet is out of screen and return the index of the bullets that needs to be removed in our image view list.
+     * @return bulletsToRemove
+     */
     public ArrayList<IBullet> getBulletRemoveList() {
         ArrayList<IBullet> bulletsToRemove = new ArrayList<>();
         for (int i = 0; i < gameModel.getBulletsModelList().size(); i++) {
@@ -449,7 +473,9 @@ public class SpaceInvaderController {
         return deadEnemyList;
     }
 
-    //adds +1 to our weaponState to make it ready when at it's state.
+    /**
+     * adds +1 to weaponState to make it ready when at it's state.
+     */
     public void updateWeaponsState() {
         gameModel.getPlayerModel().getWeapon().addToReadyToShoot();
         for (EnemyShip enemyShip : gameModel.getEnemyModelList()) {

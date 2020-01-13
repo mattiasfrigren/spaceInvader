@@ -1,5 +1,11 @@
 package model;
-// Class that has all the final static variables.
+
+/**
+ * This class contains all final static variables.
+ *
+ * @author Isabelle Romhagen, Ludvig Lundin, Mattias Frigren, Jasmine Söderberg, Khazar Mehraban
+ * @version 1.2
+ */
 public class Constants {
 
     public final static double SCREENHEIGHT = 600;
@@ -67,6 +73,8 @@ public class Constants {
     public final static String gameOverSubSceneBackground = "model/resources/bg.png";
     public final static String gameBootSceneBackGround ="model/resources/menuBackGroundBluePrint.png";
     public final static String pointLabelBackGround ="model/resources/pointLabel.png";
+    public final static String helpBackGround = "model/resources/Help.png";
+
 
     public final static double spawnPointMeteor = Math.random()*SCREENWIDTH;
 
