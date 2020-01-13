@@ -30,7 +30,7 @@ public class SpaceInvaderController {
     private boolean isMovingUp = false;
     private boolean isMovingDown = false;
     private boolean ultIsPressed = false;
-    int spawnWave = 0;
+    private int spawnWave = 0;
 
     /////////************** Getter and setters ***********************
 
@@ -149,6 +149,9 @@ public class SpaceInvaderController {
         ArrayList<EnemyShip> combinedEnemies;
         //int[] spawnPoints = {1, 6, 16, 36, 37, 56, 76, 77, 116, 156, 216};
         int currentLvl = gameModel.getLevel();
+        if (currentLvl == 2) {
+            gameModel.getPlayerModel().changeToBossWeapon();
+        }
 
         if (gameModel.getEnemyModelList().isEmpty()) {
             switch (spawnWave) {
@@ -597,6 +600,7 @@ public class SpaceInvaderController {
         for (EnemyShip enemyShip : gameModel.getEnemyModelList()) {
             enemyShip.looseLife(Constants.ultiDamage);
         }
+        gameModel.setModelMeteor(null);
         gameModel.getPlayerModel().resetUltCounter();
     }
 

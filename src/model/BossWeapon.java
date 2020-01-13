@@ -12,7 +12,7 @@ import java.util.Random;
  */
 public class BossWeapon extends Weapons {
 
-    int amountOfShots = 0;
+    private int amountOfShots = 0;
 
     public BossWeapon(boolean isFacingPlayer, int shootInterval, Ship theShip) {
         readyToShoot = 0;

@@ -499,6 +499,9 @@ public class SpaceInvaderInGameView implements IViewState {
             ImageView enemyImage = new ImageView(new Image(enemyURL));
             enemyImage.setX(enemyModel.getItemCoordX());
             enemyImage.setY(enemyModel.getItemCoordY());
+            enemyImage.setPreserveRatio(true);
+            enemyImage.setFitWidth(Constants.enemyShipWidth);
+            enemyImage.setFitHeight(Constants.enemyShipHeight);
             enemyImage.setRotate(180);
             addToGamePane(enemyImage);
             enemiesImageList.add(enemyImage);
@@ -602,7 +605,7 @@ public class SpaceInvaderInGameView implements IViewState {
     /****************** Create Methods below  ******************************/
 
     private void createPlayerLifeImage(int lifeNumber) {
-        ImageView playerLifeImage = new ImageView(Constants.playerShipURL);
+        ImageView playerLifeImage = new ImageView(model.getPlayerModel().getImageUrl());
         playerLifeImage.setLayoutX(Constants.heartStartX + (lifeNumber * Constants.heartWidth));
         playerLifeImage.setLayoutY(Constants.heartStartY);
         playerLifeImage.setPreserveRatio(true);

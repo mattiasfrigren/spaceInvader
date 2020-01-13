@@ -12,6 +12,9 @@ public class Constants {
     public final static double SCREENWIDTH = 900;
 
     public final static String playerShipURL = "model/resources/player.png";
+    public final static String greenPlayerShipURL = "model/resources/greenShip.png";
+    public final static String redPlayerShipURL = "model/resources/redShip.png";
+    public final static String bluePlayerShipURL = "model/resources/blueShip.png";
     public final static double playerShipHeight = SCREENHEIGHT * 0.12;
     public final static double playerShipWidth = SCREENWIDTH * 0.08;
     public final static double playerShipMovementSpeed = SCREENHEIGHT * 0.008;
@@ -19,12 +22,12 @@ public class Constants {
     public final static double playerShipStartPosY= (SCREENHEIGHT * 0.92) - playerShipHeight/2;
     public final static int playerLifes = 3;
     public final static int ultReadyAt = 20;
-    public final static int ultiDamage = 2;
+    public final static int ultiDamage = 50;
     public final static String ultImageUrl = "model/resources/ult.png";
     public final static int maxFramesToShowUlt = 20;
 
     public final static String enemyShipURL = "model/resources/enemy.png";
-    public final static double enemyShipHeight = SCREENHEIGHT * 0.08;
+    public final static double enemyShipHeight = SCREENHEIGHT * 0.06;
     public final static double enemyShipWidth = SCREENWIDTH * 0.06;
     public final static double enemyShipMovementSpeed = SCREENHEIGHT * 0.002;
     public final static double enemyShipStartPosX = SCREENWIDTH * 0.1;
@@ -44,14 +47,14 @@ public class Constants {
     public final static int enemyDroneShipLifes =2;
     public final static double enemyDroneShipLaserGunShootingInterval = 200;
 
-    public final static String enemyBigBossUrl = "model/resources/player.png";
+    public final static String enemyBigBossUrl = "model/resources/enemy1_5.png";
     public final static double enemyBigBossHeight = SCREENHEIGHT*0.18;
     public final static double enemyBigBossWidth = SCREENWIDTH*0.12;
-    public final static double enemyBigBossMovmentSpeed = SCREENHEIGHT*0.006;
+    public final static double enemyBigBossMovmentSpeed = SCREENHEIGHT*0.004;
     public final static double enemyBigBossStartPosX = SCREENWIDTH*0.1;
     public final static double enemyBigBossStartPosY = SCREENHEIGHT -(SCREENHEIGHT+45);
     public final static int enemyBigBossLifes = 100;
-    public final static double enemyBigBossShootingInterval =20;
+    public final static double enemyBigBossShootingInterval = 40;
 
     public final static String inGameBackGroundImage = "model/resources/inGameBackground.png";
 

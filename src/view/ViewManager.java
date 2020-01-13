@@ -156,6 +156,7 @@ public class ViewManager {
         noButton.setOnMousePressed(e -> {
             if (e.getButton().equals(MouseButton.PRIMARY)) {
                 currentPane.getChildren().remove(exitScene);
+
             }
         });
 

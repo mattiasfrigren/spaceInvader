@@ -9,7 +9,8 @@ package model;
 
 public class PlayerShip extends Ship {
 
-    int ultCounter = 0;
+    private int ultCounter = 0;
+    private boolean hasBossWeapon = false;
 
     /**
      * The constructor gets the image, X and Y starting position, height, width,
@@ -37,5 +38,12 @@ public class PlayerShip extends Ship {
 
     public void resetUltCounter() {
         ultCounter = 0;
+    }
+
+    public void changeToBossWeapon() {
+        if (!hasBossWeapon) {
+            setWeapons(new BossWeapon(false, (int)Constants.laserBulletShootInterval, this));
+            hasBossWeapon = true;
+        }
     }
 }
