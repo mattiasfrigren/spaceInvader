@@ -21,9 +21,15 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import model.*;
-
 import java.util.ArrayList;
 
+/**
+ * This class handles everything that is visible in game play.
+ * Inherits from IViewState.
+ *
+ * @author Isabelle Romhagen, Ludvig Lundin, Mattias Frigren, Jasmine Söderberg, Khazar Mehraban
+ * @version 1.2
+ */
 public class SpaceInvaderInGameView implements IViewState {
 
 
@@ -79,18 +85,24 @@ public class SpaceInvaderInGameView implements IViewState {
 
     /////////************** End of Getter and setters ***********************
 
+    /**
+     * Constructor initializes a pane and scene for the game play, adds all images to the pane, adds key listener to game and starts the animator.
+     */
     private SpaceInvaderInGameView() {
 
         model = InGameModel.getGameModel();
         gamePane = new AnchorPane();
         gameScene = new Scene(gamePane, Constants.SCREENWIDTH, Constants.SCREENHEIGHT);
         controller = SpaceInvaderController.getController();
-        initializeLevelToPane();  //adds all images to the pane.
-        initializeGameListener(); // add key listener to game
-        createGameLoop(); // starts animator.
+        initializeLevelToPane();
+        initializeGameListener();
+        createGameLoop();
 
     }
 
+    /**
+     * Clears all enemies, bullets, meteors and power ups in order to be able to start over.
+     */
     public void resetGame() {
         gamePane.getChildren().clear();
         enemiesImageList.clear();
@@ -101,14 +113,16 @@ public class SpaceInvaderInGameView implements IViewState {
         initializeLevelToPane();
     }
 
+    /**
+     * Starts the animator. Loops to check status on whether player or enemy is shooting, models, images and if current level is finished.
+     */
     private void createGameLoop() {
         inGameTimer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                // checks and update movement of images
                 updateIfPlayerIsShooting();
                 updateIfEnemyIsShooting();
-                updateAllModels(); // update all models before checks.
+                updateAllModels();
                 updateAllImageviews();
                 updateIfLevelIsDone();
             }
@@ -119,7 +133,9 @@ public class SpaceInvaderInGameView implements IViewState {
 
     /****************** update Methods below  ******************************/
 
-    //add all model updates here
+    /**
+     * Checks status on all item models.
+     */
     private void updateAllModels() {
         controller.updateBullets();
         controller.updateWeaponsState();
@@ -131,7 +147,9 @@ public class SpaceInvaderInGameView implements IViewState {
 
     }
 
-    //add all imagesviews here
+    /**
+     * Checks status on all item views.
+     */
     private void updateAllImageviews() {
         updateIfSpawnNewEnemies();
         updateBackGround();
@@ -147,6 +165,9 @@ public class SpaceInvaderInGameView implements IViewState {
         updateUltbar();
     }
 
+    /**
+     * Increases progress if it's time.
+     */
     private void updateUltbar() {
 
         if (model.getPlayerModel().IsUltReady()) {
@@ -159,6 +180,9 @@ public class SpaceInvaderInGameView implements IViewState {
 
     }
 
+    /**
+     * Updates the ult bar image, calls method to initialize ult if it's ready.
+     */
     private void updateUltImage() {
         ultTimer++;
         if (controller.checkIfPlayerIsUlting()){
@@ -169,12 +193,19 @@ public class SpaceInvaderInGameView implements IViewState {
         }
     }
 
+    /**
+     * Puts player's current points on a label.
+     */
     private void updatePointsLabel() {
         int myPoints = model.getPoints();
         String pointText = "Points: " + myPoints;
         pointsLabel.setText(pointText);
     }
 
+    /**
+     * Checks if player is out of lives.
+     * Shows Game Over sub scene and stops game if true.
+     */
     private void updateIfLevelIsDone() {
         if (model.getPlayerModel().getLifes() <=0) {
             initializeDeathSubScene(false);
@@ -182,6 +213,11 @@ public class SpaceInvaderInGameView implements IViewState {
         }
     }
     //Spawns Enemys at an interval.
+
+    /**
+     * Creates an array of enemy models, loops through it, sets image, position, preserve ratio, height, width and direction for each enemy.
+     * Adds them to the pane.
+     */
     private void updateIfSpawnNewEnemies() {
         ArrayList<EnemyShip> modelEnemies = controller.checkWhatToSpawn();
         if (modelEnemies != null) {
@@ -199,6 +235,9 @@ public class SpaceInvaderInGameView implements IViewState {
         }
     }
 
+    /**
+     *
+     */
     private void updatePlayerLifeImages() {
         int playerLifes = model.getPlayerModel().getLifes();
 
