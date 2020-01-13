@@ -1,5 +1,10 @@
 package model;
 
+/**
+ *
+ * @author Ludvig Lundin
+ * @version 1.2
+ */
 public class HighScoreBean {
     private String username;
     private int score;

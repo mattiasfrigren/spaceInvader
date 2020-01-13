@@ -2,8 +2,21 @@ package model;
 
 import java.util.Random;
 
+/**
+ * This class creates a laser gun with shooting bullets.
+ * It is a child of Weapons.
+ *
+ * @author Isabelle Romhagen, Ludvig Lundin, Mattias Frigren, Jasmine Söderberg, Khazar Mehraban
+ * @version 1.2
+ */
 public class LaserGun extends Weapons {
 
+    /**
+     * Constructor determines if it's time to shoot, in what direction the shot should go and ship object.
+     * @param isFacingPlayer direction
+     * @param shootInterval shooting interval
+     * @param theShip ship object
+     */
     public LaserGun(boolean isFacingPlayer, int shootInterval, Ship theShip) {
         readyToShoot = new Random().nextInt(shootInterval);
         this.isFacingPlayer = isFacingPlayer;
@@ -11,6 +24,10 @@ public class LaserGun extends Weapons {
         this.theShip = theShip;
     }
 
+    /**
+     * Creates a bullet.
+     * @return LaserBullet if it's time to shoot.
+     */
     @Override
     public IBullet shoot() {
         if (readyToShoot >= shootInterval) {

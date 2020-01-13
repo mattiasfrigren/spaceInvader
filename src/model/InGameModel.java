@@ -4,7 +4,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Random;
 
-// All info from Model to the game.
+/**
+ * This class handles all info on the models in the game.
+ *
+ * @author Isabelle Romhagen, Ludvig Lundin, Mattias Frigren, Jasmine Söderberg, Khazar Mehraban
+ * @version 1.2
+ */
 public class InGameModel {
 
     private static InGameModel gameModel;
@@ -57,6 +62,10 @@ public class InGameModel {
         this.points += points;
     }
 
+    /**
+     * Creates a new InGameModel unless there is one already.
+     * @return gameModel
+     */
     public static InGameModel getGameModel() {
         if (gameModel == null) {
             gameModel = new InGameModel();
@@ -88,7 +97,10 @@ public class InGameModel {
         return bulletsModelList;
     }
 
-    // add modelinfo
+    /**
+     * Add model of bullet to bulletsModelList.
+     * @param bullet bullet to add
+     */
     public void addBullets(IBullet bullet) {
         bulletsModelList.add(bullet);
     }
@@ -101,7 +113,10 @@ public class InGameModel {
         return enemiesModelList;
     }
 
-    //Adds enemies to enemieModelList
+    /**
+     * Adds enemies to enemiesModelList
+     * @param enemy model of enemy ship
+     */
     public void addEnemyModel(EnemyShip enemy) {
         enemiesModelList.add(enemy);
     }
@@ -110,6 +125,9 @@ public class InGameModel {
 
     ///// ******************* END OF GETTERS AND SETTERS  ******************************
 
+    /**
+     * Resets points and models for player ship, bullets list, enemies list, meteor.
+     */
     public void resetAllModel() {
         playerModel = new PlayerShip(Constants.playerShipURL);
         bulletsModelList.clear();

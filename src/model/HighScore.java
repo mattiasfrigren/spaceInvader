@@ -1,8 +1,14 @@
 package model;
 
-
 import java.sql.SQLException;
 
+/**
+ *
+ *
+ *
+ * @author Isabelle Romhagen, Ludvig Lundin
+ * @version 1.2
+ */
 public class HighScore {
 
     private static HighScore highScore;

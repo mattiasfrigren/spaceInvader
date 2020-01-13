@@ -1,5 +1,12 @@
 package model;
 
+/**
+ * This class creates meteors and sets its attributes.
+ * Child of OnScreenItems.
+ *
+ * @author Mattias Frigren
+ * @version 1.2
+ */
 public class Meteor extends OnScreenItems {
 
     public Meteor() {
