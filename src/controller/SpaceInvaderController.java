@@ -247,6 +247,7 @@ public class SpaceInvaderController {
     }
 
     public void createHpUpHeart() {
+        SoundEffects.playSound(Constants.POWERUPSOUNDURL);
         gameModel.setHeartHpUp(new HpUp());
         gameModel.getHeartHpUp().setItemCoordY(gameModel.getModelMeteor().getItemCoordY());
         gameModel.getHeartHpUp().setItemCoordX(gameModel.getModelMeteor().getItemCoordX());
@@ -258,11 +259,10 @@ public class SpaceInvaderController {
 
             if (checkIfOutOfScreen(gameModel.getHeartHpUp().getItemCoordX(), gameModel.getHeartHpUp().getItemCoordY())) {
                 gameModel.setHeartHpUp(null);
-                System.out.println("HpUpHeart removed");
-
              }
             else if (gameModel.getPlayerModel().getItemWidth() / 5 + gameModel.getHeartHpUp().getItemWidth() / 5 > distanceBetween(gameModel.getHeartHpUp(), gameModel.getPlayerModel())) {
                 if (gameModel.getPlayerModel().getLifes() < 3) {
+                    SoundEffects.playSound(Constants.POWERUPSOUNDURL);
                     gameModel.getPlayerModel().setLifes(gameModel.getPlayerModel().getLifes() + 1);
                 }
                 gameModel.setHeartHpUp(null);
@@ -342,6 +342,7 @@ public class SpaceInvaderController {
     public boolean checkIfPlayerIsUlting() {
         if (ultIsPressed && gameModel.getPlayerModel().IsUltReady()) {
             ultActivated();
+            new SoundEffects().playSound(Constants.ultSoundUrl);
             return true;
         }
         return false;
@@ -468,7 +469,7 @@ public class SpaceInvaderController {
                 if (!ultIsPressed) {
                     gameModel.getPlayerModel().addToUltCounter();
                 }
-                new SoundEffects().playSound(Constants.POWERUPSOUNDURL); //Enemy deadSouncEffect.KM
+                new SoundEffects().playSound(Constants.enemyExplosion); //Enemy deadSouncEffect.KM
             }
         }
         return deadEnemyList;

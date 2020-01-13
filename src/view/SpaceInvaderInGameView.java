@@ -40,9 +40,7 @@ public class SpaceInvaderInGameView implements IViewState {
     private ImageView hpUpHeart;
 
     private ImageView playerImage;
-    private ImageView firstBackGroundImage = new ImageView(Constants.BackGroundImage);
-    private ImageView secondBackGroundImage = new ImageView(Constants.BackGroundImage);
-    private ImageView ultImage = new ImageView(Constants.UltImageUrl);
+    private ImageView ultImage = new ImageView(Constants.ultImageUrl);
     private ImageView firstBackGroundImage = new ImageView(Constants.inGameBackGroundImage);
     private ImageView secondBackGroundImage = new ImageView(Constants.inGameBackGroundImage);
     private ArrayList<ImageView> playerLifeImages;

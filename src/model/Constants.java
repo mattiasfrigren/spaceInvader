@@ -14,7 +14,7 @@ public class Constants {
     public final static int playerLifes = 3;
     public final static int ultReadyAt = 20;
     public final static int ultiDamage = 2;
-    public final static String UltImageUrl = "model/resources/ult.png";
+    public final static String ultImageUrl = "model/resources/ult.png";
     public final static int maxFramesToShowUlt = 20;
 
     public final static String enemyShipURL = "model/resources/enemy.png";
@@ -85,8 +85,8 @@ public class Constants {
 
     public static final String LASERSOUNDURL1 = "src\\model\\resources\\Laser1.wav";
     public static final String LASERSOUNDURL2 = "src\\model\\resources\\Laser2.wav";
-    public static final String EXPLOSIONSOUNDURL1 = "src\\model\\resources\\Explosion.wav";
-    public static final String EXPLOSIONSOUNDURL2 = "src\\model\\resources\\Explosion2.wav";
+    public static final String enemyExplosion = "src\\model\\resources\\Explosion.wav";
+    public static final String ultSoundUrl = "src\\model\\resources\\Explosion2.wav";
     public static final String POWERUPSOUNDURL = "src\\model\\resources\\Powerup.wav";
     public static final String PLASMASOUNDURL = "src\\model\\resources\\Sci-Fi Plasma.mp3";
 }

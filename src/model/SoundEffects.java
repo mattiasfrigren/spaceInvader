@@ -8,7 +8,7 @@ import java.io.File;
 
 public class SoundEffects {
 
-    public void playSound(String soundPath) {
+    public static void playSound(String soundPath) {
         if (SpaceInvaderController.getController().isSoundOn()) {
             new AudioClip(new File(soundPath).toURI().toString()).play();
         }
