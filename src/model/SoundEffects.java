@@ -18,6 +18,8 @@ import java.io.File;
 
 public class SoundEffects {
 
+    private static Clip clip;
+
     /**
      * Checks if sound is on, and plays if true.
      * @param soundPath link to where the sound file is stored
@@ -35,7 +37,7 @@ public class SoundEffects {
 
                 if (musicPath.exists()) {
                     AudioInputStream audioInput = AudioSystem.getAudioInputStream(musicPath);
-                    Clip clip = AudioSystem.getClip();
+                    clip = AudioSystem.getClip();
                     clip.open(audioInput);
                     clip.start();
                     clip.loop(Clip.LOOP_CONTINUOUSLY);
@@ -46,6 +48,10 @@ public class SoundEffects {
                 ex.printStackTrace();
             }
         }
+    }
+
+    public static void stopMusic() {
+        clip.stop();
     }
 
 }

@@ -5,6 +5,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import model.HighScore;
 import model.InGameModel;
+import model.SoundEffects;
 import view.SpaceInvaderInGameView;
 import view.SpaceInvaderMenuView;
 import view.ViewManager;
@@ -50,6 +51,7 @@ public class SpaceInvaderButtonListener {
         @Override
         public void handle(MouseEvent e) {
             System.out.println("enter menu");
+            SoundEffects.stopMusic();
             SpaceInvaderInGameView.getGameView().setAnimationTimer(false);
             SpaceInvaderController.getController().resetController();
             InGameModel.getGameModel().resetAllModel();
