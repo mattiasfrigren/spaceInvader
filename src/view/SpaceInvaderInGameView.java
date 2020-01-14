@@ -21,12 +21,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import model.*;
-
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import java.io.File;
-import java.io.FileInputStream;
 import java.util.ArrayList;
 
 /**
@@ -661,9 +655,6 @@ public class SpaceInvaderInGameView implements IViewState {
         Button saveScoreButton = new Button("Save score");
         saveScoreButton.setLayoutX(deathAnchor.getWidth() * 0.10);
         saveScoreButton.setLayoutY(deathAnchor.getHeight() * 0.85);
-        saveScoreButton.setTextFill(Color.color(0.75, 0.9, 0.9));
-        saveScoreButton.setBackground(SpaceInvaderMenuView.getSpaceInvaderMenuView().buttonOnReleasedBackground);
-        saveScoreButton.setFont(Font.font("Verdana", 20));
         saveScoreButton.addEventFilter(MouseEvent.MOUSE_CLICKED, SpaceInvaderButtonListener.getButtonListener().saveScoreEvent);
         deathAnchor.getChildren().add(saveScoreButton);
 
@@ -671,9 +662,6 @@ public class SpaceInvaderInGameView implements IViewState {
         Button backToMenuButton = new Button("Main menu");
         backToMenuButton.setLayoutX(deathAnchor.getWidth() * 0.40);
         backToMenuButton.setLayoutY(deathAnchor.getHeight() * 0.85);
-        backToMenuButton.setTextFill(Color.color(0.75, 0.9, 0.9));
-        backToMenuButton.setBackground(SpaceInvaderMenuView.getSpaceInvaderMenuView().buttonOnReleasedBackground);
-        backToMenuButton.setFont(Font.font("Verdana", 20));
         backToMenuButton.addEventFilter(MouseEvent.MOUSE_CLICKED, SpaceInvaderButtonListener.getButtonListener().enterMenu);
         deathAnchor.getChildren().add(backToMenuButton);
 
@@ -681,9 +669,6 @@ public class SpaceInvaderInGameView implements IViewState {
         Button playAgainButton = new Button("Play again");
         playAgainButton.setLayoutX(deathAnchor.getWidth() * 0.70);
         playAgainButton.setLayoutY(deathAnchor.getHeight() * 0.85);
-        playAgainButton.setTextFill(Color.color(0.75, 0.9, 0.9));
-        playAgainButton.setBackground(SpaceInvaderMenuView.getSpaceInvaderMenuView().buttonOnReleasedBackground);
-        playAgainButton.setFont(Font.font("Verdana", 20));
         playAgainButton.addEventFilter(MouseEvent.MOUSE_CLICKED, SpaceInvaderButtonListener.getButtonListener().resetGameEvent);
         deathAnchor.getChildren().add(playAgainButton);
 
