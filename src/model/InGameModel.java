@@ -21,6 +21,7 @@ public class InGameModel {
     private Meteor modelMeteor;
     private int points = 0;
     private int level = 1;
+    private String myShipURL = Constants.playerShipURL;
 
     /////////************** Getter and setters ***********************
 
@@ -86,6 +87,7 @@ public class InGameModel {
     }
 
     public void setPlayerModelImage(String url) {
+        myShipURL = url;
         playerModel = new PlayerShip(url);
     }
 
@@ -129,7 +131,7 @@ public class InGameModel {
      * Resets points and models for player ship, bullets list, enemies list, meteor.
      */
     public void resetAllModel() {
-        playerModel = new PlayerShip(Constants.playerShipURL);
+        playerModel = new PlayerShip(myShipURL);
         bulletsModelList.clear();
         enemiesModelList.clear();
         modelMeteor = null;
