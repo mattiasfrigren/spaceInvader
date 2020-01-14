@@ -27,7 +27,7 @@ import java.util.ArrayList;
  * learn how to play, read credits or quit the program.
  * Implements IViewState.
  *
- * @author Isabelle Romhagen, Ludvig Lundin, Mattias Frigren, Jasmine Söderberg, Khazar Mehraban
+ * @author Isabelle Romhagen, Ludvig Lundin, Khazar Mehraban
  * @version 1.2
  */
 

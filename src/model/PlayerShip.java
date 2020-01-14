@@ -3,7 +3,7 @@ package model;
 /**
  * This class defines what a player ship should contain.
  *
- * @author Isabelle Romhagen, Ludvig Lundin, Mattias Frigren, Jasmine Söderberg, Khazar Mehraban
+ * @author Ludvig Lundin
  * @version 1.2
  */
 

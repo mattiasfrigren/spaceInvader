@@ -3,7 +3,7 @@ package model;
 /**
  * This class contains all final static variables.
  *
- * @author Isabelle Romhagen, Ludvig Lundin, Mattias Frigren, Jasmine Söderberg, Khazar Mehraban
+ * @author Isabelle Romhagen, Ludvig Lundin, Mattias Frigren, Khazar Mehraban
  * @version 1.2
  */
 public class Constants {

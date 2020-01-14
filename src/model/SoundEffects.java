@@ -12,7 +12,7 @@ import java.io.File;
 /**
  * This class handles the sound.
  *
- * @author Isabelle Romhagen, Ludvig Lundin, Mattias Frigren, Jasmine Söderberg, Khazar Mehraban
+ * @author Isabelle Romhagen, Ludvig Lundin, Khazar Mehraban
  * @version 1.2
  */
 

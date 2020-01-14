@@ -4,7 +4,7 @@ package model;
  * This class handles all items present on screen in the game and their attributes.
  * Defines movement direction.
  *
- * @author Isabelle Romhagen, Ludvig Lundin, Mattias Frigren, Jasmine Söderberg, Khazar Mehraban
+ * @author Ludvig Lundin
  * @version 1.2
  */
 public class OnScreenItems {

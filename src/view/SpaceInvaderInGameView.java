@@ -27,7 +27,7 @@ import java.util.ArrayList;
  * This class handles everything that is visible in game play.
  * Implements IViewState.
  *
- * @author Isabelle Romhagen, Ludvig Lundin, Mattias Frigren, Jasmine Söderberg, Khazar Mehraban
+ * @author Isabelle Romhagen, Ludvig Lundin, Mattias Frigren
  * @version 1.2
  */
 public class SpaceInvaderInGameView implements IViewState {

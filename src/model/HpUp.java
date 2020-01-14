@@ -4,7 +4,7 @@ package model;
  * This class handles the heart power up.
  * It is a child of OnScreenItems.
  *
- * @author Ludvig Lundin, Mattias Frigren
+ * @author Mattias Frigren
  * @version 1.2
  */
 

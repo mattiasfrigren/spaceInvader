@@ -5,7 +5,7 @@ import javafx.stage.Stage;
 /**
  * Main class. Launches the program and gets the stage.
  *
- * @author Isabelle Romhagen, Ludvig Lundin, Mattias Frigren, Jasmine Söderberg, Khazar Mehraban
+ * @author Ludvig Lundin, Mattias Frigren
  * @version 1.2
  */
 public class Main extends Application {

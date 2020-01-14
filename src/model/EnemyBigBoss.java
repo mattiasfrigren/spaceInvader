@@ -4,7 +4,7 @@ package model;
  * This class defines the big boss weapon type and shooting interval.
  * It is a child of EnemyShip.
  *
- * @author Isabelle Romhagen, Ludvig Lundin, Mattias Frigren, Jasmine Söderberg, Khazar Mehraban
+ * @author Mattias Frigren
  * @version 1.2
  */
 
