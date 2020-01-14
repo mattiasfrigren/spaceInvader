@@ -50,7 +50,7 @@ public class SpaceInvaderInGameView implements IViewState {
     private int rotation=0;
 
     private int ultTimer;
-    ProgressBar ultbar = new ProgressBar(0);
+    private ProgressBar ultbar = new ProgressBar(0);
 
     private SubScene deathSubScene;
 
@@ -354,7 +354,7 @@ public class SpaceInvaderInGameView implements IViewState {
         //TODO add all starting images.
     }
 
-    public void initializePointLabel() {
+    private void initializePointLabel() {
         pointsLabel = new Label("Points: ");
         pointsLabel.setTextFill(Color.ORANGERED);
         pointsLabel.setPrefWidth(130); // TODO CHANGE TO CONSTANTS
@@ -369,7 +369,7 @@ public class SpaceInvaderInGameView implements IViewState {
         gamePane.getChildren().add(pointsLabel);
     }
 
-    public void initializeHighscorePointLabel() {
+    private void initializeHighscorePointLabel() {
         String currentHighscore = Integer.toString(HighScore.getHighScore().getBestHighestScore());
         Label highScoreLabel = new Label("Highscore: " + currentHighscore);
         highScoreLabel.setTextFill(Color.ORANGERED);
@@ -614,7 +614,7 @@ public class SpaceInvaderInGameView implements IViewState {
         }
     }
 
-    public void addToGamePane(Node node) {
+    private void addToGamePane(Node node) {
         gamePane.getChildren().add(node);
     }
 
