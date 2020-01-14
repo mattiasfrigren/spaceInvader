@@ -1,5 +1,12 @@
 package model;
 
+/**
+ * This class handles the ship options.
+ *
+ * @author Ludvig Lundin
+ * @version 1.2
+ */
+
 public enum SHIPCHOOSER {
 
     GREY(Constants.playerShipURL),

@@ -1,5 +1,12 @@
 package model;
 
+/**
+ * This class handles all items present on screen in the game and their attributes.
+ * Defines movement direction.
+ *
+ * @author Isabelle Romhagen, Ludvig Lundin, Mattias Frigren, Jasmine Söderberg, Khazar Mehraban
+ * @version 1.2
+ */
 public class OnScreenItems {
 
     private String imageUrl;
@@ -17,7 +24,17 @@ public class OnScreenItems {
     private double moveY;
 
 
-
+    /**
+     * Sets following attributes for item:
+     *
+     * @param imageURL image link
+     * @param itemCoordX x position
+     * @param itemCoordY y position
+     * @param itemHeight height
+     * @param itemWidth width
+     * @param movementSpeed speed
+     * @param isFacingPlayer direction
+     */
     public OnScreenItems(String imageURL, double itemCoordX, double itemCoordY, double itemHeight, double itemWidth, double movementSpeed, boolean isFacingPlayer) {
         this.imageUrl = imageURL;
         this.itemCoordX = itemCoordX-itemWidth/2;
@@ -30,7 +47,9 @@ public class OnScreenItems {
 
     }
 
-
+    /**
+     * Moves item to the right, taking direction into account.
+     */
     public void moveRight() {
         if (isFacingPlayer) {
             moveX = -movementSpeed;
@@ -40,14 +59,25 @@ public class OnScreenItems {
         itemCoordX += moveX;
     }
 
+    /**
+     * Moves item to the left, taking direction into account.
+     */
     public void moveLeft() {
         moveX = isFacingPlayer ? movementSpeed : -movementSpeed;
         itemCoordX += moveX;
     }
+
+    /**
+     * Moves item up, taking direction into account.
+     */
     public void moveUp() {
         moveY = isFacingPlayer ? movementSpeed : -movementSpeed;
         itemCoordY += moveY;
     }
+
+    /**
+     * Moves item down, taking direction into account.
+     */
     public void moveDown() {
         moveY = isFacingPlayer ? -movementSpeed : movementSpeed;
         itemCoordY += moveY;

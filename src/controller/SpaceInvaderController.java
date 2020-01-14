@@ -108,8 +108,8 @@ public class SpaceInvaderController {
     /////////************** End of Getter and setters ***********************
 
     /**
-     *
-     * @param stage
+     * Constructor sets gameModel, view and listener.
+     * @param stage window
      */
     private SpaceInvaderController(Stage stage) {
         this.gameModel = InGameModel.getGameModel();
@@ -117,6 +117,9 @@ public class SpaceInvaderController {
         listener = SpaceInvaderListener.getListener();
     }
 
+    /**
+     * Sets all movements to false and wave of enemies to 0.
+     */
     public void resetController() {
         isShooting = false;
         isMovingLeft = false;
@@ -127,11 +130,20 @@ public class SpaceInvaderController {
         spawnWave = 0;
     }
 
+    /**
+     * Pauses game if gamePaused is set to true.
+     */
     public void pauseGame() {
         gamePaused = gamePaused ? false : true;
         SpaceInvaderInGameView.getGameView().setAnimationTimer(gamePaused);
     }
 
+    /**
+     * Spawns an increasing amount of enemies when the previous wave is gone,
+     * depending on how many player has killed so far.
+     *
+     * @return spawnEnemies Enemies to be spawned.
+     */
     public ArrayList<EnemyShip> checkWhatToSpawn() {
 
         ArrayList<EnemyShip> combinedEnemies;
@@ -190,6 +202,9 @@ public class SpaceInvaderController {
     }
 
 
+    /**
+     * Spawns a meteor, defines its position and initializes it.
+     */
     private void spawnMeteor() {
         gameModel.setModelMeteor(new Meteor());
         gameModel.getModelMeteor().setItemCoordX((Math.random() * (Constants.SCREENWIDTH - 150)) + 50 );
@@ -197,6 +212,13 @@ public class SpaceInvaderController {
         SpaceInvaderInGameView.getGameView().initializeMeteor();
     }
 
+    /**
+     * Creates an array list of enemies to spawn, sets their position and direction.
+     *
+     * @param amount Amount of enemies to spawn.
+     * @param enemy Kind of enemy to spawn.
+     * @return enemyModelsToView
+     */
     private ArrayList<EnemyShip> spawnEnemies(int amount, String enemy) {
         ArrayList<EnemyShip> enemyModelsToView = new ArrayList<>();
         EnemyShip enemyShip = null;
@@ -258,6 +280,10 @@ public class SpaceInvaderController {
         return enemyModelsToView;
     }
 
+    /**
+     * Plays sound for power up.
+     * Create new heart power up and set its position.
+     */
     public void createHpUpHeart() {
         SoundEffects.playSound(Constants.POWERUPSOUNDURL);
         gameModel.setHeartHpUp(new HpUp());
@@ -265,6 +291,12 @@ public class SpaceInvaderController {
         gameModel.getHeartHpUp().setItemCoordX(gameModel.getModelMeteor().getItemCoordX());
         SpaceInvaderInGameView.getGameView().initializeHpUpHeart();
     }
+
+    /**
+     * Makes heart power up move down towards the player (method moveUp called since isFacingPlayer=true).
+     * Removes heart if its position is outside the screen.
+     * Gives player one new life if player ship collided with heart, unless player already has 3 lives.
+     */
     public void moveHpUpHeart() {
         if (gameModel.getHeartHpUp()!=null) {
             gameModel.getHeartHpUp().moveUp();
@@ -292,6 +324,9 @@ public class SpaceInvaderController {
         }
     }
 
+    /**
+     * Loops through all enemy ships and changes direction if they've reached their borders.
+     */
     public void checkIfEnemyIsmoving() {
         ArrayList<EnemyShip> enemyShips = gameModel.getEnemyModelList();
         for (int i = 0; i < enemyShips.size() ; i++) {
@@ -324,6 +359,12 @@ public class SpaceInvaderController {
         }
     }
 
+    /**
+     * Creates an array list of enemy bullets and loops through them,
+     * calls the performShootingAction method, adds the bullets.
+     *
+     * @return enemyModelBullets
+     */
     public ArrayList<IBullet> checkIfEnemyIsShooting() {
         ArrayList<IBullet> enemyModelBullets = new ArrayList<>();
         for (EnemyShip enemyModel : gameModel.getEnemyModelList()) {
@@ -337,7 +378,8 @@ public class SpaceInvaderController {
     }
 
     /**
-     * When space is down check, if the weapon manages to shoot.
+     * When space is down, check if the weapon manages to shoot.
+     *
      * @return current bullet
      */
     public IBullet checkIfPlayerIsShooting() {
@@ -353,7 +395,12 @@ public class SpaceInvaderController {
         return null;
     }
 
-
+    /**
+     * Activates the ulti feature if it's ready and player pressed the 'x' key.
+     * Plays the ulti sound effect.
+     *
+     * @return true or false.
+     */
     public boolean checkIfPlayerIsUlting() {
         if (ultIsPressed && gameModel.getPlayerModel().IsUltReady()) {
             ultActivated();
@@ -362,30 +409,46 @@ public class SpaceInvaderController {
         }
         return false;
     }
+
+    /**
+     * Moves player left if isMovingLeft is true and border is not reached.
+     */
     private void checkIfPlayerIsMovingLeft() {
         if (isMovingLeft && gameModel.getPlayerModel().getItemCoordX() > 0) {
             gameModel.getPlayerModel().moveLeft();
         }
     }
 
+    /**
+     * Moves player right if isMovingRight is true and border is not reached.
+     */
     private void checkIfPlayerIsMovingRight() {
         if (isMovingRight && gameModel.getPlayerModel().getItemCoordX() < Constants.SCREENWIDTH - Constants.playerShipWidth) {
             gameModel.getPlayerModel().moveRight();
         }
     }
 
+    /**
+     * Moves player up if isMovingUp is true and border is not reached.
+     */
     private void checkIfPlayerIsMovingUp() {
         if (isMovingUp && gameModel.getPlayerModel().getItemCoordY() > (Constants.SCREENHEIGHT / 2)+(gameModel.getPlayerModel().getItemHeight()/2)) {
             gameModel.getPlayerModel().moveUp();
         }
     }
 
+    /**
+     * Moves player down if isMovingDown is true and border is not reached.
+     */
     private void checkIfPlayIsMovingDown() {
         if (isMovingDown && gameModel.getPlayerModel().getItemCoordY() < (Constants.SCREENHEIGHT * 0.92) - Constants.playerShipHeight) {
             gameModel.getPlayerModel().moveDown();
         }
     }
 
+    /**
+     * Checks if player is moving left, right, up or down.
+     */
     public void updatePlayerMovement() {
         checkIfPlayerIsMovingLeft();
         checkIfPlayerIsMovingRight();
@@ -404,19 +467,27 @@ public class SpaceInvaderController {
     }
 
     /**
-     * check if something is out of screen
+     * Check if something is out of screen.
+     *
      * @param x x position
      * @param y y position
-     * @return y
+     * @return position
      */
     private boolean checkIfOutOfScreen(double x, double y) {
         return y > Constants.SCREENHEIGHT + 50 || x > Constants.SCREENWIDTH + 50 || y < -50 || x < -50;
     }
 
+
     private boolean checkIfOutOfScreen(double x, double y, double width) {
         return y > Constants.SCREENHEIGHT + width || x > Constants.SCREENWIDTH + width || y < -width || x < -width;
     }
 
+    /**
+     * Creates an array list of bullets to remove, loops through it,
+     * create a heart and remove meteor if it hit a meteor.
+     *
+     * @return bulletsToRemove
+     */
     public ArrayList<IBullet> checkIfMeteorShoot() {
         if (gameModel.getModelMeteor()!=null) {
             ArrayList<IBullet> bulletsToRemove = new ArrayList<>();
@@ -440,7 +511,7 @@ public class SpaceInvaderController {
     }
 
     /**
-     * Checks if meteor connects with the player ship.
+     * Checks if meteor collides with the player ship.
      */
     public void checkIfMeteorCollide() {
         if (gameModel.getModelMeteor()!=null) {
@@ -452,7 +523,9 @@ public class SpaceInvaderController {
     }
 
     /**
-     *  Checking if bullet is out of screen and return the index of the bullets that needs to be removed in our image view list.
+     *  Checks if bullet is out of screen and returns the index of the bullets to be removed in image view list.
+     *  Checks if bullet collided with player ship or enemy ship and removes one life if true.
+     *
      * @return bulletsToRemove
      */
     public ArrayList<IBullet> getBulletRemoveList() {
@@ -463,7 +536,7 @@ public class SpaceInvaderController {
                 bulletsToRemove.add(gameModel.getBulletsModelList().get(i));
                 continue;
             }
-            // checking if bullet collided.
+
             if (itemBullet.isFacingPlayer()) {
                 if (gameModel.getPlayerModel().getItemWidth() / 5 + itemBullet.getItemWidth() / 5 > distanceBetween(itemBullet, gameModel.getPlayerModel())) {
                     gameModel.getPlayerModel().looseLife(1);
@@ -486,6 +559,14 @@ public class SpaceInvaderController {
         return bulletsToRemove;
     }
 
+    /**
+     * Creates an array list for dead enemies, reduces their lives with one and adds them to the list.
+     * Adds one point to player's score count.
+     * Increases ult bar.
+     * Plays sound effect.
+     *
+     * @return deadEnemiesList
+     */
     public ArrayList<EnemyShip> getDeadEnemies() {
         ArrayList<EnemyShip> deadEnemyList = new ArrayList<>();
 
@@ -512,6 +593,9 @@ public class SpaceInvaderController {
         }
     }
 
+    /**
+     * Kill all enemies when ult key is pressed.
+     */
     private void ultActivated() {
         for (EnemyShip enemyShip : gameModel.getEnemyModelList()) {
             enemyShip.looseLife(Constants.ultiDamage);
@@ -525,6 +609,13 @@ public class SpaceInvaderController {
         return Math.sqrt(Math.pow((x1 + (width1 / 2)) - (x2 + (width2 / 2)), 2) + Math.pow((y1 + (height1 / 2)) - (y2 + (height2 / 2)), 2));
     }
 
+    /**
+     * Calculates the distance between two on screen objects based on their positions.
+     *
+     * @param firstObjc first object
+     * @param secondObjc second object
+     * @return result of the calculation
+     */
     private double distanceBetween(OnScreenItems firstObjc, OnScreenItems secondObjc) {
         return Math.sqrt(Math.pow((firstObjc.getItemCoordX() + (firstObjc.getItemWidth() / 2)) - (secondObjc.getItemCoordX() + (secondObjc.getItemWidth() / 2)), 2) + Math.pow((firstObjc.getItemCoordY() + (firstObjc.getItemHeight() / 2)) - (secondObjc.getItemCoordY() + (secondObjc.getItemHeight() / 2)), 2));
     }
