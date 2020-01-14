@@ -2,7 +2,7 @@ package model;
 
 /**
  * This class defines what an enemy ship of any kind should contain.
- * It is a child of OnScreenItems and implement IBullet.
+ * Inherits OnScreenItems and implements IBullet.
  *
  * @author Isabelle Romhagen, Ludvig Lundin, Mattias Frigren, Jasmine Söderberg, Khazar Mehraban
  * @version 1.2

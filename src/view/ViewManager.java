@@ -20,7 +20,13 @@ import model.InGameModel;
 
 import java.util.Scanner;
 
-
+/**
+ * This class handles everything that is visible in game play.
+ * Implements IViewState.
+ *
+ * @author Isabelle Romhagen, Ludvig Lundin, Mattias Frigren, Jasmine Söderberg, Khazar Mehraban
+ * @version 1.2
+ */
 public class ViewManager {
 
     private static ViewManager view;
@@ -63,17 +69,14 @@ public class ViewManager {
 
     /////////**************End of Getter and setters ***********************
 
+    /**
+     * Constructor initializes current scene depending on game state.
+     * Initializes exit sub scene if user tries to close the window.
+     *
+     * @param stage window
+     */
     private ViewManager(Stage stage) {
-
-       /* if (changeGameState) {
-            gameState = SpaceInvaderMenuView.getSpaceInvaderMenuView();
-            mainScene = ((SpaceInvaderMenuView) gameState).getMenuScene();
-            mainStage = stage;
-            mainStage.setScene(mainScene);
-        }*/
-        //else {
         gameState = SpaceInvaderMenuView.getSpaceInvaderMenuView();
-        // gameState = SpaceInvaderInGameView.getGameView();
         mainScene = ((SpaceInvaderMenuView) gameState).getMenuScene();
         mainStage = stage;
         mainStage.setTitle("SpaceInvader");
@@ -84,7 +87,7 @@ public class ViewManager {
             e.consume();
             initializeExitSubScene();
         });
-        // }
+
         stage.show();
 
 
@@ -95,6 +98,11 @@ public class ViewManager {
         mainStage.setScene(mainScene);
     }
 
+    /**
+     * Sets scene depending on if game is running or not.
+     *
+     * @param isPlaying if game is running or not
+     */
     public void changeToInGameScene(boolean isPlaying) {
 
         if (isPlaying) {
@@ -112,6 +120,11 @@ public class ViewManager {
 
     }
 
+    /**
+     * Creates a sub scene with options to confirm that they want to quit or go back.
+     * Adds attributes to texts and buttons.
+     * Closes sub scene on no, closes program on yes.
+     */
     public void initializeExitSubScene(){
         double subSceneWidth = Constants.SCREENWIDTH * 0.45;
         double subSceneHeight = Constants.SCREENHEIGHT * 0.45;

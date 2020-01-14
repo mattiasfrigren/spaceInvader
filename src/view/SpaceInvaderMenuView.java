@@ -25,7 +25,7 @@ import java.util.ArrayList;
 /**
  * This class takes care of the first scene of the game, a menu with the options to start playing, view the high score,
  * learn how to play, read credits or quit the program.
- * It implements IViewState.
+ * Implements IViewState.
  *
  * @author Isabelle Romhagen, Ludvig Lundin, Mattias Frigren, Jasmine Söderberg, Khazar Mehraban
  * @version 1.2
