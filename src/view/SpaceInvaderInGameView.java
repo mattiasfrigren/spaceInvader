@@ -462,7 +462,6 @@ public class SpaceInvaderInGameView implements IViewState {
      * Sets a point label with its attributes on the pane.
      * Shows player's current score.
      */
-    public void initializePointLabel() {
     private void initializePointLabel() {
         pointsLabel = new Label("Points: ");
         pointsLabel.setTextFill(Color.ORANGERED);
@@ -482,7 +481,6 @@ public class SpaceInvaderInGameView implements IViewState {
      * Sets a high score point label with its attributes on the pane.
      * Shows the highest score so far.
      */
-    public void initializeHighscorePointLabel() {
     private void initializeHighscorePointLabel() {
         String currentHighscore = Integer.toString(HighScore.getHighScore().getBestHighestScore());
         Label highScoreLabel = new Label("Highscore: " + currentHighscore);
@@ -779,12 +777,11 @@ public class SpaceInvaderInGameView implements IViewState {
         }
     }
 
-    private void addToGamePane(Node node) {
     /**
      * Adds node to game pane.
      * @param node node.
      */
-    public void addToGamePane(Node node) {
+    private void addToGamePane(Node node) {
         gamePane.getChildren().add(node);
     }
 
@@ -798,6 +795,5 @@ public class SpaceInvaderInGameView implements IViewState {
     }
 
     /****************** Helper Methods ENDS  ******************************/
-
 
 }
