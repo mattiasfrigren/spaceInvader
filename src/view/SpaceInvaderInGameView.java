@@ -616,11 +616,11 @@ public class SpaceInvaderInGameView implements IViewState {
         AnchorPane deathAnchor = (AnchorPane) deathSubScene.getRoot();
         deathAnchor.setBackground(new Background(image));
 
-        deathSubScene.setLayoutX(Constants.SCREENWIDTH/3);
-        deathSubScene.setLayoutY(Constants.SCREENHEIGHT/3);
+        deathSubScene.setLayoutX(Constants.SCREENWIDTH/2 - deathSubScene.getWidth()/2);
+        deathSubScene.setLayoutY(Constants.SCREENHEIGHT/2 - deathSubScene.getHeight()/2);
 
         Text playerDeadText = new Text("GAME OVER");
-        playerDeadText.setX(deathAnchor.getWidth() * 0.20);
+        playerDeadText.setX(deathAnchor.getWidth() * 0.27);
         playerDeadText.setY(deathAnchor.getHeight() * 0.20);
         playerDeadText.setFont(Font.font("Verdana", 30));
         playerDeadText.setFill(Color.color(0.75, 0.9, 0.9));
@@ -655,6 +655,10 @@ public class SpaceInvaderInGameView implements IViewState {
         Button saveScoreButton = new Button("Save score");
         saveScoreButton.setLayoutX(deathAnchor.getWidth() * 0.10);
         saveScoreButton.setLayoutY(deathAnchor.getHeight() * 0.85);
+        saveScoreButton.setBackground(SpaceInvaderMenuView.getSpaceInvaderMenuView().buttonOnReleasedBackground);
+        saveScoreButton.setPrefWidth(90);
+        saveScoreButton.setPrefHeight(20);
+        saveScoreButton.setTextFill(Color.color(0.75, 0.9, 0.9));
         saveScoreButton.addEventFilter(MouseEvent.MOUSE_CLICKED, SpaceInvaderButtonListener.getButtonListener().saveScoreEvent);
         deathAnchor.getChildren().add(saveScoreButton);
 
@@ -662,6 +666,10 @@ public class SpaceInvaderInGameView implements IViewState {
         Button backToMenuButton = new Button("Main menu");
         backToMenuButton.setLayoutX(deathAnchor.getWidth() * 0.40);
         backToMenuButton.setLayoutY(deathAnchor.getHeight() * 0.85);
+        backToMenuButton.setBackground(SpaceInvaderMenuView.getSpaceInvaderMenuView().buttonOnReleasedBackground);
+        backToMenuButton.setPrefWidth(90);
+        backToMenuButton.setPrefHeight(20);
+        backToMenuButton.setTextFill(Color.color(0.75, 0.9, 0.9));
         backToMenuButton.addEventFilter(MouseEvent.MOUSE_CLICKED, SpaceInvaderButtonListener.getButtonListener().enterMenu);
         deathAnchor.getChildren().add(backToMenuButton);
 
@@ -669,6 +677,10 @@ public class SpaceInvaderInGameView implements IViewState {
         Button playAgainButton = new Button("Play again");
         playAgainButton.setLayoutX(deathAnchor.getWidth() * 0.70);
         playAgainButton.setLayoutY(deathAnchor.getHeight() * 0.85);
+        playAgainButton.setBackground(SpaceInvaderMenuView.getSpaceInvaderMenuView().buttonOnReleasedBackground);
+        playAgainButton.setPrefWidth(90);
+        playAgainButton.setPrefHeight(20);
+        playAgainButton.setTextFill(Color.color(0.75, 0.9, 0.9));
         playAgainButton.addEventFilter(MouseEvent.MOUSE_CLICKED, SpaceInvaderButtonListener.getButtonListener().resetGameEvent);
         deathAnchor.getChildren().add(playAgainButton);
 

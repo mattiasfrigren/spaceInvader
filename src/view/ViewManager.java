@@ -165,6 +165,10 @@ public class ViewManager {
         noButton.setPrefWidth(Constants.menuButtonWidth*0.7);
         exitAnchor.getChildren().add(noButton);
 
+        if (mainScene.equals(SpaceInvaderInGameView.getGameScene())) {
+            exitScene.setLayoutX(Constants.SCREENWIDTH / 2 - exitScene.getWidth()/2);
+        }
+
         AnchorPane currentPane = (AnchorPane) mainScene.getRoot();
         currentPane.getChildren().add(exitScene);
 
