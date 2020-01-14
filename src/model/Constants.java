@@ -100,4 +100,5 @@ public class Constants {
     public static final String ultSoundUrl = "src\\model\\resources\\Explosion2.wav";
     public static final String POWERUPSOUNDURL = "src\\model\\resources\\Powerup.wav";
     public static final String PLASMASOUNDURL = "src\\model\\resources\\Sci-Fi Plasma.mp3";
+    public static final String Soundtrack = "src\\model\\resources\\Soundtrack.wav";
 }
