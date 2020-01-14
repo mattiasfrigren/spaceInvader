@@ -151,6 +151,8 @@ public class ViewManager {
         yesButton.setLayoutX(subSceneWidth/5);
         yesButton.setLayoutY(subSceneHeight/2);
         yesButton.setFont(Font.font("Verdana", 20));
+        yesButton.setBackground(SpaceInvaderMenuView.getSpaceInvaderMenuView().buttonOnReleasedBackground);
+        yesButton.setTextFill(Color.color(0.75, 0.9, 0.9));
         yesButton.setPrefWidth(Constants.menuButtonWidth*0.7);
         exitAnchor.getChildren().add(yesButton);
 
@@ -158,6 +160,8 @@ public class ViewManager {
         noButton.setLayoutX(subSceneWidth/2);
         noButton.setLayoutY(subSceneHeight/2);
         noButton.setFont(Font.font("Verdana", 20));
+        noButton.setBackground(SpaceInvaderMenuView.getSpaceInvaderMenuView().buttonOnReleasedBackground);
+        noButton.setTextFill(Color.color(0.75, 0.9, 0.9));
         noButton.setPrefWidth(Constants.menuButtonWidth*0.7);
         exitAnchor.getChildren().add(noButton);
 

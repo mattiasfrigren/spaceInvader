@@ -300,7 +300,9 @@ public class SpaceInvaderMenuView implements IViewState {
 
         Button startGame = new Button("Start");
         startGame.setPrefWidth(Constants.SCREENWIDTH * 0.1);
-
+        startGame.setTextFill(Color.color(0.75, 0.9, 0.9));
+        startGame.setBackground(buttonOnReleasedBackground);
+        startGame.setFont(Font.font("Verdana", 20));
         startGame.setLayoutY(currentSubScene.getHeight() * 0.8);
         startGame.setLayoutX((currentSubScene.getWidth() * 0.5) - Constants.SCREENWIDTH * 0.05);
         startGame.addEventFilter(MouseEvent.MOUSE_CLICKED, SpaceInvaderButtonListener.getButtonListener().startGame);

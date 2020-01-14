@@ -4,6 +4,9 @@ import controller.SpaceInvaderController;
 import javafx.scene.media.AudioClip;
 
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import java.io.File;
 
 /**
@@ -22,6 +25,26 @@ public class SoundEffects {
     public static void playSound(String soundPath) {
         if (SpaceInvaderController.getController().isSoundOn()) {
             new AudioClip(new File(soundPath).toURI().toString()).play();
+        }
+    }
+
+    public static void loopSoundtrack() {
+        if (SpaceInvaderController.getController().isSoundOn()) {
+            try {
+                File musicPath = new File(Constants.Soundtrack);
+
+                if (musicPath.exists()) {
+                    AudioInputStream audioInput = AudioSystem.getAudioInputStream(musicPath);
+                    Clip clip = AudioSystem.getClip();
+                    clip.open(audioInput);
+                    clip.start();
+                    clip.loop(Clip.LOOP_CONTINUOUSLY);
+                } else {
+                    System.out.println("Can't find file...");
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
         }
     }
 
