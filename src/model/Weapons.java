@@ -1,5 +1,13 @@
 package model;
 
+/**
+ * This class declares weapon variables.
+ *
+ * @author Isabelle Romhagen, Ludvig Lundin, Mattias Frigren, Jasmine Söderberg, Khazar Mehraban
+ * @version 1.2
+ */
+
+
 public abstract class Weapons {
 
     protected boolean isFacingPlayer; /* Move to Constants? */
@@ -9,6 +17,9 @@ public abstract class Weapons {
 
     public abstract IBullet shoot();
 
+    /**
+     * Checks if it's time to shoot again.
+     */
     public void addToReadyToShoot() {
         if (readyToShoot < shootInterval) {
             readyToShoot++;

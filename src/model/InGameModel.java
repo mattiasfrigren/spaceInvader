@@ -4,20 +4,45 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Random;
 
-// All info from Model to the game.
+/**
+ * This class handles all info on the models in the game.
+ *
+ * @author Isabelle Romhagen, Ludvig Lundin, Mattias Frigren, Jasmine Söderberg, Khazar Mehraban
+ * @version 1.2
+ */
 public class InGameModel {
 
     private static InGameModel gameModel;
-
     private PlayerShip playerModel;
     private ArrayList<IBullet> bulletsModelList = new ArrayList<>();
     private ArrayList<EnemyShip> enemiesModelList = new ArrayList<>();
 
+    private HpUp heartHpUp;
     private Meteor modelMeteor;
     private int points = 0;
+    private int level = 1;
 
     /////////************** Getter and setters ***********************
 
+    public HpUp getHeartHpUp() {
+        return heartHpUp;
+    }
+
+    public void setHeartHpUp(HpUp heartHpUp) {
+        this.heartHpUp = heartHpUp;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void addLevel() {
+        this.level++;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
 
     public Meteor getModelMeteor() {
         return modelMeteor;
@@ -37,6 +62,10 @@ public class InGameModel {
         this.points += points;
     }
 
+    /**
+     * Creates a new InGameModel unless there is one already.
+     * @return gameModel
+     */
     public static InGameModel getGameModel() {
         if (gameModel == null) {
             gameModel = new InGameModel();
@@ -45,7 +74,7 @@ public class InGameModel {
     }
 
     private InGameModel() {
-        playerModel = new PlayerShip();
+        playerModel = new PlayerShip(Constants.playerShipURL);
     }
 
     public PlayerShip getPlayerModel() {
@@ -56,6 +85,10 @@ public class InGameModel {
         this.playerModel = playerModel;
     }
 
+    public void setPlayerModelImage(String url) {
+        playerModel = new PlayerShip(url);
+    }
+
     public void setBulletsModelList(ArrayList<IBullet> bulletsModelList) {
         this.bulletsModelList = bulletsModelList;
     }
@@ -64,7 +97,10 @@ public class InGameModel {
         return bulletsModelList;
     }
 
-    // add modelinfo
+    /**
+     * Add model of bullet to bulletsModelList.
+     * @param bullet bullet to add
+     */
     public void addBullets(IBullet bullet) {
         bulletsModelList.add(bullet);
     }
@@ -77,7 +113,10 @@ public class InGameModel {
         return enemiesModelList;
     }
 
-    //Adds enemies to enemieModelList
+    /**
+     * Adds enemies to enemiesModelList
+     * @param enemy model of enemy ship
+     */
     public void addEnemyModel(EnemyShip enemy) {
         enemiesModelList.add(enemy);
     }
@@ -86,12 +125,17 @@ public class InGameModel {
 
     ///// ******************* END OF GETTERS AND SETTERS  ******************************
 
+    /**
+     * Resets points and models for player ship, bullets list, enemies list, meteor.
+     */
     public void resetAllModel() {
-        playerModel = new PlayerShip();
+        playerModel = new PlayerShip(Constants.playerShipURL);
         bulletsModelList.clear();
         enemiesModelList.clear();
         modelMeteor = null;
         points = 0;
+        heartHpUp = null;
+        level = 1;
     }
 
 
