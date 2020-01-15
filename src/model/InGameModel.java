@@ -7,7 +7,7 @@ import java.util.Random;
 /**
  * This class handles all info on the models in the game.
  *
- * @author Isabelle Romhagen, Ludvig Lundin, Mattias Frigren, Jasmine Söderberg, Khazar Mehraban
+ * @author  Ludvig Lundin, Mattias Frigren
  * @version 1.2
  */
 public class InGameModel {
@@ -105,10 +105,6 @@ public class InGameModel {
      */
     public void addBullets(IBullet bullet) {
         bulletsModelList.add(bullet);
-    }
-
-    public IBullet getLastBullet() {
-        return bulletsModelList.get(bulletsModelList.size() - 1);
     }
 
     public ArrayList<EnemyShip> getEnemyModelList() {

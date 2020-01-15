@@ -2,7 +2,7 @@ package model;
 
 /**
  *
- * @author Ludvig Lundin
+ * @author Isabelle Romhagen, Ludvig Lundin
  * @version 1.2
  */
 public class HighScoreBean {

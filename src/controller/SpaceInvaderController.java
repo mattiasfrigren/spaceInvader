@@ -10,7 +10,7 @@ import java.util.Random;
 /**
  * Controller that talks with View and Model, changes the state of the game.
  *
- * @author Isabelle Romhagen, Ludvig Lundin, Mattias Frigren, Jasmine Söderberg, Khazar Mehraban
+ * @author Ludvig Lundin, Mattias Frigren, Jasmine Söderberg
  * @version 1.2
  */
 public class SpaceInvaderController {

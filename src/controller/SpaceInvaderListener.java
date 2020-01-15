@@ -14,7 +14,7 @@ import model.LaserGun;
  * Handles all events for pressed and released keys.
  * Implements event handler.
  *
- * @author Isabelle Romhagen, Ludvig Lundin, Mattias Frigren, Jasmine Söderberg, Khazar Mehraban
+ * @author Isabelle Romhagen, Ludvig Lundin, Mattias Frigren, Jasmine Söderberg
  * @version 1.2
  */
 public class SpaceInvaderListener implements EventHandler<KeyEvent> {
