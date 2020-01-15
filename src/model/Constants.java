@@ -35,7 +35,6 @@ public class Constants {
     public final static double enemySpawnSpread = SCREENWIDTH * 0.08;
     public final static int enemyLifes = 1;
     public final static double enemyLaserGunShootingInterval = 300;
-    public final static double enemyShipMovmentInterval = 300;
 
     public final static String enemyDroneShipUrl = "model/resources/enemy1_4.png";
     public final static double enemyDroneShipHeight = SCREENHEIGHT*0.12;
@@ -43,7 +42,6 @@ public class Constants {
     public final static double enemyDroneShipMovmentSpeed = SCREENHEIGHT*0.004;
     public final static double enemyDroneShipStartPosX = SCREENWIDTH*0.1;
     public final static double enemyDroneShipStartPosY = SCREENHEIGHT -(SCREENHEIGHT +45);
-    public final static double enemyDroneShipSpawnSpread = SCREENWIDTH*0.08;
     public final static int enemyDroneShipLifes =2;
     public final static double enemyDroneShipLaserGunShootingInterval = 200;
 
