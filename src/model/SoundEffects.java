@@ -26,7 +26,9 @@ public class SoundEffects {
      */
     public static void playSound(String soundPath) {
         if (SpaceInvaderController.getController().isSoundOn()) {
-            new AudioClip(new File(soundPath).toURI().toString()).play();
+            AudioClip effect = new AudioClip(new File(soundPath).toURI().toString());
+            effect.setVolume(0.2);
+            effect.play();
         }
     }
 
