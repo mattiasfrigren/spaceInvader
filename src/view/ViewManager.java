@@ -74,7 +74,7 @@ public class ViewManager {
         gameState = SpaceInvaderMenuView.getSpaceInvaderMenuView();
         mainScene = ((SpaceInvaderMenuView) gameState).getMenuScene();
         mainStage = stage;
-        mainStage.setTitle("SpaceInvader");
+        mainStage.setTitle("PixelSurvivor");
         mainStage.setScene(mainScene);
         mainStage.setResizable(false);
         mainStage.sizeToScene();
