@@ -309,6 +309,9 @@ public class SpaceInvaderController {
                     SoundEffects.playSound(Constants.POWER_UP_SOUND_URL);
                     gameModel.getPlayerModel().setLifes(gameModel.getPlayerModel().getLifes() + 1);
                 }
+                else {
+                    gameModel.addPoints(5);
+                }
                 gameModel.setHeartHpUp(null);
             }
         }

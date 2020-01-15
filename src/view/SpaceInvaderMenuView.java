@@ -36,8 +36,6 @@ public class SpaceInvaderMenuView implements IViewState {
     private ArrayList<Button> buttonArrayList = new ArrayList<>();
     private Button button;
     private static SubScene currentSubScene;
-    private SubScene exitSubScene;
-    private AnchorPane exitSubAnchorPane;
 
     BackgroundImage buttonOnclickImg = new BackgroundImage(new Image(Constants.BUTTON_BG_CLICKED_URL), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
     Background buttonOnOnclickBackground = new Background(buttonOnclickImg);

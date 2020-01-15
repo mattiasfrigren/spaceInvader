@@ -35,7 +35,6 @@ public class SpaceInvaderButtonListener {
     public EventHandler<MouseEvent> resetGameEvent = new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent e) {
-            InGameModel.getGameModel().resetAllModel();
             SpaceInvaderInGameView.getGameView().setAnimationTimer(false);
             SpaceInvaderController.getController().resetController();
             InGameModel.getGameModel().resetAllModel();
