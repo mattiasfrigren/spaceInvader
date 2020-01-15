@@ -444,7 +444,7 @@ public class SpaceInvaderInGameView implements IViewState {
         pointsLabel.setPrefWidth(130); // TODO CHANGE TO CONSTANTS
         pointsLabel.setPrefHeight(50);
         BackgroundImage backgroundImage = new BackgroundImage(new Image(Constants.pointLabelBackGround, 130,50,false,true), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, null);
-        pointsLabel.setBackground(new Background(backgroundImage));
+        //pointsLabel.setBackground(new Background(backgroundImage));
         pointsLabel.setAlignment(Pos.CENTER_LEFT);
         pointsLabel.setPadding(new Insets(10,10,10,10));
         pointsLabel.setFont(Font.font("Verdana", 15));
@@ -463,8 +463,8 @@ public class SpaceInvaderInGameView implements IViewState {
         highScoreLabel.setTextFill(Color.ORANGERED);
         highScoreLabel.setPrefWidth(130); // TODO CHANGE TO CONSTANTS
         highScoreLabel.setPrefHeight(50);
-        BackgroundImage backgroundImage = new BackgroundImage(new Image(Constants.pointLabelBackGround, 130,50,false,true), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, null);
-        highScoreLabel.setBackground(new Background(backgroundImage));
+        //BackgroundImage backgroundImage = new BackgroundImage(new Image(Constants.pointLabelBackGround, 130,50,false,true), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, null);
+        //highScoreLabel.setBackground(new Background(backgroundImage));
         highScoreLabel.setAlignment(Pos.CENTER_LEFT);
         highScoreLabel.setPadding(new Insets(10,10,10,10));
         highScoreLabel.setFont(Font.font("Verdana", 15));
