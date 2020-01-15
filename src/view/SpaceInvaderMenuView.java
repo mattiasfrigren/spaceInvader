@@ -123,7 +123,7 @@ public class SpaceInvaderMenuView implements IViewState {
         scoreAnchor.setBackground(new Background(image));
         currentSubScene.setId("highScoreScene");
         currentSubScene.setLayoutX(Constants.SCREENWIDTH / 3);
-        currentSubScene.setLayoutY(Constants.SCREENHEIGHT / 3);
+        currentSubScene.setLayoutY(Constants.SCREENHEIGHT * 0.5 - currentSubScene.getHeight()/2);
 
         Text text = new Text("High Score"); //TODO COLOR SET on text in the subscene
         text.setX(scoreAnchor.getWidth() /2.8);
@@ -190,7 +190,7 @@ public class SpaceInvaderMenuView implements IViewState {
         creditAnchor.setBackground(new Background(image));
         currentSubScene.setId("creditScene");
         currentSubScene.setLayoutX(Constants.SCREENWIDTH / 3);
-        currentSubScene.setLayoutY(Constants.SCREENHEIGHT / 3);
+        currentSubScene.setLayoutY(Constants.SCREENHEIGHT * 0.5 - currentSubScene.getHeight()/2);
 
         Text text = new Text("Credits"); //TODO se highScore
         text.setX(creditAnchor.getWidth() /2.5);
@@ -231,7 +231,7 @@ public class SpaceInvaderMenuView implements IViewState {
         settingsAnchor.setBackground(new Background(image));
         currentSubScene.setId("settingScene");
         currentSubScene.setLayoutX(Constants.SCREENWIDTH / 3);
-        currentSubScene.setLayoutY(Constants.SCREENHEIGHT / 3);
+        currentSubScene.setLayoutY(Constants.SCREENHEIGHT * 0.5 - currentSubScene.getHeight()/2);
 
         Text text = new Text("Settings"); //TODO COLOR SET
         text.setX(settingsAnchor.getWidth() / 2.5);
@@ -272,7 +272,7 @@ public class SpaceInvaderMenuView implements IViewState {
         helpAnchor.setBackground(new Background(image));
         currentSubScene.setId("helpScene");
         currentSubScene.setLayoutX(Constants.SCREENWIDTH / 3);
-        currentSubScene.setLayoutY(Constants.SCREENHEIGHT / 3);
+        currentSubScene.setLayoutY(Constants.SCREENHEIGHT * 0.5 - currentSubScene.getHeight()/2);
 
         Text text = new Text("Help"); //TODO COLOR SET
         text.setX(helpAnchor.getWidth() / 2.5);
@@ -296,7 +296,7 @@ public class SpaceInvaderMenuView implements IViewState {
         helpAnchor.setBackground(new Background(image));
         currentSubScene.setId("shipChoose");
         currentSubScene.setLayoutX(Constants.SCREENWIDTH / 3);
-        currentSubScene.setLayoutY(Constants.SCREENHEIGHT / 3);
+        currentSubScene.setLayoutY(Constants.SCREENHEIGHT * 0.5 - currentSubScene.getHeight()/2);
 
         Button startGame = new Button("Start");
         startGame.setPrefWidth(Constants.SCREENWIDTH * 0.1);

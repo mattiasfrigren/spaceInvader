@@ -137,8 +137,8 @@ public class ViewManager {
 
         exitAnchor.setBackground(new Background(image));
 
-        exitScene.setLayoutX(Constants.SCREENWIDTH / 3);
-        exitScene.setLayoutY(Constants.SCREENHEIGHT / 3);
+        exitScene.setLayoutX(Constants.SCREENWIDTH/3);
+        exitScene.setLayoutY(Constants.SCREENHEIGHT * 0.5 - exitScene.getHeight()/2);
 
         Text exitText = new Text("Are you sure you want to quit?");
         exitText.setX(subSceneWidth/8);
