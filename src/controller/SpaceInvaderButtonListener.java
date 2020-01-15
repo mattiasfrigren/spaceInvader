@@ -5,17 +5,17 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import model.HighScore;
 import model.InGameModel;
+import model.SoundEffects;
 import view.SpaceInvaderInGameView;
 import view.SpaceInvaderMenuView;
 import view.ViewManager;
 import java.sql.SQLException;
 
 /**
- * This class takes care of the first scene of the game, a menu with the options to start playing, view the high score,
+ * This class takes care of the menu scene of the game, a menu with the options to start playing, view the high score,
  * learn how to play, read credits or quit the program.
- * It implements IViewState.
  *
- * @author Isabelle Romhagen, Ludvig Lundin, Mattias Frigren, Jasmine Söderberg, Khazar Mehraban
+ * @author Isabelle Romhagen, Ludvig Lundin, Mattias Frigren, Khazar Mehraban
  * @version 1.2
  */
 public class SpaceInvaderButtonListener {
@@ -51,6 +51,7 @@ public class SpaceInvaderButtonListener {
         @Override
         public void handle(MouseEvent e) {
             System.out.println("enter menu");
+            SoundEffects.stopMusic();
             SpaceInvaderInGameView.getGameView().setAnimationTimer(false);
             SpaceInvaderController.getController().resetController();
             InGameModel.getGameModel().resetAllModel();
@@ -77,7 +78,7 @@ public class SpaceInvaderButtonListener {
     };
 
     /**
-     * Starts the game.
+     * Changes view to in game view and starts the game
      */
     public EventHandler<MouseEvent>startGame=new EventHandler<MouseEvent>() {
         @Override
@@ -106,7 +107,7 @@ public class SpaceInvaderButtonListener {
     };
 
     /**
-     * Closes settings sub scene if active, opens it if not.
+     * Opens subsceen to pick a ship.
      */
     public EventHandler<MouseEvent>chooseShip=new EventHandler<MouseEvent>() {
         @Override
@@ -121,6 +122,10 @@ public class SpaceInvaderButtonListener {
             }
         }
     };
+
+    /**
+     * Closes settings sub scene if active, opens it if not.
+     */
 
     public EventHandler<MouseEvent>showSettings=new EventHandler<MouseEvent>() {
         @Override

@@ -24,7 +24,7 @@ import java.util.Scanner;
  * This class handles everything that is visible in game play.
  * Implements IViewState.
  *
- * @author Isabelle Romhagen, Ludvig Lundin, Mattias Frigren, Jasmine Söderberg, Khazar Mehraban
+ * @author Isabelle Romhagen, Ludvig Lundin
  * @version 1.2
  */
 public class ViewManager {
@@ -137,8 +137,8 @@ public class ViewManager {
 
         exitAnchor.setBackground(new Background(image));
 
-        exitScene.setLayoutX(Constants.SCREENWIDTH / 3);
-        exitScene.setLayoutY(Constants.SCREENHEIGHT / 3);
+        exitScene.setLayoutX(Constants.SCREENWIDTH/3);
+        exitScene.setLayoutY(Constants.SCREENHEIGHT * 0.5 - exitScene.getHeight()/2);
 
         Text exitText = new Text("Are you sure you want to quit?");
         exitText.setX(subSceneWidth/8);
@@ -151,6 +151,8 @@ public class ViewManager {
         yesButton.setLayoutX(subSceneWidth/5);
         yesButton.setLayoutY(subSceneHeight/2);
         yesButton.setFont(Font.font("Verdana", 20));
+        yesButton.setBackground(SpaceInvaderMenuView.getSpaceInvaderMenuView().buttonOnReleasedBackground);
+        yesButton.setTextFill(Color.color(0.75, 0.9, 0.9));
         yesButton.setPrefWidth(Constants.menuButtonWidth*0.7);
         exitAnchor.getChildren().add(yesButton);
 
@@ -158,8 +160,14 @@ public class ViewManager {
         noButton.setLayoutX(subSceneWidth/2);
         noButton.setLayoutY(subSceneHeight/2);
         noButton.setFont(Font.font("Verdana", 20));
+        noButton.setBackground(SpaceInvaderMenuView.getSpaceInvaderMenuView().buttonOnReleasedBackground);
+        noButton.setTextFill(Color.color(0.75, 0.9, 0.9));
         noButton.setPrefWidth(Constants.menuButtonWidth*0.7);
         exitAnchor.getChildren().add(noButton);
+
+        if (mainScene.equals(SpaceInvaderInGameView.getGameScene())) {
+            exitScene.setLayoutX(Constants.SCREENWIDTH / 2 - exitScene.getWidth()/2);
+        }
 
         AnchorPane currentPane = (AnchorPane) mainScene.getRoot();
         currentPane.getChildren().add(exitScene);

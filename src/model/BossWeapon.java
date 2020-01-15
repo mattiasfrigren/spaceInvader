@@ -7,7 +7,7 @@ import java.util.Random;
  * Creates a boss weapon.
  * Child of Weapons.
  *
- * @author Isabelle Romhagen, Ludvig Lundin, Mattias Frigren, Jasmine Söderberg, Khazar Mehraban
+ * @author Mattias Frigren
  * @version 1.2
  */
 public class BossWeapon extends Weapons {

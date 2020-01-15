@@ -21,19 +21,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import model.*;
-
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import java.io.File;
-import java.io.FileInputStream;
 import java.util.ArrayList;
 
 /**
  * This class handles everything that is visible in game play.
  * Implements IViewState.
  *
- * @author Isabelle Romhagen, Ludvig Lundin, Mattias Frigren, Jasmine Söderberg, Khazar Mehraban
+ * @author Isabelle Romhagen, Ludvig Lundin, Mattias Frigren
  * @version 1.2
  */
 public class SpaceInvaderInGameView implements IViewState {
@@ -104,7 +98,7 @@ public class SpaceInvaderInGameView implements IViewState {
         initializeLevelToPane();
         initializeGameListener();
         createGameLoop();
-        loopSoundtrack();
+        SoundEffects.loopSoundtrack();
 
     }
 
@@ -144,25 +138,7 @@ public class SpaceInvaderInGameView implements IViewState {
     /**
      * Plays and loops soundtrack.
      */
-    private void loopSoundtrack(){
-        try{
-            File musicPath = new File(Constants.Soundtrack);
 
-            if (musicPath.exists()){
-                AudioInputStream audioInput = AudioSystem.getAudioInputStream(musicPath);
-                Clip clip = AudioSystem.getClip();
-                clip.open(audioInput);
-                clip.start();
-                clip.loop(Clip.LOOP_CONTINUOUSLY);
-            }
-            else {
-                System.out.println("Can't find file...");
-            }
-        }
-        catch (Exception ex){
-            ex.printStackTrace();
-        }
-    }
 
     /****************** update Methods below  ******************************/
 
@@ -640,45 +616,49 @@ public class SpaceInvaderInGameView implements IViewState {
         AnchorPane deathAnchor = (AnchorPane) deathSubScene.getRoot();
         deathAnchor.setBackground(new Background(image));
 
-        deathSubScene.setLayoutX(Constants.SCREENWIDTH/3);
-        deathSubScene.setLayoutY(Constants.SCREENHEIGHT/3);
+        deathSubScene.setLayoutX(Constants.SCREENWIDTH/2 - deathSubScene.getWidth()/2);
+        deathSubScene.setLayoutY(Constants.SCREENHEIGHT/2 - deathSubScene.getHeight()/2);
 
         Text playerDeadText = new Text("GAME OVER");
-        playerDeadText.setX(deathAnchor.getWidth() * 0.20);
+        playerDeadText.setX(deathAnchor.getWidth() * 0.27);
         playerDeadText.setY(deathAnchor.getHeight() * 0.20);
         playerDeadText.setFont(Font.font("Verdana", 30));
         playerDeadText.setFill(Color.color(0.75, 0.9, 0.9));
         deathAnchor.getChildren().add(playerDeadText);
 
         Text yourScoreText = new Text("Your score: " + model.getPoints());
-        yourScoreText.setX(deathAnchor.getWidth() * 0.20);
+        yourScoreText.setX(deathAnchor.getWidth() * 0.30);
         yourScoreText.setY(deathAnchor.getHeight() * 0.35);
         yourScoreText.setFont(Font.font("Verdana", 15));
         yourScoreText.setFill(Color.color(0.75, 0.9, 0.9));
         deathAnchor.getChildren().add(yourScoreText);
 
         Text highScoreText = new Text("Current Highscore: " + HighScore.getHighScore().getTop10()[0].getScore()); // TODO add highscore in the line
-        highScoreText.setX(deathAnchor.getWidth() * 0.20);
+        highScoreText.setX(deathAnchor.getWidth() * 0.30);
         highScoreText.setY(deathAnchor.getHeight() * 0.50);
         highScoreText.setFont(Font.font("Verdana", 15));
         highScoreText.setFill(Color.color(0.75, 0.9, 0.9));
         deathAnchor.getChildren().add(highScoreText);
 
         Text enterNameText = new Text("Enter your username: ");
-        enterNameText.setX(deathAnchor.getWidth() * 0.20);
+        enterNameText.setX(deathAnchor.getWidth() * 0.30);
         enterNameText.setY(deathAnchor.getHeight() * 0.65);
         enterNameText.setFont(Font.font("Verdana", 15));
         enterNameText.setFill(Color.color(0.75, 0.9, 0.9));
         deathAnchor.getChildren().add(enterNameText);
 
         enterNameField = new TextField();
-        enterNameField.setLayoutX(deathAnchor.getWidth() * 0.25);
+        enterNameField.setLayoutX(deathAnchor.getWidth() * 0.30);
         enterNameField.setLayoutY(deathAnchor.getHeight() * 0.70);
         deathAnchor.getChildren().add(enterNameField);
 
         Button saveScoreButton = new Button("Save score");
         saveScoreButton.setLayoutX(deathAnchor.getWidth() * 0.10);
         saveScoreButton.setLayoutY(deathAnchor.getHeight() * 0.85);
+        saveScoreButton.setBackground(SpaceInvaderMenuView.getSpaceInvaderMenuView().buttonOnReleasedBackground);
+        saveScoreButton.setPrefWidth(90);
+        saveScoreButton.setPrefHeight(20);
+        saveScoreButton.setTextFill(Color.color(0.75, 0.9, 0.9));
         saveScoreButton.addEventFilter(MouseEvent.MOUSE_CLICKED, SpaceInvaderButtonListener.getButtonListener().saveScoreEvent);
         deathAnchor.getChildren().add(saveScoreButton);
 
@@ -686,6 +666,10 @@ public class SpaceInvaderInGameView implements IViewState {
         Button backToMenuButton = new Button("Main menu");
         backToMenuButton.setLayoutX(deathAnchor.getWidth() * 0.40);
         backToMenuButton.setLayoutY(deathAnchor.getHeight() * 0.85);
+        backToMenuButton.setBackground(SpaceInvaderMenuView.getSpaceInvaderMenuView().buttonOnReleasedBackground);
+        backToMenuButton.setPrefWidth(90);
+        backToMenuButton.setPrefHeight(20);
+        backToMenuButton.setTextFill(Color.color(0.75, 0.9, 0.9));
         backToMenuButton.addEventFilter(MouseEvent.MOUSE_CLICKED, SpaceInvaderButtonListener.getButtonListener().enterMenu);
         deathAnchor.getChildren().add(backToMenuButton);
 
@@ -693,6 +677,10 @@ public class SpaceInvaderInGameView implements IViewState {
         Button playAgainButton = new Button("Play again");
         playAgainButton.setLayoutX(deathAnchor.getWidth() * 0.70);
         playAgainButton.setLayoutY(deathAnchor.getHeight() * 0.85);
+        playAgainButton.setBackground(SpaceInvaderMenuView.getSpaceInvaderMenuView().buttonOnReleasedBackground);
+        playAgainButton.setPrefWidth(90);
+        playAgainButton.setPrefHeight(20);
+        playAgainButton.setTextFill(Color.color(0.75, 0.9, 0.9));
         playAgainButton.addEventFilter(MouseEvent.MOUSE_CLICKED, SpaceInvaderButtonListener.getButtonListener().resetGameEvent);
         deathAnchor.getChildren().add(playAgainButton);
 

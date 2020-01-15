@@ -7,7 +7,7 @@ import java.util.Random;
 /**
  * This class handles all info on the models in the game.
  *
- * @author Isabelle Romhagen, Ludvig Lundin, Mattias Frigren, Jasmine Söderberg, Khazar Mehraban
+ * @author  Ludvig Lundin, Mattias Frigren
  * @version 1.2
  */
 public class InGameModel {
@@ -21,6 +21,7 @@ public class InGameModel {
     private Meteor modelMeteor;
     private int points = 0;
     private int level = 1;
+    private String myShipURL = Constants.playerShipURL;
 
     /////////************** Getter and setters ***********************
 
@@ -86,6 +87,7 @@ public class InGameModel {
     }
 
     public void setPlayerModelImage(String url) {
+        myShipURL = url;
         playerModel = new PlayerShip(url);
     }
 
@@ -103,10 +105,6 @@ public class InGameModel {
      */
     public void addBullets(IBullet bullet) {
         bulletsModelList.add(bullet);
-    }
-
-    public IBullet getLastBullet() {
-        return bulletsModelList.get(bulletsModelList.size() - 1);
     }
 
     public ArrayList<EnemyShip> getEnemyModelList() {
@@ -129,7 +127,7 @@ public class InGameModel {
      * Resets points and models for player ship, bullets list, enemies list, meteor.
      */
     public void resetAllModel() {
-        playerModel = new PlayerShip(Constants.playerShipURL);
+        playerModel = new PlayerShip(myShipURL);
         bulletsModelList.clear();
         enemiesModelList.clear();
         modelMeteor = null;
