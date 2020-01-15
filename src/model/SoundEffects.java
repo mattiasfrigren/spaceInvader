@@ -19,21 +19,23 @@ import java.io.File;
 public class SoundEffects {
 
     private static Clip clip;
-
     /**
      * Checks if sound is on, and plays if true.
      * @param soundPath link to where the sound file is stored
      */
     public static void playSound(String soundPath) {
         if (SpaceInvaderController.getController().isSoundOn()) {
-            new AudioClip(new File(soundPath).toURI().toString()).play();
+            AudioClip effects = new AudioClip(new File(soundPath).toURI().toString());
+            effects.setVolume(0.021);
+            System.out.println(effects.getVolume() + " Volym");
+            effects.play();
         }
     }
 
     public static void loopSoundtrack() {
         if (SpaceInvaderController.getController().isSoundOn()) {
             try {
-                File musicPath = new File(Constants.Soundtrack);
+                File musicPath = new File(Constants.SOUNDTRACK);
 
                 if (musicPath.exists()) {
                     AudioInputStream audioInput = AudioSystem.getAudioInputStream(musicPath);
